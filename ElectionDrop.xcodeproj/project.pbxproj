@@ -44,6 +44,7 @@
 		E16F319D2C66F2A2002D24FE /* ElectionDropUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ElectionDropUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16F31A12C66F2A2002D24FE /* ElectionDropUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionDropUITests.swift; sourceTree = "<group>"; };
 		E16F31A32C66F2A2002D24FE /* ElectionDropUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionDropUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		E16F31B02C66F2D5002D24FE /* ElectionDrop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ElectionDrop.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +95,7 @@
 		E16F31852C66F2A2002D24FE /* ElectionDrop */ = {
 			isa = PBXGroup;
 			children = (
+				E16F31B02C66F2D5002D24FE /* ElectionDrop.entitlements */,
 				E16F31862C66F2A2002D24FE /* ElectionDropApp.swift */,
 				E16F31882C66F2A2002D24FE /* ContentView.swift */,
 				E16F318A2C66F2A2002D24FE /* Assets.xcassets */,
@@ -419,12 +421,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ElectionDrop/ElectionDrop.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ElectionDrop/Preview Content\"";
 				DEVELOPMENT_TEAM = 8R9HFJ6VSS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Election Drop";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -448,12 +452,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ElectionDrop/ElectionDrop.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ElectionDrop/Preview Content\"";
 				DEVELOPMENT_TEAM = 8R9HFJ6VSS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Election Drop";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

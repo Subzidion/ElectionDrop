@@ -1,24 +1,33 @@
-//
-//  ContentView.swift
-//  ElectionDrop
-//
-//  Created by Carl Hiltbrunner on 8/9/24.
-//
-
 import SwiftUI
 
 struct ContentView: View {
+    init() {
+        requestPushAuthorization();
+    }
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Button("Register") {
+            registerForNotifications();
         }
-        .padding()
     }
 }
 
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
+
+func requestPushAuthorization() {
+    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+        if success {
+            print("Push notifications allowed")
+        } else if let error = error {
+            print(error.localizedDescription)
+        }
+    }
+}
+
+func registerForNotifications() {
+    UIApplication.shared.registerForRemoteNotifications()
 }
