@@ -14,6 +14,8 @@
 		E16F31982C66F2A2002D24FE /* ElectionDropTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16F31972C66F2A2002D24FE /* ElectionDropTests.swift */; };
 		E16F31A22C66F2A2002D24FE /* ElectionDropUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16F31A12C66F2A2002D24FE /* ElectionDropUITests.swift */; };
 		E16F31A42C66F2A2002D24FE /* ElectionDropUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16F31A32C66F2A2002D24FE /* ElectionDropUITestsLaunchTests.swift */; };
+		E16F31B82C6726AF002D24FE /* ElectionResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16F31B72C6726AF002D24FE /* ElectionResultsView.swift */; };
+		E16F31BA2C6740D1002D24FE /* ElectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16F31B92C6740D1002D24FE /* ElectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,8 @@
 		E16F31A12C66F2A2002D24FE /* ElectionDropUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionDropUITests.swift; sourceTree = "<group>"; };
 		E16F31A32C66F2A2002D24FE /* ElectionDropUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionDropUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		E16F31B02C66F2D5002D24FE /* ElectionDrop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ElectionDrop.entitlements; sourceTree = "<group>"; };
+		E16F31B72C6726AF002D24FE /* ElectionResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionResultsView.swift; sourceTree = "<group>"; };
+		E16F31B92C6740D1002D24FE /* ElectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +102,8 @@
 				E16F31B02C66F2D5002D24FE /* ElectionDrop.entitlements */,
 				E16F31862C66F2A2002D24FE /* ElectionDropApp.swift */,
 				E16F31882C66F2A2002D24FE /* ContentView.swift */,
+				E16F31B72C6726AF002D24FE /* ElectionResultsView.swift */,
+				E16F31B92C6740D1002D24FE /* ElectionView.swift */,
 				E16F318A2C66F2A2002D24FE /* Assets.xcassets */,
 				E16F318C2C66F2A2002D24FE /* Preview Content */,
 			);
@@ -260,7 +266,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E16F31892C66F2A2002D24FE /* ContentView.swift in Sources */,
+				E16F31B82C6726AF002D24FE /* ElectionResultsView.swift in Sources */,
 				E16F31872C66F2A2002D24FE /* ElectionDropApp.swift in Sources */,
+				E16F31BA2C6740D1002D24FE /* ElectionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
