@@ -1,27 +1,22 @@
+// MARK: - Views
+
+// ContentView.swift
 import SwiftUI
 
 struct ContentView: View {
-    init() {
-        requestPushAuthorization();
-    }
+    @StateObject private var viewModel = ElectionViewModel()
     
     var body: some View {
         VStack {
-            ElectionView()
+            if viewModel.isLoading {
+                ProgressView("Loading...")
+            } else {
+                ElectionView(elections: viewModel.elections)
+            }
         }
-    }
-}
-
-func requestPushAuthorization() {
-    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
-        if success {
-            print("Push notifications allowed")
-        } else if let error = error {
-            print(error.localizedDescription)
+        .task {
+            await viewModel.loadElectionData()
         }
+        .environmentObject(viewModel)
     }
-}
-
-#Preview {
-    ContentView()
 }

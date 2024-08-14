@@ -1,62 +1,44 @@
-//
-//  ElectionView.swift
-//  ElectionDrop
-//
-//  Created by Carl Hiltbrunner on 8/9/24.
-//
+// MARK: - Views
 
+// ElectionView.swift
 import SwiftUI
 
-struct Election: Identifiable {
-    let election: String
-    let results: [Result]
-    var id: String { election }
-}
-
 struct ElectionView: View {
-    @State private var results = [
-        Result(ballotResponse: "Shaun Scott", voteCount: "19437", votePercent: "58.97"),
-        Result(ballotResponse: "Andrea Suarez", voteCount: "6711", votePercent: "20.36"),
-        Result(ballotResponse: "Daniel Carusello", voteCount: "5359", votePercent: "16.29")
-    ]
+    let elections: Set<Election>
+    let election: Election
+    
+    init(elections: Set<Election>) {
+        self.elections = elections
+        let district = "Legislative District No. 43"
+        let ballot = "Representative Position No. 2"
+        self.election = elections.first(where: { $0.districtName == district && $0.ballotTitle == ballot })!
+    }
     
     var body: some View {
-        Image("VoteBox")
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(maxHeight: 50)
-            .offset(y: -100)
         VStack(alignment: .leading) {
-            HStack(alignment: .bottom) {
-                VStack(alignment: .leading) {
-                    Text("State Legislature")
-                        .font(.subheadline)
-                    Text("43rd District - Position 2")
-                        .font(.title)
+            Image("VoteBox")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(maxHeight: 50)
+                .offset(y: -100)
+            VStack(alignment: .leading) {
+                HStack(alignment: .bottom) {
+                    VStack(alignment: .leading) {
+                        Text(election.ballotTitle)
+                            .font(.title)
+                        Text(election.districtName)
+                            .font(.subheadline)
+                    }
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                Spacer()
-                Button(action: registerForNotifications) {
-                    Image(systemName: "bell")
-                        .imageScale(.large)
-                        .offset(y: -5)
-                }
+                
+                Divider()
+                
+                ElectionUpdateView(update: election.updates.last!)
             }
-
-            Divider()
-    
-            ElectionResultsView(results: results)
+            .padding()
+            .background()
         }
-        .padding()
-        .background()
     }
-}
-
-func registerForNotifications() {
-    UIApplication.shared.registerForRemoteNotifications()
-}
-
-
-#Preview {
-    ElectionView()
 }
