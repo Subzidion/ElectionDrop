@@ -22,8 +22,7 @@ class ElectionViewModel: ObservableObject {
     
     private func updateElections() async {
         await electionService.fetchElectionUpdate()
-        let updatedElections = await electionService.getElections()
-        elections = updatedElections
-        isLoading = await electionService.getIsLoading()
+        elections = await electionService.getElections()
+        isLoading = false
     }
 }

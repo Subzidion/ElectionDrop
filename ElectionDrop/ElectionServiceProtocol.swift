@@ -6,25 +6,18 @@ import Foundation
 protocol ElectionServiceProtocol: AnyObject {
     func fetchElectionUpdate() async
     func getElections() async -> Set<Election>
-    func getIsLoading() async -> Bool
 }
 
 actor ElectionService: ElectionServiceProtocol {
     private var elections: Set<Election> = []
-    private var isLoading = true
     private var currentUpdateCount: String?
     
     func getElections() -> Set<Election> {
-        elections
-    }
-    
-    func getIsLoading() -> Bool {
-        isLoading
+        return elections
     }
     
     func fetchElectionUpdate() async {
         print("Fetching updates...")
-        isLoading = true
         
         do {
             let urlString = "https://api.electiondrop.app/prod/v1/wa/king-county/election/2024/aug-primary"
@@ -39,15 +32,14 @@ actor ElectionService: ElectionServiceProtocol {
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
                 print("Invalid response.")
-                isLoading = false
                 return
             }
             
+            print("Request complete, parsing response...")
             let jsonData = try JSONSerialization.jsonObject(with: data) as? [[String: Any]] ?? []
             
             if jsonData.isEmpty {
-                print("No updates available.")
-                isLoading = false
+                print("No updates returned in response.")
                 return
             }
             
@@ -64,10 +56,9 @@ actor ElectionService: ElectionServiceProtocol {
             }
             
             elections = updatedElections
-            isLoading = false
+            print("Election updates complete.")
         } catch {
             print("Error fetching election update:", error)
-            isLoading = false
         }
     }
     

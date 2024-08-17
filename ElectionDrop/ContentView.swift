@@ -4,7 +4,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var viewModel = ElectionViewModel()
+    @ObservedObject var viewModel: ElectionViewModel
+
     @State private var selectedTab = 0
     
     var body: some View {
@@ -17,9 +18,6 @@ struct ContentView: View {
                         ElectionListView(elections: viewModel.elections)
                     }
                 }
-                .task {
-                    await viewModel.loadElectionData()
-                }
             }
             .tag(0)
             
@@ -28,13 +26,12 @@ struct ContentView: View {
             }
             .tag(1)
         }
-        .environmentObject(viewModel)
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
                 HStack {
                     Button(action: { selectedTab = 0 }) {
                         Text("Elections")
-                        Image(systemName: "building.columns")
+                        Image(systemName: "pencil.and.list.clipboard")
                     }
                     Spacer()
                     Button(action: { selectedTab = 1 }) {
