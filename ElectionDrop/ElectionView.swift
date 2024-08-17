@@ -9,71 +9,56 @@ struct ElectionView: View {
     
     init(election: Election) {
         self.election = election
-        // Initialize with the index of the last update
         self._currentUpdateIndex = State(initialValue: election.updates.count - 1)
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Image("VoteBox")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(maxHeight: 50)
-                .offset(y: -100)
-            
+        GeometryReader { geometry in
             VStack(alignment: .leading) {
-                HStack(alignment: .bottom) {
-                    VStack(alignment: .leading) {
-                        Text(election.ballotTitle)
-                            .font(.title)
-                        Text(election.districtName)
-                            .font(.subheadline)
+                Image("VoteBox")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(maxHeight: 50)
+                    .offset(y: -100)
+                
+                VStack(alignment: .leading) {
+                    HStack(alignment: .bottom) {
+                        VStack(alignment: .leading) {
+                            Text(election.ballotTitle)
+                                .font(.title)
+                            Text(election.districtName)
+                                .font(.subheadline)
+                        }
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.75)
                     }
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.75)
-                }
-                
-                Divider()
-                
-                if !election.updates.isEmpty {
-                    ElectionUpdateView(update: election.updates[currentUpdateIndex])
-                        .gesture(
-                            DragGesture(minimumDistance: 50)
-                                .onEnded { value in
-                                    if value.translation.width < 0 {
-                                        // Swipe left
-                                        incrementUpdate()
-                                    } else if value.translation.width > 0 {
-                                        // Swipe right
-                                        decrementUpdate()
-                                    }
-                                }
-                        )
                     
-                    HStack {
-                        Button(action: decrementUpdate) {
-                            Image(systemName: "chevron.left")
-                        }
-                        .disabled(currentUpdateIndex == 0)
-                        
-                        Spacer()
-                        
-                        Text("\(currentUpdateIndex + 1) / \(election.updates.count)")
-                        
-                        Spacer()
-                        
-                        Button(action: incrementUpdate) {
-                            Image(systemName: "chevron.right")
-                        }
-                        .disabled(currentUpdateIndex == election.updates.count - 1)
+                    Divider()
+                    
+                    if !election.updates.isEmpty {
+                        ElectionUpdateView(update: election.updates[currentUpdateIndex])
+                    } else {
+                        Text("No updates available")
                     }
-                    .padding(.top)
-                } else {
-                    Text("No updates available")
                 }
+                .padding()
+                .background()
             }
-            .padding()
-            .background()
+            .overlay(
+                HStack(spacing: 0) {
+                    Color.clear
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            decrementUpdate()
+                        }
+                    
+                    Color.clear
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            incrementUpdate()
+                        }
+                }
+            )
         }
     }
     

@@ -20,31 +20,12 @@
 		E1B2F64C2C6C8967008A6923 /* ElectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B2F64B2C6C8967008A6923 /* ElectionService.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		E16F31942C66F2A2002D24FE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E16F317B2C66F2A2002D24FE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E16F31822C66F2A2002D24FE;
-			remoteInfo = ElectionDrop;
-		};
-		E16F319E2C66F2A2002D24FE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E16F317B2C66F2A2002D24FE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E16F31822C66F2A2002D24FE;
-			remoteInfo = ElectionDrop;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		E14229CB2C701EEB00837F89 /* ElectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionListView.swift; sourceTree = "<group>"; };
 		E16F31832C66F2A2002D24FE /* ElectionDrop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ElectionDrop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16F31862C66F2A2002D24FE /* ElectionDropApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionDropApp.swift; sourceTree = "<group>"; };
 		E16F31882C66F2A2002D24FE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E16F318A2C66F2A2002D24FE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E16F31932C66F2A2002D24FE /* ElectionDropTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ElectionDropTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E16F319D2C66F2A2002D24FE /* ElectionDropUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ElectionDropUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16F31B02C66F2D5002D24FE /* ElectionDrop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ElectionDrop.entitlements; sourceTree = "<group>"; };
 		E16F31B72C6726AF002D24FE /* ElectionUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionUpdateView.swift; sourceTree = "<group>"; };
 		E16F31B92C6740D1002D24FE /* ElectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionView.swift; sourceTree = "<group>"; };
@@ -57,20 +38,6 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		E16F31802C66F2A2002D24FE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E16F31902C66F2A2002D24FE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E16F319A2C66F2A2002D24FE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -92,8 +59,6 @@
 			isa = PBXGroup;
 			children = (
 				E16F31832C66F2A2002D24FE /* ElectionDrop.app */,
-				E16F31932C66F2A2002D24FE /* ElectionDropTests.xctest */,
-				E16F319D2C66F2A2002D24FE /* ElectionDropUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -137,42 +102,6 @@
 			productReference = E16F31832C66F2A2002D24FE /* ElectionDrop.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E16F31922C66F2A2002D24FE /* ElectionDropTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E16F31AA2C66F2A2002D24FE /* Build configuration list for PBXNativeTarget "ElectionDropTests" */;
-			buildPhases = (
-				E16F318F2C66F2A2002D24FE /* Sources */,
-				E16F31902C66F2A2002D24FE /* Frameworks */,
-				E16F31912C66F2A2002D24FE /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E16F31952C66F2A2002D24FE /* PBXTargetDependency */,
-			);
-			name = ElectionDropTests;
-			productName = ElectionDropTests;
-			productReference = E16F31932C66F2A2002D24FE /* ElectionDropTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		E16F319C2C66F2A2002D24FE /* ElectionDropUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E16F31AD2C66F2A2002D24FE /* Build configuration list for PBXNativeTarget "ElectionDropUITests" */;
-			buildPhases = (
-				E16F31992C66F2A2002D24FE /* Sources */,
-				E16F319A2C66F2A2002D24FE /* Frameworks */,
-				E16F319B2C66F2A2002D24FE /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E16F319F2C66F2A2002D24FE /* PBXTargetDependency */,
-			);
-			name = ElectionDropUITests;
-			productName = ElectionDropUITests;
-			productReference = E16F319D2C66F2A2002D24FE /* ElectionDropUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -185,14 +114,6 @@
 				TargetAttributes = {
 					E16F31822C66F2A2002D24FE = {
 						CreatedOnToolsVersion = 15.4;
-					};
-					E16F31922C66F2A2002D24FE = {
-						CreatedOnToolsVersion = 15.4;
-						TestTargetID = E16F31822C66F2A2002D24FE;
-					};
-					E16F319C2C66F2A2002D24FE = {
-						CreatedOnToolsVersion = 15.4;
-						TestTargetID = E16F31822C66F2A2002D24FE;
 					};
 				};
 			};
@@ -210,8 +131,6 @@
 			projectRoot = "";
 			targets = (
 				E16F31822C66F2A2002D24FE /* ElectionDrop */,
-				E16F31922C66F2A2002D24FE /* ElectionDropTests */,
-				E16F319C2C66F2A2002D24FE /* ElectionDropUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -222,20 +141,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E16F318B2C66F2A2002D24FE /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E16F31912C66F2A2002D24FE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E16F319B2C66F2A2002D24FE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,34 +164,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E16F318F2C66F2A2002D24FE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E16F31992C66F2A2002D24FE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		E16F31952C66F2A2002D24FE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E16F31822C66F2A2002D24FE /* ElectionDrop */;
-			targetProxy = E16F31942C66F2A2002D24FE /* PBXContainerItemProxy */;
-		};
-		E16F319F2C66F2A2002D24FE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E16F31822C66F2A2002D24FE /* ElectionDrop */;
-			targetProxy = E16F319E2C66F2A2002D24FE /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		E16F31A52C66F2A2002D24FE /* Debug */ = {
@@ -470,82 +348,6 @@
 			};
 			name = Release;
 		};
-		E16F31AB2C66F2A2002D24FE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8R9HFJ6VSS;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.subzidion.ElectionDropTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ElectionDrop.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ElectionDrop";
-			};
-			name = Debug;
-		};
-		E16F31AC2C66F2A2002D24FE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8R9HFJ6VSS;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.subzidion.ElectionDropTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ElectionDrop.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ElectionDrop";
-			};
-			name = Release;
-		};
-		E16F31AE2C66F2A2002D24FE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8R9HFJ6VSS;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.subzidion.ElectionDropUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = ElectionDrop;
-			};
-			name = Debug;
-		};
-		E16F31AF2C66F2A2002D24FE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8R9HFJ6VSS;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.subzidion.ElectionDropUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = ElectionDrop;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -563,24 +365,6 @@
 			buildConfigurations = (
 				E16F31A82C66F2A2002D24FE /* Debug */,
 				E16F31A92C66F2A2002D24FE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E16F31AA2C66F2A2002D24FE /* Build configuration list for PBXNativeTarget "ElectionDropTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E16F31AB2C66F2A2002D24FE /* Debug */,
-				E16F31AC2C66F2A2002D24FE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E16F31AD2C66F2A2002D24FE /* Build configuration list for PBXNativeTarget "ElectionDropUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E16F31AE2C66F2A2002D24FE /* Debug */,
-				E16F31AF2C66F2A2002D24FE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

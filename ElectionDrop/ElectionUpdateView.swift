@@ -9,26 +9,31 @@ struct ElectionUpdateView: View {
     var body: some View {
         let resultColumns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
         
-        Text("Day \(update.updateCount) Results")
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading)
-        LazyVGrid(columns: resultColumns) {
-            Group {
-                Text("Ballot Response")
-                Text("Total Votes")
-                Text("Percent of Vote")
-            }
-            .fontWeight(.bold)
-            .frame(maxWidth: .infinity, minHeight: 44, alignment: .center)
-            .multilineTextAlignment(.center)
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Day \(update.updateCount) Results")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading)
             
-            ForEach(sortedResults()) { result in
-                ElectionResultView(result: result)
+            ScrollView {
+                LazyVGrid(columns: resultColumns) {
+                    Group {
+                        Text("Ballot Response")
+                        Text("Total Votes")
+                        Text("Percent of Vote")
+                    }
+                    .fontWeight(.bold)
+                    .frame(maxWidth: .infinity, minHeight: 44, alignment: .center)
+                    .multilineTextAlignment(.center)
+                    
+                    ForEach(sortedResults()) { result in
+                        ElectionResultView(result: result)
+                    }
+                }
+                .padding()
             }
         }
-        .padding()
     }
     
     private func sortedResults() -> [ElectionResult] {

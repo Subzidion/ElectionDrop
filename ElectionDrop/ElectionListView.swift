@@ -27,14 +27,14 @@ struct ElectionListView: View {
         NavigationView {
             List(filteredElections, id: \.id) { election in
                 NavigationLink(destination: ElectionView(election: election)) {
-                    VStack(alignment: .leading) {
-                        Text(election.ballotTitle)
-                            .font(.headline)
-                        Text(election.districtName)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+                        VStack(alignment: .leading) {
+                            Text(election.districtName)
+                                .font(.headline)
+                            Text(election.ballotTitle)
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
                     }
-                }
             }
             .navigationTitle("Elections")
             .searchable(text: $searchText, prompt: "Search elections")

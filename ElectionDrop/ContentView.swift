@@ -19,20 +19,6 @@ struct ContentView: View {
                 await viewModel.loadElectionData()
             }
             .environmentObject(viewModel)
-            .toolbar {
-                ToolbarItem(placement: .bottomBar) {
-                    Button {}
-                label: {
-                    Image(systemName: "plus")
-                }
-                }
-                ToolbarItem(placement: .bottomBar) {
-                    Button {}
-                label: {
-                    Image(systemName: "heart")
-                }
-                }
-            }
         }
     }
 }
