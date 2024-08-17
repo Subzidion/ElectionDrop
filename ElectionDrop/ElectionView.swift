@@ -6,6 +6,11 @@ import SwiftUI
 struct ElectionView: View {
     let election: Election
     @State private var currentUpdateIndex: Int
+    @State private var moveDirection: MoveDirection = .none
+    
+    enum MoveDirection {
+        case forward, backward, none
+    }
     
     init(election: Election) {
         self.election = election
@@ -37,6 +42,12 @@ struct ElectionView: View {
                     
                     if !election.updates.isEmpty {
                         ElectionUpdateView(update: election.updates[currentUpdateIndex])
+                            .id(currentUpdateIndex)
+                            .transition(.asymmetric(
+                                insertion: .move(edge: moveDirection == .forward ? .trailing : .leading),
+                                removal: .move(edge: moveDirection == .forward ? .leading : .trailing)
+                            ))
+                            .animation(.easeInOut, value: currentUpdateIndex)
                     } else {
                         Text("No updates available")
                     }
@@ -64,13 +75,19 @@ struct ElectionView: View {
     
     private func incrementUpdate() {
         if currentUpdateIndex < election.updates.count - 1 {
-            currentUpdateIndex += 1
+            moveDirection = .forward
+            withAnimation {
+                currentUpdateIndex += 1
+            }
         }
     }
     
     private func decrementUpdate() {
         if currentUpdateIndex > 0 {
-            currentUpdateIndex -= 1
+            moveDirection = .backward
+            withAnimation {
+                currentUpdateIndex -= 1
+            }
         }
     }
 }

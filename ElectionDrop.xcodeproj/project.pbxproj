@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E14229CC2C701EEB00837F89 /* ElectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14229CB2C701EEB00837F89 /* ElectionListView.swift */; };
+		E14229D02C7041E900837F89 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14229CF2C7041E900837F89 /* SettingsView.swift */; };
 		E16F31872C66F2A2002D24FE /* ElectionDropApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16F31862C66F2A2002D24FE /* ElectionDropApp.swift */; };
 		E16F31892C66F2A2002D24FE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16F31882C66F2A2002D24FE /* ContentView.swift */; };
 		E16F318B2C66F2A2002D24FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E16F318A2C66F2A2002D24FE /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 
 /* Begin PBXFileReference section */
 		E14229CB2C701EEB00837F89 /* ElectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionListView.swift; sourceTree = "<group>"; };
+		E14229CF2C7041E900837F89 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		E16F31832C66F2A2002D24FE /* ElectionDrop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ElectionDrop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16F31862C66F2A2002D24FE /* ElectionDropApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionDropApp.swift; sourceTree = "<group>"; };
 		E16F31882C66F2A2002D24FE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				E16F31B72C6726AF002D24FE /* ElectionUpdateView.swift */,
 				E1B2F6452C6C8366008A6923 /* ElectionResultView.swift */,
 				E16F318A2C66F2A2002D24FE /* Assets.xcassets */,
+				E14229CF2C7041E900837F89 /* SettingsView.swift */,
 			);
 			path = ElectionDrop;
 			sourceTree = "<group>";
@@ -161,6 +164,7 @@
 				E14229CC2C701EEB00837F89 /* ElectionListView.swift in Sources */,
 				E1A754C12C6C741A00739B7F /* Election.swift in Sources */,
 				E1B2F6462C6C8366008A6923 /* ElectionResultView.swift in Sources */,
+				E14229D02C7041E900837F89 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
