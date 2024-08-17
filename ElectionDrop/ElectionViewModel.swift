@@ -35,7 +35,7 @@ class ElectionViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-   
+    
     func loadElectionData() async {
         isLoading = true
         await electionService.fetchElectionUpdate()

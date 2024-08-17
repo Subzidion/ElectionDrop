@@ -24,10 +24,16 @@ struct ElectionUpdateView: View {
             .frame(maxWidth: .infinity, minHeight: 44, alignment: .center)
             .multilineTextAlignment(.center)
             
-            ForEach(update.results) { result in
+            ForEach(sortedResults()) { result in
                 ElectionResultView(result: result)
             }
         }
         .padding()
+    }
+    
+    private func sortedResults() -> [ElectionResult] {
+        update.results.sorted {
+            Int($0.voteCount) ?? 0 > Int($1.voteCount) ?? 0
+        }
     }
 }

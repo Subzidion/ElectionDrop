@@ -13,6 +13,7 @@ protocol ElectionServiceProtocol: AnyObject {
 actor ElectionService: ElectionServiceProtocol {
     private var elections: Set<Election> = []
     private var isLoading = true
+    private var currentUpdateCount: String?
     
     private let electionsSubject = CurrentValueSubject<Set<Election>, Never>([])
     private let isLoadingSubject = CurrentValueSubject<Bool, Never>(false)
@@ -26,6 +27,7 @@ actor ElectionService: ElectionServiceProtocol {
     }
     
     private func updateElections(_ newElections: Set<Election>) {
+        print("Updating elections...")
         elections = newElections
         Task { @MainActor in
             electionsSubject.send(newElections)
@@ -47,7 +49,7 @@ actor ElectionService: ElectionServiceProtocol {
             let urlString = "https://api.electiondrop.app/prod/v1/wa/king-county/election/2024/aug-primary"
             var urlComponents = URLComponents(string: urlString)!
             
-            if let currentUpdateCount = await MainActor.run(body: { UserDefaults.standard.string(forKey: "currentUpdateCount") }) {
+            if let currentUpdateCount = currentUpdateCount {
                 urlComponents.queryItems = [URLQueryItem(name: "currentUpdateCount", value: currentUpdateCount)]
             }
             
@@ -55,7 +57,7 @@ actor ElectionService: ElectionServiceProtocol {
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                print("Invalid response")
+                print("Invalid response.")
                 updateIsLoading(false)
                 return
             }
@@ -68,14 +70,19 @@ actor ElectionService: ElectionServiceProtocol {
                 return
             }
             
+            var updatedElections = self.elections
+            
             for item in jsonData {
                 if let updateTime = item["UpdateTime"] as? String,
                    let updateCount = item["UpdateCount"] as? String,
                    let csvString = item["ResultCSV"] as? String {
-                    await updateElections(updateTime: updateTime, updateCount: updateCount, csvString: csvString)
+                    updatedElections = await updateElectionWithResults(updateTime: updateTime, updateCount: updateCount, csvString: csvString, currentElections: updatedElections)
+                    
+                    currentUpdateCount = updateCount
                 }
             }
             
+            updateElections(updatedElections)
             updateIsLoading(false)
         } catch {
             print("Error fetching election update:", error)
@@ -83,17 +90,17 @@ actor ElectionService: ElectionServiceProtocol {
         }
     }
     
-    private func updateElections(updateTime: String, updateCount: String, csvString: String) async {
+    private func updateElectionWithResults(updateTime: String, updateCount: String, csvString: String, currentElections: Set<Election>) async -> Set<Election> {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "E, d MMM yyyy HH:mm:ss zzz"
         
         guard let updateTime = dateFormatter.date(from: updateTime),
               let updateCount = Int(updateCount) else {
             print("Invalid update time or count")
-            return
+            return currentElections
         }
         
-        var updatedElections = self.elections
+        var updatedElections = currentElections
         var currentUpdate = ElectionUpdate(updateTime: updateTime, updateCount: updateCount, results: [])
         
         let rows = csvString.components(separatedBy: "\r\n")
@@ -101,11 +108,11 @@ actor ElectionService: ElectionServiceProtocol {
             let columns = row.components(separatedBy: ",")
             guard columns.count >= 14 else { continue }
             
-            let districtName = columns[4]
-            let ballotTitle = columns[5]
-            let ballotResponse = columns[10]
-            let voteCount = columns[12]
-            let votePercent = columns[13]
+            let districtName = columns[4].unquoteCSV()
+            let ballotTitle = columns[5].unquoteCSV()
+            let ballotResponse = columns[10].unquoteCSV()
+            let voteCount = columns[12].unquoteCSV()
+            let votePercent = columns[13].unquoteCSV()
             
             let newResult = ElectionResult(ballotResponse: ballotResponse, voteCount: voteCount, votePercent: votePercent)
             
@@ -128,6 +135,26 @@ actor ElectionService: ElectionServiceProtocol {
             currentUpdate.results.append(newResult)
         }
         
-        updateElections(updatedElections)
+        return updatedElections
+    }
+}
+
+extension String {
+    func unquoteCSV() -> String {
+        var result = self
+        
+        // Remove leading and trailing whitespace
+        result = result.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        // If the string starts and ends with quotes, remove them
+        if result.hasPrefix("\"") && result.hasSuffix("\"") {
+            result.removeFirst()
+            result.removeLast()
+        }
+        
+        // Replace double quotes with single quotes
+        result = result.replacingOccurrences(of: "\"\"", with: "\"")
+        
+        return result
     }
 }

@@ -10,25 +10,25 @@ struct Election: Identifiable, Hashable, Codable {
     var id: String { districtName + " " + ballotTitle }
     
     func hash(into hasher: inout Hasher) {
-            hasher.combine(id)
-        }
-        
+        hasher.combine(id)
+    }
+    
     static func == (lhs: Election, rhs: Election) -> Bool {
         lhs.id == rhs.id
     }
 }
 
 struct ElectionUpdate: Identifiable, Codable {
+    var id = UUID()
     let updateTime: Date
     let updateCount: Int
     var results: [ElectionResult]
-    var id: String { updateCount.formatted() }
 }
 
 
 struct ElectionResult: Identifiable, Codable {
+    var id = UUID()
     let ballotResponse: String
     let voteCount: String
     let votePercent: String
-    var id: String { ballotResponse }
 }

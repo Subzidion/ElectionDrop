@@ -4,14 +4,13 @@
 import SwiftUI
 
 struct ElectionView: View {
-    let elections: Set<Election>
     let election: Election
+    @State private var currentUpdateIndex: Int
     
-    init(elections: Set<Election>) {
-        self.elections = elections
-        let district = "Legislative District No. 43"
-        let ballot = "Representative Position No. 2"
-        self.election = elections.first(where: { $0.districtName == district && $0.ballotTitle == ballot })!
+    init(election: Election) {
+        self.election = election
+        // Initialize with the index of the last update
+        self._currentUpdateIndex = State(initialValue: election.updates.count - 1)
     }
     
     var body: some View {
@@ -21,6 +20,7 @@ struct ElectionView: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(maxHeight: 50)
                 .offset(y: -100)
+            
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom) {
                     VStack(alignment: .leading) {
@@ -35,10 +35,57 @@ struct ElectionView: View {
                 
                 Divider()
                 
-                ElectionUpdateView(update: election.updates.last!)
+                if !election.updates.isEmpty {
+                    ElectionUpdateView(update: election.updates[currentUpdateIndex])
+                        .gesture(
+                            DragGesture(minimumDistance: 50)
+                                .onEnded { value in
+                                    if value.translation.width < 0 {
+                                        // Swipe left
+                                        incrementUpdate()
+                                    } else if value.translation.width > 0 {
+                                        // Swipe right
+                                        decrementUpdate()
+                                    }
+                                }
+                        )
+                    
+                    HStack {
+                        Button(action: decrementUpdate) {
+                            Image(systemName: "chevron.left")
+                        }
+                        .disabled(currentUpdateIndex == 0)
+                        
+                        Spacer()
+                        
+                        Text("\(currentUpdateIndex + 1) / \(election.updates.count)")
+                        
+                        Spacer()
+                        
+                        Button(action: incrementUpdate) {
+                            Image(systemName: "chevron.right")
+                        }
+                        .disabled(currentUpdateIndex == election.updates.count - 1)
+                    }
+                    .padding(.top)
+                } else {
+                    Text("No updates available")
+                }
             }
             .padding()
             .background()
+        }
+    }
+    
+    private func incrementUpdate() {
+        if currentUpdateIndex < election.updates.count - 1 {
+            currentUpdateIndex += 1
+        }
+    }
+    
+    private func decrementUpdate() {
+        if currentUpdateIndex > 0 {
+            currentUpdateIndex -= 1
         }
     }
 }
