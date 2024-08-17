@@ -1,4 +1,4 @@
-// MARK: - Views
+// MARK: - View
 
 // ElectionView.swift
 import SwiftUI
@@ -20,12 +20,6 @@ struct ElectionView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading) {
-                Image("VoteBox")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(maxHeight: 50)
-                    .offset(y: -100)
-                
                 VStack(alignment: .leading) {
                     HStack(alignment: .bottom) {
                         VStack(alignment: .leading) {
@@ -53,7 +47,7 @@ struct ElectionView: View {
                     }
                 }
                 .padding()
-                .background()
+                .padding(.top)
             }
             .overlay(
                 HStack(spacing: 0) {
@@ -71,6 +65,7 @@ struct ElectionView: View {
                 }
             )
         }
+        
     }
     
     private func incrementUpdate() {

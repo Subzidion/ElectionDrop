@@ -1,4 +1,4 @@
-// MARK: - Views
+// MARK: - View
 
 // ContentView.swift
 import SwiftUI
@@ -32,17 +32,14 @@ struct ContentView: View {
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
                 HStack {
-                    Spacer()
                     Button(action: { selectedTab = 0 }) {
-                        Image(systemName: "list.bullet")
                         Text("Elections")
+                        Image(systemName: "building.columns")
                     }
                     Spacer()
                     Button(action: { selectedTab = 1 }) {
                         Image(systemName: "gear")
-                        Text("Settings")
                     }
-                    Spacer()
                 }
             }
         }

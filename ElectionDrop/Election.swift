@@ -1,4 +1,4 @@
-// MARK: - Models
+// MARK: - Model
 
 // Election.swift
 import Foundation

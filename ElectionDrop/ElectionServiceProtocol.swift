@@ -2,12 +2,11 @@
 
 // ElectionService.swift
 import Foundation
-import Combine
 
 protocol ElectionServiceProtocol: AnyObject {
-    var electionsPublisher: AnyPublisher<Set<Election>, Never> { get }
-    var isLoadingPublisher: AnyPublisher<Bool, Never> { get }
     func fetchElectionUpdate() async
+    func getElections() async -> Set<Election>
+    func getIsLoading() async -> Bool
 }
 
 actor ElectionService: ElectionServiceProtocol {
@@ -15,35 +14,17 @@ actor ElectionService: ElectionServiceProtocol {
     private var isLoading = true
     private var currentUpdateCount: String?
     
-    private let electionsSubject = CurrentValueSubject<Set<Election>, Never>([])
-    private let isLoadingSubject = CurrentValueSubject<Bool, Never>(false)
-    
-    nonisolated var electionsPublisher: AnyPublisher<Set<Election>, Never> {
-        electionsSubject.eraseToAnyPublisher()
+    func getElections() -> Set<Election> {
+        elections
     }
     
-    nonisolated var isLoadingPublisher: AnyPublisher<Bool, Never> {
-        isLoadingSubject.eraseToAnyPublisher()
-    }
-    
-    private func updateElections(_ newElections: Set<Election>) {
-        print("Updating elections...")
-        elections = newElections
-        Task { @MainActor in
-            electionsSubject.send(newElections)
-        }
-    }
-    
-    private func updateIsLoading(_ newIsLoading: Bool) {
-        isLoading = newIsLoading
-        Task { @MainActor in
-            isLoadingSubject.send(newIsLoading)
-        }
+    func getIsLoading() -> Bool {
+        isLoading
     }
     
     func fetchElectionUpdate() async {
         print("Fetching updates...")
-        updateIsLoading(true)
+        isLoading = true
         
         do {
             let urlString = "https://api.electiondrop.app/prod/v1/wa/king-county/election/2024/aug-primary"
@@ -58,7 +39,7 @@ actor ElectionService: ElectionServiceProtocol {
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
                 print("Invalid response.")
-                updateIsLoading(false)
+                isLoading = false
                 return
             }
             
@@ -66,7 +47,7 @@ actor ElectionService: ElectionServiceProtocol {
             
             if jsonData.isEmpty {
                 print("No updates available.")
-                updateIsLoading(false)
+                isLoading = false
                 return
             }
             
@@ -82,11 +63,11 @@ actor ElectionService: ElectionServiceProtocol {
                 }
             }
             
-            updateElections(updatedElections)
-            updateIsLoading(false)
+            elections = updatedElections
+            isLoading = false
         } catch {
             print("Error fetching election update:", error)
-            updateIsLoading(false)
+            isLoading = false
         }
     }
     

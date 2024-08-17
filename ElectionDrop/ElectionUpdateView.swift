@@ -1,4 +1,4 @@
-// MARK: - Views
+// MARK: - View
 
 // ElectionUpdateView.swift
 import SwiftUI

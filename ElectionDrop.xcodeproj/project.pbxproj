@@ -18,7 +18,7 @@
 		E1A754C32C6C74B100739B7F /* ElectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A754C22C6C74B100739B7F /* ElectionViewModel.swift */; };
 		E1B2F6462C6C8366008A6923 /* ElectionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B2F6452C6C8366008A6923 /* ElectionResultView.swift */; };
 		E1B2F6482C6C87D0008A6923 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B2F6472C6C87D0008A6923 /* AppDelegate.swift */; };
-		E1B2F64C2C6C8967008A6923 /* ElectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B2F64B2C6C8967008A6923 /* ElectionService.swift */; };
+		E1B2F64C2C6C8967008A6923 /* ElectionServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B2F64B2C6C8967008A6923 /* ElectionServiceProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +35,7 @@
 		E1A754C22C6C74B100739B7F /* ElectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionViewModel.swift; sourceTree = "<group>"; };
 		E1B2F6452C6C8366008A6923 /* ElectionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionResultView.swift; sourceTree = "<group>"; };
 		E1B2F6472C6C87D0008A6923 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E1B2F64B2C6C8967008A6923 /* ElectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionService.swift; sourceTree = "<group>"; };
+		E1B2F64B2C6C8967008A6923 /* ElectionServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionServiceProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +72,7 @@
 				E16F31862C66F2A2002D24FE /* ElectionDropApp.swift */,
 				E1B2F6472C6C87D0008A6923 /* AppDelegate.swift */,
 				E1A754C02C6C741A00739B7F /* Election.swift */,
-				E1B2F64B2C6C8967008A6923 /* ElectionService.swift */,
+				E1B2F64B2C6C8967008A6923 /* ElectionServiceProtocol.swift */,
 				E1A754C22C6C74B100739B7F /* ElectionViewModel.swift */,
 				E16F31882C66F2A2002D24FE /* ContentView.swift */,
 				E16F31B92C6740D1002D24FE /* ElectionView.swift */,
@@ -159,7 +159,7 @@
 				E16F31892C66F2A2002D24FE /* ContentView.swift in Sources */,
 				E16F31B82C6726AF002D24FE /* ElectionUpdateView.swift in Sources */,
 				E16F31872C66F2A2002D24FE /* ElectionDropApp.swift in Sources */,
-				E1B2F64C2C6C8967008A6923 /* ElectionService.swift in Sources */,
+				E1B2F64C2C6C8967008A6923 /* ElectionServiceProtocol.swift in Sources */,
 				E16F31BA2C6740D1002D24FE /* ElectionView.swift in Sources */,
 				E14229CC2C701EEB00837F89 /* ElectionListView.swift in Sources */,
 				E1A754C12C6C741A00739B7F /* Election.swift in Sources */,
