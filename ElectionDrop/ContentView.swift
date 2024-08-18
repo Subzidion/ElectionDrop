@@ -5,7 +5,6 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var viewModel: ElectionViewModel
-
     @State private var selectedTab = 0
     
     var body: some View {
@@ -13,33 +12,24 @@ struct ContentView: View {
             NavigationStack {
                 VStack {
                     if viewModel.isLoading {
-                        ProgressView("Loading...")
+                        ProgressView("Loading Elections...")
                     } else {
                         ElectionListView(elections: viewModel.elections)
                     }
                 }
             }
             .tag(0)
+            .tabItem {
+                Label("Elections", systemImage: "pencil.and.list.clipboard")
+            }
             
             NavigationStack {
                 SettingsView()
             }
             .tag(1)
-        }
-        .toolbar {
-            ToolbarItem(placement: .bottomBar) {
-                HStack {
-                    Button(action: { selectedTab = 0 }) {
-                        Text("Elections")
-                        Image(systemName: "pencil.and.list.clipboard")
-                    }
-                    Spacer()
-                    Button(action: { selectedTab = 1 }) {
-                        Image(systemName: "gear")
-                    }
-                }
+            .tabItem {
+                Label("Settings", systemImage: "gear")
             }
         }
-        .tabViewStyle(.page(indexDisplayMode: .never))
     }
 }

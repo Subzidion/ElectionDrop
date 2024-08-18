@@ -47,7 +47,6 @@ struct ElectionView: View {
                     }
                 }
                 .padding()
-                .padding(.top)
             }
             .overlay(
                 HStack(spacing: 0) {

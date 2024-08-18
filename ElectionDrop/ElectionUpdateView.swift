@@ -5,9 +5,10 @@ import SwiftUI
 
 struct ElectionUpdateView: View {
     var update: ElectionUpdate
+    @AppStorage("electionResultDisplayFormat") private var electionResultDisplayFormat = ElectionResultDisplayFormat.percentOfVote
     
     var body: some View {
-        let resultColumns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+        let resultColumns = [GridItem(.flexible()), GridItem(.flexible())]
         
         VStack(alignment: .leading, spacing: 10) {
             Text("Day \(update.updateCount) Results")
@@ -20,15 +21,14 @@ struct ElectionUpdateView: View {
                 LazyVGrid(columns: resultColumns) {
                     Group {
                         Text("Ballot Response")
-                        Text("Total Votes")
-                        Text("Percent of Vote")
+                        Text(electionResultDisplayFormat == .percentOfVote ? "Percent of Vote" : "Vote Count")
                     }
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, minHeight: 44, alignment: .center)
                     .multilineTextAlignment(.center)
                     
                     ForEach(sortedResults()) { result in
-                        ElectionResultView(result: result)
+                        ElectionResultView(result: result, displayFormat: electionResultDisplayFormat)
                     }
                 }
                 .padding()
