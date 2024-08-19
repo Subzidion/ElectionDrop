@@ -83,8 +83,8 @@ actor ElectionService: ElectionServiceProtocol {
             let districtName = columns[4].unquoteCSV()
             let ballotTitle = columns[5].unquoteCSV()
             let ballotResponse = columns[10].unquoteCSV()
-            let voteCount = columns[12].unquoteCSV()
-            let votePercent = columns[13].unquoteCSV()
+            let voteCount = Int(columns[12].unquoteCSV())!
+            let votePercent = Double(columns[13].unquoteCSV())!
             
             let newResult = ElectionResult(ballotResponse: ballotResponse, voteCount: voteCount, votePercent: votePercent)
             

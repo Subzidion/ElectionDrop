@@ -29,6 +29,6 @@ struct ElectionUpdate: Identifiable, Codable {
 struct ElectionResult: Identifiable, Codable {
     var id = UUID()
     let ballotResponse: String
-    let voteCount: String
-    let votePercent: String
+    let voteCount: Int
+    let votePercent: Double
 }
