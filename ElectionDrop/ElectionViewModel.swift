@@ -1,7 +1,6 @@
 // MARK: - ViewModel
 
 // ElectionViewModel.swift
-
 import Foundation
 
 @MainActor

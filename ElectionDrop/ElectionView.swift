@@ -35,13 +35,10 @@ struct ElectionView: View {
                     Divider()
                     
                     if !election.updates.isEmpty {
-                        ElectionUpdateView(currentUpdate: election.updates[currentUpdateIndex], previousUpdate: currentUpdateIndex > 0 ? election.updates[currentUpdateIndex - 1] : nil)
-                            .id(currentUpdateIndex)
-                            .transition(.asymmetric(
-                                insertion: .move(edge: moveDirection == .forward ? .trailing : .leading),
-                                removal: .move(edge: moveDirection == .forward ? .leading : .trailing)
-                            ))
-                            .animation(.easeInOut, value: currentUpdateIndex)
+                        ElectionUpdateView(
+                            currentUpdate: election.updates[currentUpdateIndex],
+                            previousUpdate: currentUpdateIndex > 0 ? election.updates[currentUpdateIndex - 1] : nil
+                        )
                     } else {
                         Text("No updates available")
                     }

@@ -79,8 +79,8 @@
 				E14229CB2C701EEB00837F89 /* ElectionListView.swift */,
 				E16F31B72C6726AF002D24FE /* ElectionUpdateView.swift */,
 				E1B2F6452C6C8366008A6923 /* ElectionResultView.swift */,
-				E16F318A2C66F2A2002D24FE /* Assets.xcassets */,
 				E14229CF2C7041E900837F89 /* SettingsView.swift */,
+				E16F318A2C66F2A2002D24FE /* Assets.xcassets */,
 			);
 			path = ElectionDrop;
 			sourceTree = "<group>";

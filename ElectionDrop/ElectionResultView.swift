@@ -5,17 +5,27 @@ import SwiftUI
 
 struct ElectionResultView: View {
     var result: ElectionResult
-    var updateDelta: Text
+    var previousResult: ElectionResult?
     var displayFormat: ElectionResultDisplayFormat
     
     var body: some View {
-        Group {
-            Text(result.ballotResponse)
-            Text(displayFormat == .percentOfVote ? String(format: "%.2f%%", result.votePercent) : result.voteCount.formatted())
-            updateDelta
+        Text(displayText)
+            .frame(maxWidth: .infinity, minHeight: 44, alignment: .center)
+            .lineLimit(1)
+            .minimumScaleFactor(0.75)
+    }
+    
+    private var displayText: String {
+        if displayFormat == .percentOfVote {
+            return String(format: "%.2f%%", result.votePercent)
+        } else {
+            return result.voteCount.formatted()
         }
-        .frame(maxWidth: .infinity, minHeight: 44, alignment: .center)
-        .lineLimit(1)
-        .minimumScaleFactor(0.75)
+    }
+    
+    init(result: ElectionResult, previousResult: ElectionResult?, displayFormat: ElectionResultDisplayFormat) {
+        self.result = result
+        self.previousResult = previousResult
+        self.displayFormat = displayFormat
     }
 }

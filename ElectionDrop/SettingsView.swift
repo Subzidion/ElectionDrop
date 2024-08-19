@@ -3,11 +3,6 @@
 // SettingsView.swift
 import SwiftUI
 
-enum ElectionResultDisplayFormat: String, CaseIterable {
-    case percentOfVote = "Percent of Vote"
-    case totalVotes = "Total Votes"
-}
-
 struct SettingsView: View {
     @AppStorage("showPCOs") private var showPCOs = false
     @AppStorage("showKingCountyOnly") private var showKingCountyOnly = true
@@ -24,7 +19,13 @@ struct SettingsView: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    Toggle("Show King County Only", isOn: $showKingCountyOnly)
+                    Toggle("Show King County Races Only", isOn: $showKingCountyOnly)
+                    Text("""
+                         This app only shows election results for King County. By default, state-wide races are hidden since they will show incomplete data.
+                         If you want to see the performance for a state-wide race in King County, toggle this off.
+                         """)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                 }
                 
                 VStack(alignment: .leading) {
