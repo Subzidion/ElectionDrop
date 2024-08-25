@@ -18,56 +18,37 @@ struct ElectionView: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
-            VStack(alignment: .leading) {
+        VStack(alignment: .leading) {
+            HStack(alignment: .bottom) {
                 VStack(alignment: .leading) {
-                    HStack(alignment: .bottom) {
-                        VStack(alignment: .leading) {
-                            Text(election.ballotTitle)
-                                .font(.title)
-                            Text(election.districtName)
-                                .font(.subheadline)
-                        }
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.75)
-                    }
-                    
-                    Divider()
-                    
-                    if !election.updates.isEmpty {
-                        ElectionUpdateView(
-                            currentUpdate: election.updates[currentUpdateIndex],
-                            previousUpdate: currentUpdateIndex > 0 ? election.updates[currentUpdateIndex - 1] : nil,
-                            nextUpdate: currentUpdateIndex < election.updates.count - 1 ? election.updates[currentUpdateIndex + 1] : nil,
-                            onPreviousUpdate: {
-                                decrementUpdate()
-                            },
-                            onNextUpdate: {
-                                incrementUpdate()
-                            }
-                        )
-                    } else {
-                        Text("No updates available")
-                    }
+                    Text(election.ballotTitle)
+                        .font(.title)
+                    Text(election.districtName)
+                        .font(.subheadline)
                 }
-                .padding()
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
             }
-            .overlay(
-                HStack(spacing: 0) {
-                    Color.clear
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            decrementUpdate()
-                        }
-                    
-                    Color.clear
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            incrementUpdate()
-                        }
-                }
-            )
+            
+            Divider()
+            
+            if !election.updates.isEmpty {
+                ElectionUpdateView(
+                    currentUpdate: election.updates[currentUpdateIndex],
+                    previousUpdate: currentUpdateIndex > 0 ? election.updates[currentUpdateIndex - 1] : nil,
+                    nextUpdate: currentUpdateIndex < election.updates.count - 1 ? election.updates[currentUpdateIndex + 1] : nil,
+                    onPreviousUpdate: {
+                        decrementUpdate()
+                    },
+                    onNextUpdate: {
+                        incrementUpdate()
+                    }
+                )
+            } else {
+                Text("No updates available")
+            }
         }
+        .padding()
         .navigationBarTitleDisplayMode(.inline)
     }
     
