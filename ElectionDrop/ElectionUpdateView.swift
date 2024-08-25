@@ -10,7 +10,13 @@ struct ElectionUpdateView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Day \(currentUpdate.updateCount) Results")
+            Text("\(currentUpdate.formattedUpdateDate()) Results")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading)
+            
+            Text("Results Updated at \(currentUpdate.formattedUpdateTime())")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, alignment: .leading)

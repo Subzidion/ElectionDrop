@@ -27,6 +27,48 @@ struct ElectionUpdate: Identifiable, Codable, Equatable {
     static func == (lhs: ElectionUpdate, rhs: ElectionUpdate) -> Bool {
         lhs.id == rhs.id && lhs.updateTime == rhs.updateTime && lhs.updateCount == rhs.updateCount && lhs.results == rhs.results
     }
+    
+    func formattedUpdateDate() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE, MMMM d"
+        
+        let formattedDate = dateFormatter.string(from: updateTime)
+        
+        let day = Calendar.current.component(.day, from: updateTime)
+        let suffix = daySuffix(for: day)
+        
+        return formattedDate + suffix
+    }
+    
+    func formattedUpdateTime() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        dateFormatter.timeZone = TimeZone(identifier: "America/Los_Angeles")
+        
+        let timeString = dateFormatter.string(from: updateTime)
+        
+        let calendar = Calendar.current
+        let timeZone = TimeZone(identifier: "America/Los_Angeles")!
+        let dateInPST = updateTime.addingTimeInterval(TimeInterval(timeZone.secondsFromGMT(for: updateTime)))
+        
+        let isDST = timeZone.isDaylightSavingTime(for: dateInPST)
+        let zoneAbbreviation = isDST ? "PDT" : "PST"
+        
+        return "\(timeString) \(zoneAbbreviation)"
+    }
+    
+    private func daySuffix(for day: Int) -> String {
+        switch day {
+        case 1, 21, 31:
+            return "st"
+        case 2, 22:
+            return "nd"
+        case 3, 23:
+            return "rd"
+        default:
+            return "th"
+        }
+    }
 }
 
 struct ElectionResult: Identifiable, Codable, Equatable {

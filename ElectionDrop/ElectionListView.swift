@@ -8,7 +8,7 @@ struct ElectionListView: View {
     @State private var searchText = ""
     @AppStorage("showPCOs") private var showPCOs = false
     @AppStorage("showKingCountyOnly") private var showKingCountyOnly = true
-    private var districtsWithinKingCounty: Set<String> = ["Federal", "State of Washington", "Congressional District No. 1",
+    private var districtsOutsideKingCounty: Set<String> = ["Federal", "State of Washington", "Congressional District No. 1",
                                                           "Congressional District No. 8", "Legislative District No. 1", "Legislative District No. 12",
                                                           "Legislative District No. 31", "Legislative District No. 32", "State Supreme Court",
                                                           "Valley Regional Fire Authority"]
@@ -23,7 +23,7 @@ struct ElectionListView: View {
             let pcoCondition = showPCOs || !election.ballotTitle.starts(with: "Precinct Committee Officer")
             
             // Filter King County
-            let kingCountyCondition = !showKingCountyOnly || !districtsWithinKingCounty.contains(election.districtName)
+            let kingCountyCondition = !showKingCountyOnly || !districtsOutsideKingCounty.contains(election.districtName)
             
             return pcoCondition && kingCountyCondition
         }
