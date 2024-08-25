@@ -31,7 +31,7 @@ struct ElectionUpdateView: View {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                     
-                    Text("Results Updated at \(currentUpdate.formattedUpdateTime())")
+                    Text("Results dropped at \(currentUpdate.formattedUpdateTime())")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }

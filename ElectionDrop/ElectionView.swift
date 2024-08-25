@@ -68,6 +68,7 @@ struct ElectionView: View {
                 }
             )
         }
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     private func incrementUpdate() {

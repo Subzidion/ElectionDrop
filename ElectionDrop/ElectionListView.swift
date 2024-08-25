@@ -9,9 +9,9 @@ struct ElectionListView: View {
     @AppStorage("showPCOs") private var showPCOs = false
     @AppStorage("showKingCountyOnly") private var showKingCountyOnly = true
     private var districtsOutsideKingCounty: Set<String> = ["Federal", "State of Washington", "Congressional District No. 1",
-                                                          "Congressional District No. 8", "Legislative District No. 1", "Legislative District No. 12",
-                                                          "Legislative District No. 31", "Legislative District No. 32", "State Supreme Court",
-                                                          "Valley Regional Fire Authority"]
+                                                           "Congressional District No. 8", "Legislative District No. 1", "Legislative District No. 12",
+                                                           "Legislative District No. 31", "Legislative District No. 32", "State Supreme Court",
+                                                           "Valley Regional Fire Authority"]
     
     init(elections: Set<Election>) {
         self.elections = elections
@@ -42,9 +42,9 @@ struct ElectionListView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List(filteredElections, id: \.id) { election in
-                NavigationLink(destination: ElectionView(election: election)) {
+                NavigationLink(value: election) {
                     VStack(alignment: .leading) {
                         Text(election.districtName)
                             .font(.headline)
@@ -56,6 +56,9 @@ struct ElectionListView: View {
             }
             .navigationTitle("Elections")
             .searchable(text: $searchText, prompt: "Search elections")
+            .navigationDestination(for: Election.self) { election in
+                ElectionView(election: election)
+            }
         }
     }
 }
