@@ -6,21 +6,49 @@ import SwiftUI
 struct ElectionUpdateView: View {
     var currentUpdate: ElectionUpdate
     var previousUpdate: ElectionUpdate?
+    var nextUpdate: ElectionUpdate?
+    var onPreviousUpdate: (() -> Void)?
+    var onNextUpdate: (() -> Void)?
     @AppStorage("electionResultDisplayFormat") private var electionResultDisplayFormat = ElectionResultDisplayFormat.percentOfVote
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("\(currentUpdate.formattedUpdateDate()) Results")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading)
-            
-            Text("Results Updated at \(currentUpdate.formattedUpdateTime())")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading)
+            HStack {
+                Button(action: {
+                    if previousUpdate != nil {
+                        onPreviousUpdate?()
+                    }
+                }) {
+                    Image(systemName: "arrow.left")
+                        .foregroundColor(previousUpdate != nil ? .blue : .gray)
+                }
+                .disabled(previousUpdate == nil)
+                
+                Spacer()
+                
+                VStack {
+                    Text("\(currentUpdate.formattedUpdateDate()) Results")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                    
+                    Text("Results Updated at \(currentUpdate.formattedUpdateTime())")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                
+                Spacer()
+                
+                Button(action: {
+                    if nextUpdate != nil {
+                        onNextUpdate?()
+                    }
+                }) {
+                    Image(systemName: "arrow.right")
+                        .foregroundColor(nextUpdate != nil ? .blue : .gray)
+                }
+                .disabled(nextUpdate == nil)
+            }
+            .padding(.horizontal)
             
             ScrollView {
                 VStack(spacing: 0) {

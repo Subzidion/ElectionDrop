@@ -37,7 +37,14 @@ struct ElectionView: View {
                     if !election.updates.isEmpty {
                         ElectionUpdateView(
                             currentUpdate: election.updates[currentUpdateIndex],
-                            previousUpdate: currentUpdateIndex > 0 ? election.updates[currentUpdateIndex - 1] : nil
+                            previousUpdate: currentUpdateIndex > 0 ? election.updates[currentUpdateIndex - 1] : nil,
+                            nextUpdate: currentUpdateIndex < election.updates.count - 1 ? election.updates[currentUpdateIndex + 1] : nil,
+                            onPreviousUpdate: {
+                                decrementUpdate()
+                            },
+                            onNextUpdate: {
+                                incrementUpdate()
+                            }
                         )
                     } else {
                         Text("No updates available")
@@ -61,7 +68,6 @@ struct ElectionView: View {
                 }
             )
         }
-        
     }
     
     private func incrementUpdate() {
