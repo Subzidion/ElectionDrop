@@ -5,9 +5,12 @@ import Foundation
 
 struct Election: Identifiable, Hashable, Codable {
     let districtName: String
+    let districtType: String
+    // A value we compute from the CSV to categorize the Election for the ElectionListView
+    let treeDistrictType: String
     let ballotTitle: String
     var updates: [ElectionUpdate]
-    var id: String { districtName + " " + ballotTitle }
+    var id: String { districtName + " " + districtType + " " + ballotTitle }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -47,7 +50,6 @@ struct ElectionUpdate: Identifiable, Codable, Equatable {
         
         let timeString = dateFormatter.string(from: updateTime)
         
-        let calendar = Calendar.current
         let timeZone = TimeZone(identifier: "America/Los_Angeles")!
         let dateInPST = updateTime.addingTimeInterval(TimeInterval(timeZone.secondsFromGMT(for: updateTime)))
         

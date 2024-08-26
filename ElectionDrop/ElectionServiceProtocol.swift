@@ -80,6 +80,8 @@ actor ElectionService: ElectionServiceProtocol {
             let columns = row.components(separatedBy: ",")
             guard columns.count >= 14 else { continue }
             
+            let districtType = columns[2].unquoteCSV()
+            let treeDistrictType = (districtType == "Precinct Committee Officer" || districtType == "State Supreme Court") ? "State" : districtType
             let districtName = columns[4].unquoteCSV()
             let ballotTitle = columns[5].unquoteCSV()
             let ballotResponse = columns[10].unquoteCSV()
@@ -100,7 +102,8 @@ actor ElectionService: ElectionServiceProtocol {
                 }
                 updatedElections.insert(election)
             } else {
-                let newElection = Election(districtName: districtName, ballotTitle: ballotTitle, updates: [ElectionUpdate(updateTime: updateTime, updateCount: updateCount, results: [newResult])])
+                let newElection = Election(districtName: districtName, districtType: districtType, treeDistrictType: treeDistrictType, ballotTitle: ballotTitle,
+                                           updates: [ElectionUpdate(updateTime: updateTime, updateCount: updateCount, results: [newResult])])
                 updatedElections.insert(newElection)
             }
             
