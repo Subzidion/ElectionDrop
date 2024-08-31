@@ -118,9 +118,6 @@ extension String {
     func unquoteCSV() -> String {
         var result = self
         
-        // Remove leading and trailing whitespace
-        result = result.trimmingCharacters(in: .whitespacesAndNewlines)
-        
         // If the string starts and ends with quotes, remove them
         if result.hasPrefix("\"") && result.hasSuffix("\"") {
             result.removeFirst()
@@ -130,6 +127,9 @@ extension String {
         // Replace double quotes with single quotes
         result = result.replacingOccurrences(of: "\"\"", with: "\"")
         
+        // Remove leading and trailing whitespace
+        result = result.trimmingCharacters(in: .whitespacesAndNewlines)
+
         return result
     }
 }
