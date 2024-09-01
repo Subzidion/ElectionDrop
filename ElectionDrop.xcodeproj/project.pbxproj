@@ -38,6 +38,7 @@
 		E1B2F6452C6C8366008A6923 /* ElectionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionResultView.swift; sourceTree = "<group>"; };
 		E1B2F6472C6C87D0008A6923 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E1B2F64B2C6C8967008A6923 /* ElectionServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionServiceProtocol.swift; sourceTree = "<group>"; };
+		E1C017C32C84710A00DCFF9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +71,7 @@
 		E16F31852C66F2A2002D24FE /* ElectionDrop */ = {
 			isa = PBXGroup;
 			children = (
+				E1C017C32C84710A00DCFF9E /* Info.plist */,
 				E16F31B02C66F2D5002D24FE /* ElectionDrop.entitlements */,
 				E16F31862C66F2A2002D24FE /* ElectionDropApp.swift */,
 				E1B2F6472C6C87D0008A6923 /* AppDelegate.swift */,
@@ -306,6 +308,7 @@
 				DEVELOPMENT_TEAM = 8R9HFJ6VSS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ElectionDrop/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Election Drop";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -337,6 +340,7 @@
 				DEVELOPMENT_TEAM = 8R9HFJ6VSS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ElectionDrop/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Election Drop";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
