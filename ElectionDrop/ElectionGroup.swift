@@ -41,7 +41,7 @@ enum ElectionGroup: String, CaseIterable {
             } else if election.ballotTitle.contains("Representative") || election.ballotTitle.contains("State Senator") {
                 stateSubGroups["State Legislature"]?[election.districtName, default: []].append(election)
             } else {
-                stateSubGroups["State Executive"]?[election.ballotTitle, default: []].append(election)
+                stateSubGroups["State Executive"]?[election.ballotTitle, default: []] = [election]
             }
         }
         
@@ -56,14 +56,18 @@ enum ElectionGroup: String, CaseIterable {
                 content: {
                     ForEach(sortedKeys(for: subGrouping, in: subGroupData), id: \.self) { key in
                         if let elections = subGroupData[key], !elections.isEmpty {
-                            CustomDisclosureGroup(
-                                isExpanded: expandedBinding("\(rawValue)-\(subGrouping)-\(key)"),
-                                content: {
-                                    electionsList(elections: elections)
-                                },
-                                label: { Text(key) }
-                            )
-                            .padding(.leading, 20)
+                            if subGrouping == "State Legislature" {
+                                CustomDisclosureGroup(
+                                    isExpanded: expandedBinding("\(rawValue)-\(subGrouping)-\(key)"),
+                                    content: {
+                                        electionsList(elections: elections)
+                                    },
+                                    label: { Text(key) }
+                                )
+                                .padding(.leading, 20)
+                            } else {
+                                electionsList(elections: elections)
+                            }
                         }
                     }
                 },

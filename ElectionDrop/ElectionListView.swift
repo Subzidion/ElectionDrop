@@ -95,14 +95,12 @@ struct ElectionRow: View {
             VStack(alignment: .leading, spacing: 4) {
                 if election.ballotTitle == "United States Representative" || election.ballotTitle.starts(with: "Precinct Committee Officer") {
                     Text(election.districtName)
-                        .font(.body)
-                        .foregroundColor(.primary)
                 } else {
                     Text(election.ballotTitle)
-                        .font(.body)
-                        .foregroundColor(.primary)
                 }
             }
+            .font(.headline)
+            .foregroundColor(.primary)
             .padding(.vertical, 8)
             .padding(.horizontal, 16)
         }
@@ -154,7 +152,7 @@ struct CustomDisclosureGroup<Label: View, Content: View>: View {
                     label
                         .foregroundColor(.primary)
                     Spacer()
-                    Image(systemName: "chevron.right")
+                    Image(systemName: isExpanded ? "chevron.right.circle.fill": "chevron.right.circle")
                         .foregroundColor(.accentColor)
                         .rotationEffect(.degrees(isExpanded ? 90 : 0))
                 }
@@ -182,6 +180,23 @@ extension Election {
 
 #Preview {
     let mockElections: Set<Election> = [
+        Election(
+            districtSortKey: 350,
+            districtName: "Congressional District No. 9",
+            districtType: "Federal",
+            treeDistrictType: "Federal",
+            ballotTitle: "United States Representative",
+            updates: [
+                ElectionUpdate(
+                    updateTime: Date(),
+                    updateCount: 10,
+                    results: [
+                        ElectionResult(ballotResponse: "Joe Federale", voteCount: 37571, votePercent: 85.36),
+                        ElectionResult(ballotResponse: "Jolie Feds", voteCount: 6398, votePercent: 14.54)
+                    ]
+                )
+            ]
+        ),
         Election(
             districtSortKey: 60,
             districtName: "State Executive",

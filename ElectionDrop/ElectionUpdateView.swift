@@ -68,7 +68,6 @@ struct ElectionUpdateView: View {
         .foregroundColor(.secondary)
         .padding(.horizontal)
         .padding(.vertical, 8)
-        .background(Color(.tertiarySystemBackground))
     }
     
     private var resultList: some View {
