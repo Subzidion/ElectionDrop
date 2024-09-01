@@ -12,6 +12,15 @@ struct Election: Identifiable, Hashable, Codable {
     let ballotTitle: String
     var updates: [ElectionUpdate]
     var id: String { districtName + " " + districtType + " " + ballotTitle }
+    var group: ElectionGroup {
+        switch treeDistrictType {
+        case "State": return .state
+        case "City": return .city
+        case "Federal": return .federal
+        case "Special Purpose District": return .specialPurposeDistrict
+        default: return .specialPurposeDistrict
+        }
+    }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
