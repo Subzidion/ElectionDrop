@@ -51,7 +51,27 @@ struct ElectionListView: View {
     private func electionsGroup(topLevelGrouping: String, groupData: [String: [String: [Election]]]) -> some View {
         ForEach(groupData.keys.sorted(), id: \.self) { subGrouping in
             if let subGroupData = groupData[subGrouping], !subGroupData.isEmpty {
-                if topLevelGrouping == "State" {
+                if topLevelGrouping == "State" && subGrouping == "State Legislature" {
+                    DisclosureGroup(
+                        isExpanded: expandedBinding(for: "\(topLevelGrouping)-\(subGrouping)"),
+                        content: {
+                            ForEach(subGroupData.keys.sorted(), id: \.self) { districtName in
+                                if let elections = subGroupData[districtName], !elections.isEmpty {
+                                    DisclosureGroup(
+                                        isExpanded: expandedBinding(for: "\(topLevelGrouping)-\(subGrouping)-\(districtName)"),
+                                        content: {
+                                            ForEach(elections.sorted(by: { $0.ballotTitle < $1.ballotTitle }), id: \.id) { election in
+                                                ElectionRow(election: election)
+                                            }
+                                        },
+                                        label: { Text(districtName) }
+                                    )
+                                }
+                            }
+                        },
+                        label: { Text(subGrouping) }
+                    )
+                } else if topLevelGrouping == "State" {
                     DisclosureGroup(
                         isExpanded: expandedBinding(for: "\(topLevelGrouping)-\(subGrouping)"),
                         content: {
@@ -63,7 +83,7 @@ struct ElectionListView: View {
                                         DisclosureGroup(
                                             isExpanded: expandedBinding(for: "\(topLevelGrouping)-\(subGrouping)-\(ballotTitle)"),
                                             content: {
-                                                ForEach(elections, id: \.id) { election in
+                                                ForEach(elections.sorted(by: { $0.id < $1.id }), id: \.id) { election in
                                                     ElectionRow(election: election)
                                                 }
                                             },
@@ -76,12 +96,13 @@ struct ElectionListView: View {
                         label: { Text(subGrouping) }
                     )
                 } else {
+                    // This handles City, Federal, and Special Purpose District
                     ForEach(subGroupData.keys.sorted(), id: \.self) { groupKey in
                         if let elections = subGroupData[groupKey], !elections.isEmpty {
                             DisclosureGroup(
                                 isExpanded: expandedBinding(for: "\(subGrouping)-\(groupKey)"),
                                 content: {
-                                    ForEach(elections, id: \.id) { election in
+                                    ForEach(elections.sorted(by: { $0.ballotTitle < $1.ballotTitle }), id: \.id) { election in
                                         ElectionRow(election: election)
                                     }
                                 },
@@ -93,6 +114,7 @@ struct ElectionListView: View {
             }
         }
     }
+    
     
     private func expandedBinding(for key: String) -> Binding<Bool> {
         Binding(
@@ -121,7 +143,7 @@ struct ElectionListView: View {
         
         return Dictionary(grouping: filteredElections, by: \.treeDistrictType)
             .mapValues(groupElections)
-       
+        
     }
     
     private func groupElections(_ elections: [Election]) -> [String: [String: [Election]]] {
@@ -161,10 +183,10 @@ struct ElectionListView: View {
                 stateSubGroups["Precinct Committee Officer"]?[election.ballotTitle, default: []].append(election)
             } else if election.districtType == "State Supreme Court" {
                 stateSubGroups["State Supreme Court"]?[election.ballotTitle, default: []].append(election)
+            } else if election.ballotTitle.contains("Representative") || election.ballotTitle.contains("State Senator") {
+                stateSubGroups["State Legislature"]?[election.districtName, default: []].append(election)
             } else {
-                let isLegislature = election.ballotTitle.contains("Representative") || election.ballotTitle.contains("State Senator")
-                let group = isLegislature ? "State Legislature" : "State Executive"
-                stateSubGroups[group]?[election.ballotTitle, default: []].append(election)
+                stateSubGroups["State Executive"]?[election.ballotTitle, default: []].append(election)
             }
         }
         
@@ -177,7 +199,7 @@ struct ElectionListView: View {
         var body: some View {
             NavigationLink(value: election) {
                 VStack(alignment: .leading) {
-                    if  election.ballotTitle.contains("Representative") || election.ballotTitle.contains("State Senator") {
+                    if election.ballotTitle == "United States Representative" {
                         Text(election.districtName)
                             .font(.headline)
                     } else {
