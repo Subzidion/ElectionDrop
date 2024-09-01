@@ -48,20 +48,29 @@ enum ElectionGroup: String, CaseIterable {
         return stateSubGroups.filter { !$0.value.isEmpty }
     }
     
-    
     @ViewBuilder
-    func view(for subGrouping: String, subGroupData: [String: [Election]], expandedBinding: @escaping (String) -> Binding<Bool>) -> some View {
-        let content = ForEach(sortedKeys(for: subGrouping, in: subGroupData), id: \.self) { key in
-            if let elections = subGroupData[key], !elections.isEmpty {
-                if self == .state && elections.count > 1 {
-                    DisclosureGroup(
-                        isExpanded: expandedBinding("\(rawValue)-\(subGrouping)-\(key)"),
-                        content: {
-                            electionsList(elections: elections)
-                        },
-                        label: { Text(key) }
-                    )
-                } else if self != .state {
+    func view(for subGrouping: String, subGroupData: [String: [Election]], expandedBinding: @escaping (String) -> Binding<Bool>, isSearching: Bool) -> some View {
+        if self == .state {
+            DisclosureGroup(
+                isExpanded: expandedBinding("\(rawValue)-\(subGrouping)"),
+                content: {
+                    ForEach(sortedKeys(for: subGrouping, in: subGroupData), id: \.self) { key in
+                        if let elections = subGroupData[key], !elections.isEmpty {
+                            DisclosureGroup(
+                                isExpanded: expandedBinding("\(rawValue)-\(subGrouping)-\(key)"),
+                                content: {
+                                    electionsList(elections: elections)
+                                },
+                                label: { Text(key) }
+                            )
+                        }
+                    }
+                },
+                label: { Text(subGrouping) }
+            )
+        } else {
+            ForEach(sortedKeys(for: subGrouping, in: subGroupData), id: \.self) { key in
+                if let elections = subGroupData[key], !elections.isEmpty {
                     DisclosureGroup(
                         isExpanded: expandedBinding("\(subGrouping)-\(key)"),
                         content: {
@@ -69,20 +78,8 @@ enum ElectionGroup: String, CaseIterable {
                         },
                         label: { Text(key) }
                     )
-                } else {
-                    ElectionRow(election: elections[0])
                 }
             }
-        }
-        
-        if self == .state {
-            DisclosureGroup(
-                isExpanded: expandedBinding("\(rawValue)-\(subGrouping)"),
-                content: { content },
-                label: { Text(subGrouping) }
-            )
-        } else {
-            content
         }
     }
     

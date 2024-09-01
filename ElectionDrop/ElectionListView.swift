@@ -44,7 +44,7 @@ struct ElectionListView: View {
     private func electionsGroup(group: ElectionGroup, groupData: [String: [String: [Election]]]) -> some View {
         ForEach(groupData.keys.sorted(), id: \.self) { subGrouping in
             if let subGroupData = groupData[subGrouping], !subGroupData.isEmpty {
-                group.view(for: subGrouping, subGroupData: subGroupData, expandedBinding: self.expandedBinding)
+                group.view(for: subGrouping, subGroupData: subGroupData, expandedBinding: self.expandedBinding, isSearching: !searchText.isEmpty)
             }
         }
     }
