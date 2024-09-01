@@ -51,33 +51,36 @@ enum ElectionGroup: String, CaseIterable {
     @ViewBuilder
     func view(for subGrouping: String, subGroupData: [String: [Election]], expandedBinding: @escaping (String) -> Binding<Bool>, isSearching: Bool) -> some View {
         if self == .state {
-            DisclosureGroup(
+            CustomDisclosureGroup(
                 isExpanded: expandedBinding("\(rawValue)-\(subGrouping)"),
                 content: {
                     ForEach(sortedKeys(for: subGrouping, in: subGroupData), id: \.self) { key in
                         if let elections = subGroupData[key], !elections.isEmpty {
-                            DisclosureGroup(
+                            CustomDisclosureGroup(
                                 isExpanded: expandedBinding("\(rawValue)-\(subGrouping)-\(key)"),
                                 content: {
                                     electionsList(elections: elections)
                                 },
                                 label: { Text(key) }
                             )
+                            .padding(.leading, 20)
                         }
                     }
                 },
                 label: { Text(subGrouping) }
             )
+            .animation(.easeInOut, value: expandedBinding("\(rawValue)-\(subGrouping)").wrappedValue)
         } else {
             ForEach(sortedKeys(for: subGrouping, in: subGroupData), id: \.self) { key in
                 if let elections = subGroupData[key], !elections.isEmpty {
-                    DisclosureGroup(
+                    CustomDisclosureGroup(
                         isExpanded: expandedBinding("\(subGrouping)-\(key)"),
                         content: {
                             electionsList(elections: elections)
                         },
                         label: { Text(key) }
                     )
+                    .animation(.easeInOut, value: expandedBinding("\(subGrouping)-\(key)").wrappedValue)
                 }
             }
         }
@@ -86,6 +89,7 @@ enum ElectionGroup: String, CaseIterable {
     private func electionsList(elections: [Election]) -> some View {
         ForEach(elections.sorted(by: { $0.districtSortKey < $1.districtSortKey }), id: \.id) { election in
             ElectionRow(election: election)
+                .transition(.opacity.combined(with: .move(edge: .top)))
         }
     }
     
