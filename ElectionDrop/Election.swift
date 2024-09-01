@@ -4,6 +4,7 @@
 import Foundation
 
 struct Election: Identifiable, Hashable, Codable {
+    let districtSortKey: Int
     let districtName: String
     let districtType: String
     // A value we compute from the CSV to categorize the Election for the ElectionListView

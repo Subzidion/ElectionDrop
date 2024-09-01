@@ -55,12 +55,17 @@ struct ElectionListView: View {
                     DisclosureGroup(
                         isExpanded: expandedBinding(for: "\(topLevelGrouping)-\(subGrouping)"),
                         content: {
-                            ForEach(subGroupData.keys.sorted(), id: \.self) { districtName in
+                            ForEach(subGroupData.keys.sorted(by: { key1, key2 in
+                                // Get the first election from each group to compare districtSortKey
+                                let firstElection1 = subGroupData[key1]?.first
+                                let firstElection2 = subGroupData[key2]?.first
+                                return firstElection1?.districtSortKey ?? 99999 < firstElection2?.districtSortKey ?? 99999
+                            }), id: \.self) { districtName in
                                 if let elections = subGroupData[districtName], !elections.isEmpty {
                                     DisclosureGroup(
                                         isExpanded: expandedBinding(for: "\(topLevelGrouping)-\(subGrouping)-\(districtName)"),
                                         content: {
-                                            ForEach(elections.sorted(by: { $0.ballotTitle < $1.ballotTitle }), id: \.id) { election in
+                                            ForEach(elections.sorted(by: { $0.districtSortKey < $1.districtSortKey }), id: \.id) { election in
                                                 ElectionRow(election: election)
                                             }
                                         },
@@ -83,7 +88,7 @@ struct ElectionListView: View {
                                         DisclosureGroup(
                                             isExpanded: expandedBinding(for: "\(topLevelGrouping)-\(subGrouping)-\(ballotTitle)"),
                                             content: {
-                                                ForEach(elections.sorted(by: { $0.id < $1.id }), id: \.id) { election in
+                                                ForEach(elections.sorted(by: { $0.districtSortKey < $1.districtSortKey }), id: \.id) { election in
                                                     ElectionRow(election: election)
                                                 }
                                             },
@@ -102,7 +107,7 @@ struct ElectionListView: View {
                             DisclosureGroup(
                                 isExpanded: expandedBinding(for: "\(subGrouping)-\(groupKey)"),
                                 content: {
-                                    ForEach(elections.sorted(by: { $0.ballotTitle < $1.ballotTitle }), id: \.id) { election in
+                                    ForEach(elections.sorted(by: { $0.districtSortKey < $1.districtSortKey }), id: \.id) { election in
                                         ElectionRow(election: election)
                                     }
                                 },
