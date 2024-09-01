@@ -74,3 +74,15 @@ struct ElectionResultRowView: View {
         }
     }
 }
+
+#Preview("Percent of Vote") {
+    let sampleCurrentResult = ElectionResult(ballotResponse: "Candidate A", voteCount: 14500, votePercent: 44.4)
+    
+   let samplePreviousResult = ElectionResult(ballotResponse: "Candidate A", voteCount: 15000, votePercent: 45.5)
+    
+    return ElectionResultView(
+        result: sampleCurrentResult,
+        previousResult: samplePreviousResult,
+        displayFormat: .percentOfVote
+    )
+}
