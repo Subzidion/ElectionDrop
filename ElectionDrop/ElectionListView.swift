@@ -46,7 +46,7 @@ struct ElectionListView: View {
                     .animation(.easeInOut, value: expandedSections)
                 }
             }
-            .navigationTitle("Elections")
+            .navigationTitle("August 2024 Primary")
             .navigationDestination(for: Election.self) { election in
                 ElectionView(election: election)
             }
