@@ -1,12 +1,11 @@
 // MARK: - View
 
-// ElectionResultView.swift
 import SwiftUI
 
-struct ElectionResultView: View {
-    var result: ElectionResult
-    var previousResult: ElectionResult?
-    var displayFormat: ElectionResultDisplayFormat
+struct ContestResultView: View {
+    var result: ContestResult
+    var previousResult: ContestResult?
+    var displayFormat: ContestResultDisplayFormat
     
     var body: some View {
         HStack {
@@ -15,7 +14,7 @@ struct ElectionResultView: View {
                 .lineLimit(2)
                 .minimumScaleFactor(0.75)
             Spacer()
-            ElectionResultRowView(result: result, displayFormat: displayFormat)
+            ContestResultRowView(result: result, displayFormat: displayFormat)
             Spacer()
             updateDelta
                 .frame(width: 80, alignment: .trailing)
@@ -36,7 +35,7 @@ struct ElectionResultView: View {
         }
     }
     
-    private func calculateDelta(current: ElectionResult, previous: ElectionResult) -> (formattedValue: String, color: Color) {
+    private func calculateDelta(current: ContestResult, previous: ContestResult) -> (formattedValue: String, color: Color) {
         if displayFormat == .percentOfVote {
             let currentPercent = current.votePercent
             let previousPercent = previous.votePercent
@@ -57,9 +56,9 @@ struct ElectionResultView: View {
     }
 }
 
-struct ElectionResultRowView: View {
-    var result: ElectionResult
-    var displayFormat: ElectionResultDisplayFormat
+struct ContestResultRowView: View {
+    var result: ContestResult
+    var displayFormat: ContestResultDisplayFormat
     
     var body: some View {
         Text(displayText)
@@ -76,11 +75,11 @@ struct ElectionResultRowView: View {
 }
 
 #Preview("Percent of Vote") {
-    let sampleCurrentResult = ElectionResult(ballotResponse: "Candidate A", voteCount: 14500, votePercent: 44.4)
+    let sampleCurrentResult = ContestResult(ballotResponse: "Candidate A", voteCount: 14500, votePercent: 44.4)
     
-   let samplePreviousResult = ElectionResult(ballotResponse: "Candidate A", voteCount: 15000, votePercent: 45.5)
+    let samplePreviousResult = ContestResult(ballotResponse: "Candidate A", voteCount: 15000, votePercent: 45.5)
     
-    return ElectionResultView(
+    return ContestResultView(
         result: sampleCurrentResult,
         previousResult: samplePreviousResult,
         displayFormat: .percentOfVote

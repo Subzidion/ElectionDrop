@@ -4,7 +4,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var viewModel: ElectionViewModel
+    @ObservedObject var viewModel: ContestViewModel
     @State private var selectedTab = 0
     
     var body: some View {
@@ -12,9 +12,9 @@ struct ContentView: View {
             NavigationStack {
                 VStack {
                     if viewModel.isLoading {
-                        ProgressView("Loading Elections...")
+                        ProgressView("Loading Contests...")
                     } else {
-                        ElectionListView(elections: viewModel.elections)
+                        ContestListView(contests: viewModel.contests)
                     }
                 }
             }

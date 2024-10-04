@@ -6,7 +6,7 @@ import SwiftUI
 struct SettingsView: View {
     @AppStorage("showPCOs") private var showPCOs = false
     @AppStorage("showKingCountyOnly") private var showKingCountyOnly = true
-    @AppStorage("electionResultDisplayFormat") private var electionResultDisplayFormat = ElectionResultDisplayFormat.percentOfVote
+    @AppStorage("contestResultDisplayFormat") private var contestResultDisplayFormat = ContestResultDisplayFormat.percentOfVote
     
     var body: some View {
         Form {
@@ -29,8 +29,8 @@ struct SettingsView: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    Picker("Results Format", selection: $electionResultDisplayFormat) {
-                        ForEach(ElectionResultDisplayFormat.allCases, id: \.self) { option in
+                    Picker("Results Format", selection: $contestResultDisplayFormat) {
+                        ForEach(ContestResultDisplayFormat.allCases, id: \.self) { option in
                             Text(option.rawValue).tag(option)
                         }
                     }
@@ -43,7 +43,7 @@ struct SettingsView: View {
 }
 
 // Extension to allow @AppStorage to work with our custom enum
-extension ElectionResultDisplayFormat: RawRepresentable {
+extension ContestResultDisplayFormat: RawRepresentable {
     init?(rawValue: String) {
         switch rawValue {
         case "Percent of Vote": self = .percentOfVote

@@ -5,14 +5,14 @@ import Foundation
 
 protocol ElectionServiceProtocol: AnyObject {
     func fetchElectionUpdate() async
-    func getElections() async -> Set<Election>
+    func getElections() async -> Set<Contest>
 }
 
 actor ElectionService: ElectionServiceProtocol {
-    private var elections: Set<Election> = []
+    private var elections: Set<Contest> = []
     private var currentUpdateCount: String?
     
-    func getElections() -> Set<Election> {
+    func getElections() -> Set<Contest> {
         return elections
     }
     
@@ -62,7 +62,7 @@ actor ElectionService: ElectionServiceProtocol {
         }
     }
     
-    private func updateElectionWithResults(updateTime: String, updateCount: String, csvString: String, currentElections: Set<Election>) async -> Set<Election> {
+    private func updateElectionWithResults(updateTime: String, updateCount: String, csvString: String, currentElections: Set<Contest>) async -> Set<Contest> {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "E, d MMM yyyy HH:mm:ss zzz"
         
@@ -73,7 +73,7 @@ actor ElectionService: ElectionServiceProtocol {
         }
         
         var updatedElections = currentElections
-        var currentUpdate = ElectionUpdate(updateTime: updateTime, updateCount: updateCount, results: [])
+        var currentUpdate = ContestResultsUpdate(updateTime: updateTime, updateCount: updateCount, results: [])
         
         let rows = csvString.components(separatedBy: "\r\n")
         for row in rows.dropFirst() {
@@ -89,7 +89,7 @@ actor ElectionService: ElectionServiceProtocol {
             let voteCount = Int(columns[12].unquoteCSV())!
             let votePercent = Double(columns[13].unquoteCSV())!
             
-            let newResult = ElectionResult(ballotResponse: ballotResponse, voteCount: voteCount, votePercent: votePercent)
+            let newResult = ContestResult(ballotResponse: ballotResponse, voteCount: voteCount, votePercent: votePercent)
             
             if var election = updatedElections.first(where: { $0.districtName == districtName && $0.ballotTitle == ballotTitle }) {
                 updatedElections.remove(election)
@@ -99,13 +99,13 @@ actor ElectionService: ElectionServiceProtocol {
                         election.updates[index] = update
                     }
                 } else {
-                    election.updates.append(ElectionUpdate(updateTime: updateTime, updateCount: updateCount, results: [newResult]))
+                    election.updates.append(ContestResultsUpdate(updateTime: updateTime, updateCount: updateCount, results: [newResult]))
                 }
                 updatedElections.insert(election)
             } else {
-                let newElection = Election(districtSortKey: districtSortKey, districtName: districtName,
+                let newElection = Contest(districtSortKey: districtSortKey, districtName: districtName,
                                            districtType: districtType, treeDistrictType: treeDistrictType, ballotTitle: ballotTitle,
-                                           updates: [ElectionUpdate(updateTime: updateTime, updateCount: updateCount, results: [newResult])])
+                                           updates: [ContestResultsUpdate(updateTime: updateTime, updateCount: updateCount, results: [newResult])])
                 updatedElections.insert(newElection)
             }
             

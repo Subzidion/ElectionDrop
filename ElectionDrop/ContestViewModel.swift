@@ -4,8 +4,8 @@
 import Foundation
 
 @MainActor
-class ElectionViewModel: ObservableObject {
-    @Published private(set) var elections: Set<Election> = []
+class ContestViewModel: ObservableObject {
+    @Published private(set) var contests: Set<Contest> = []
     @Published private(set) var isLoading = true
     
     private let electionService: ElectionServiceProtocol
@@ -21,7 +21,7 @@ class ElectionViewModel: ObservableObject {
     
     private func updateElections() async {
         await electionService.fetchElectionUpdate()
-        elections = await electionService.getElections()
+        contests = await electionService.getElections()
         isLoading = false
     }
 }

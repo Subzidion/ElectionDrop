@@ -1,15 +1,14 @@
 // MARK: - View
 
-// ElectionUpdateView.swift
 import SwiftUI
 
-struct ElectionUpdateView: View {
-    var currentUpdate: ElectionUpdate
-    var previousUpdate: ElectionUpdate?
-    var nextUpdate: ElectionUpdate?
+struct ContestUpdateView: View {
+    var currentUpdate: ContestResultsUpdate
+    var previousUpdate: ContestResultsUpdate?
+    var nextUpdate: ContestResultsUpdate?
     var onPreviousUpdate: (() -> Void)?
     var onNextUpdate: (() -> Void)?
-    @AppStorage("electionResultDisplayFormat") private var electionResultDisplayFormat = ElectionResultDisplayFormat.percentOfVote
+    @AppStorage("contestResultDisplayFormat") private var contestResultsDisplayFormat = ContestResultDisplayFormat.percentOfVote
     
     var body: some View {
         VStack(spacing: 0) {
@@ -59,7 +58,7 @@ struct ElectionUpdateView: View {
             Text("Ballot Response")
                 .frame(width: 120, alignment: .leading)
             Spacer()
-            Text(electionResultDisplayFormat == .percentOfVote ? "% of Vote" : "Vote Count")
+            Text(contestResultsDisplayFormat == .percentOfVote ? "% of Vote" : "Vote Count")
             Spacer()
             Text("Change")
                 .frame(width: 80, alignment: .trailing)
@@ -74,10 +73,10 @@ struct ElectionUpdateView: View {
         ScrollView {
             LazyVStack(spacing: 0) {
                 ForEach(sortedResults(), id: \.ballotResponse) { result in
-                    ElectionResultView(
+                    ContestResultView(
                         result: result,
                         previousResult: previousUpdate?.results.first(where: { $0.ballotResponse == result.ballotResponse }),
-                        displayFormat: electionResultDisplayFormat
+                        displayFormat: contestResultsDisplayFormat
                     )
                     .padding(.horizontal)
                     Divider()
@@ -86,7 +85,7 @@ struct ElectionUpdateView: View {
         }
     }
     
-    private func sortedResults() -> [ElectionResult] {
+    private func sortedResults() -> [ContestResult] {
         currentUpdate.results.sorted { $0.voteCount > $1.voteCount }
     }
 }
@@ -96,7 +95,7 @@ private enum NavigationDirection {
 }
 
 
-#Preview("ElectionUpdateView") {
+#Preview("ContestUpdateView") {
     let dateComponents = DateComponents(
         year: 2026,
         month: 9,
@@ -110,42 +109,42 @@ private enum NavigationDirection {
     let date = calendar.date(from: dateComponents)!
     
     let sampleCurrentResults = [
-        ElectionResult(ballotResponse: "Candidate A", voteCount: 14500, votePercent: 44.4),
-        ElectionResult(ballotResponse: "Candidate B", voteCount: 12000, votePercent: 36.7),
-        ElectionResult(ballotResponse: "Candidate C", voteCount: 6200, votePercent: 18.9)
+        ContestResult(ballotResponse: "Candidate A", voteCount: 14500, votePercent: 44.4),
+        ContestResult(ballotResponse: "Candidate B", voteCount: 12000, votePercent: 36.7),
+        ContestResult(ballotResponse: "Candidate C", voteCount: 6200, votePercent: 18.9)
     ]
     
     let samplePreviousResults = [
-        ElectionResult(ballotResponse: "Candidate A", voteCount: 15000, votePercent: 45.5),
-        ElectionResult(ballotResponse: "Candidate B", voteCount: 12500, votePercent: 37.9),
-        ElectionResult(ballotResponse: "Candidate C", voteCount: 5500, votePercent: 16.6)
+        ContestResult(ballotResponse: "Candidate A", voteCount: 15000, votePercent: 45.5),
+        ContestResult(ballotResponse: "Candidate B", voteCount: 12500, votePercent: 37.9),
+        ContestResult(ballotResponse: "Candidate C", voteCount: 5500, votePercent: 16.6)
     ]
     
     let sampleNextResults = [
-        ElectionResult(ballotResponse: "Candidate A", voteCount: 14200, votePercent: 43.8),
-        ElectionResult(ballotResponse: "Candidate B", voteCount: 11800, votePercent: 36.4),
-        ElectionResult(ballotResponse: "Candidate C", voteCount: 6400, votePercent: 19.8)
+        ContestResult(ballotResponse: "Candidate A", voteCount: 14200, votePercent: 43.8),
+        ContestResult(ballotResponse: "Candidate B", voteCount: 11800, votePercent: 36.4),
+        ContestResult(ballotResponse: "Candidate C", voteCount: 6400, votePercent: 19.8)
     ]
     
-    let currentUpdate = ElectionUpdate(
+    let currentUpdate = ContestResultsUpdate(
         updateTime: date,
         updateCount: 2,
         results: sampleCurrentResults
     )
     
-    let previousUpdate = ElectionUpdate(
+    let previousUpdate = ContestResultsUpdate(
         updateTime: date.addingTimeInterval(-3600), // 1 hour ago
         updateCount: 1,
         results: samplePreviousResults
     )
     
-    let nextUpdate = ElectionUpdate(
+    let nextUpdate = ContestResultsUpdate(
         updateTime: date.addingTimeInterval(3600), // 1 hour in the future
         updateCount: 3,
         results: sampleNextResults
     )
     
-    return ElectionUpdateView(
+    return ContestUpdateView(
         currentUpdate: currentUpdate,
         previousUpdate: previousUpdate,
         nextUpdate: nextUpdate,

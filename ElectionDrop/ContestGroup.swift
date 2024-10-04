@@ -1,29 +1,26 @@
-// MARK: - Model
-
-// ElectionGroup.swift
 import SwiftUI
 
-enum ElectionGroup: String, CaseIterable {
+enum ContestGroup: String, CaseIterable {
     case state = "State"
     case city = "City"
     case federal = "Federal"
     case specialPurposeDistrict = "Special Purpose District"
     
-    static func groupElections(_ elections: [Election], showPCOs: Bool) -> [String: [String: [Election]]] {
-        switch elections.first?.group {
+    static func groupContests(_ contests: [Contest], showPCOs: Bool) -> [String: [String: [Contest]]] {
+        switch contests.first?.group {
         case .state:
-            return groupStateElections(elections, showPCOs: showPCOs)
+            return groupStateContests(contests, showPCOs: showPCOs)
         case .city, .specialPurposeDistrict:
-            return ["": Dictionary(grouping: elections) { $0.districtName }]
+            return ["": Dictionary(grouping: contests) { $0.districtName }]
         case .federal:
-            return ["": Dictionary(grouping: elections) { $0.ballotTitle }]
+            return ["": Dictionary(grouping: contests) { $0.ballotTitle }]
         case .none:
             return [:]
         }
     }
     
-    static func groupStateElections(_ elections: [Election], showPCOs: Bool) -> [String: [String: [Election]]] {
-        var stateSubGroups: [String: [String: [Election]]] = [
+    static func groupStateContests(_ contests: [Contest], showPCOs: Bool) -> [String: [String: [Contest]]] {
+        var stateSubGroups: [String: [String: [Contest]]] = [
             "State Legislature": [:],
             "State Executive": [:],
             "State Supreme Court": [:]
@@ -33,15 +30,15 @@ enum ElectionGroup: String, CaseIterable {
             stateSubGroups["Precinct Committee Officer"] = [:]
         }
         
-        for election in elections {
-            if showPCOs && election.districtType == "Precinct Committee Officer" {
-                stateSubGroups["Precinct Committee Officer"]?[election.ballotTitle, default: []].append(election)
-            } else if election.districtType == "State Supreme Court" {
-                stateSubGroups["State Supreme Court"]?[election.ballotTitle, default: []].append(election)
-            } else if election.ballotTitle.contains("Representative") || election.ballotTitle.contains("State Senator") {
-                stateSubGroups["State Legislature"]?[election.districtName, default: []].append(election)
+        for contest in contests {
+            if showPCOs && contest.districtType == "Precinct Committee Officer" {
+                stateSubGroups["Precinct Committee Officer"]?[contest.ballotTitle, default: []].append(contest)
+            } else if contest.districtType == "State Supreme Court" {
+                stateSubGroups["State Supreme Court"]?[contest.ballotTitle, default: []].append(contest)
+            } else if contest.ballotTitle.contains("Representative") || contest.ballotTitle.contains("State Senator") {
+                stateSubGroups["State Legislature"]?[contest.districtName, default: []].append(contest)
             } else {
-                stateSubGroups["State Executive"]?[election.ballotTitle, default: []] = [election]
+                stateSubGroups["State Executive"]?[contest.ballotTitle, default: []] = [contest]
             }
         }
         
@@ -49,24 +46,24 @@ enum ElectionGroup: String, CaseIterable {
     }
     
     @ViewBuilder
-    func view(for subGrouping: String, subGroupData: [String: [Election]], expandedBinding: @escaping (String) -> Binding<Bool>, isSearching: Bool) -> some View {
+    func view(for subGrouping: String, subGroupData: [String: [Contest]], expandedBinding: @escaping (String) -> Binding<Bool>, isSearching: Bool) -> some View {
         if self == .state {
             CustomDisclosureGroup(
                 isExpanded: expandedBinding("\(rawValue)-\(subGrouping)"),
                 content: {
                     ForEach(sortedKeys(for: subGrouping, in: subGroupData), id: \.self) { key in
-                        if let elections = subGroupData[key], !elections.isEmpty {
+                        if let contests = subGroupData[key], !contests.isEmpty {
                             if subGrouping == "State Legislature" {
                                 CustomDisclosureGroup(
                                     isExpanded: expandedBinding("\(rawValue)-\(subGrouping)-\(key)"),
                                     content: {
-                                        electionsList(elections: elections)
+                                        contestList(contests: contests)
                                     },
                                     label: { Text(key) }
                                 )
                                 .padding(.leading, 20)
                             } else {
-                                electionsList(elections: elections)
+                                contestList(contests: contests)
                             }
                         }
                     }
@@ -76,11 +73,11 @@ enum ElectionGroup: String, CaseIterable {
             .animation(.easeInOut, value: expandedBinding("\(rawValue)-\(subGrouping)").wrappedValue)
         } else {
             ForEach(sortedKeys(for: subGrouping, in: subGroupData), id: \.self) { key in
-                if let elections = subGroupData[key], !elections.isEmpty {
+                if let contest = subGroupData[key], !contest.isEmpty {
                     CustomDisclosureGroup(
                         isExpanded: expandedBinding("\(subGrouping)-\(key)"),
                         content: {
-                            electionsList(elections: elections)
+                            contestList(contests: contest)
                         },
                         label: { Text(key) }
                     )
@@ -90,14 +87,14 @@ enum ElectionGroup: String, CaseIterable {
         }
     }
     
-    private func electionsList(elections: [Election]) -> some View {
-        ForEach(elections.sorted(by: { $0.districtSortKey < $1.districtSortKey }), id: \.id) { election in
-            ElectionRow(election: election)
+    private func contestList(contests: [Contest]) -> some View {
+        ForEach(contests.sorted(by: { $0.districtSortKey < $1.districtSortKey }), id: \.id) { contest in
+            ContestRow(contest: contest)
                 .transition(.opacity.combined(with: .move(edge: .top)))
         }
     }
     
-    private func sortedKeys(for subGrouping: String, in subGroupData: [String: [Election]]) -> [String] {
+    private func sortedKeys(for subGrouping: String, in subGroupData: [String: [Contest]]) -> [String] {
         return subGroupData.keys.sorted {
             subGroupData[$0]?.first?.districtSortKey ?? Int.max < subGroupData[$1]?.first?.districtSortKey ?? Int.max
         }
