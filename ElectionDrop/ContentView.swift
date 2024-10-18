@@ -6,7 +6,7 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var viewModel: ContestViewModel
     @State private var selectedTab = 0
-    
+
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
@@ -20,9 +20,9 @@ struct ContentView: View {
             }
             .tag(0)
             .tabItem {
-                Label("Elections", systemImage: "pencil.and.list.clipboard")
+                Label("Contests", systemImage: "pencil.and.list.clipboard")
             }
-            
+
             NavigationStack {
                 SettingsView()
             }
@@ -31,5 +31,6 @@ struct ContentView: View {
                 Label("Settings", systemImage: "gear")
             }
         }
+        .environmentObject(viewModel)
     }
 }
