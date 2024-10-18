@@ -1,0 +1,2632 @@
+"""
+A directive used by the Apollo iOS client to annotate operations or fragments that should be used exclusively for generating local cache mutations instead of as standard operations.
+"""
+directive @apollo_client_ios_localCacheMutation on QUERY | MUTATION | SUBSCRIPTION | FRAGMENT_DEFINITION
+
+"""
+A directive used by the Apollo iOS code generation engine to generate custom import statements in operation or fragment definition files. An import statement to import a module with the name provided in the `module` argument will be added to the generated definition file.
+"""
+directive @import(
+  """The name of the module to import."""
+  module: String!
+) repeatable on QUERY | MUTATION | SUBSCRIPTION | FRAGMENT_DEFINITION
+
+"""
+Directs the executor to defer this fragment when the `if` argument is true or undefined.
+"""
+directive @defer(
+  """Deferred when true or undefined."""
+  if: Boolean
+
+  """Unique name"""
+  label: String
+) on FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"""The root query type which gives access points into the data universe."""
+type Query implements Node {
+  """
+  Exposes the root query type nested one level down. This is helpful for Relay 1
+  which can only query top level fields if they are in a particular form.
+  """
+  query: Query!
+
+  """
+  The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`.
+  """
+  nodeId: ID!
+
+  """Fetches an object given its globally unique `ID`."""
+  node(
+    """The globally unique `ID`."""
+    nodeId: ID!
+  ): Node
+
+  """Reads and enables pagination through a set of `BallotResponse`."""
+  allBallotResponses(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `BallotResponse`."""
+    orderBy: [BallotResponsesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: BallotResponseCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: BallotResponseFilter
+  ): BallotResponsesConnection
+
+  """Reads and enables pagination through a set of `Contest`."""
+  allContests(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Contest`."""
+    orderBy: [ContestsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ContestCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ContestFilter
+  ): ContestsConnection
+
+  """Reads and enables pagination through a set of `Election`."""
+  allElections(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Election`."""
+    orderBy: [ElectionsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ElectionCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ElectionFilter
+  ): ElectionsConnection
+
+  """Reads and enables pagination through a set of `Update`."""
+  allUpdates(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Update`."""
+    orderBy: [UpdatesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UpdateCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: UpdateFilter
+  ): UpdatesConnection
+
+  """Reads and enables pagination through a set of `VoteTally`."""
+  allVoteTallies(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `VoteTally`."""
+    orderBy: [VoteTalliesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: VoteTallyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: VoteTallyFilter
+  ): VoteTalliesConnection
+  ballotResponseById(id: BigInt!): BallotResponse
+  contestById(id: BigInt!): Contest
+  electionById(id: String!): Election
+  updateById(id: BigInt!): Update
+  voteTallyById(id: BigInt!): VoteTally
+
+  """Reads a single `BallotResponse` using its globally unique `ID`."""
+  ballotResponse(
+    """
+    The globally unique `ID` to be used in selecting a single `BallotResponse`.
+    """
+    nodeId: ID!
+  ): BallotResponse
+
+  """Reads a single `Contest` using its globally unique `ID`."""
+  contest(
+    """The globally unique `ID` to be used in selecting a single `Contest`."""
+    nodeId: ID!
+  ): Contest
+
+  """Reads a single `Election` using its globally unique `ID`."""
+  election(
+    """The globally unique `ID` to be used in selecting a single `Election`."""
+    nodeId: ID!
+  ): Election
+
+  """Reads a single `Update` using its globally unique `ID`."""
+  update(
+    """The globally unique `ID` to be used in selecting a single `Update`."""
+    nodeId: ID!
+  ): Update
+
+  """Reads a single `VoteTally` using its globally unique `ID`."""
+  voteTally(
+    """The globally unique `ID` to be used in selecting a single `VoteTally`."""
+    nodeId: ID!
+  ): VoteTally
+}
+
+"""An object with a globally unique `ID`."""
+interface Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+}
+
+"""A connection to a list of `BallotResponse` values."""
+type BallotResponsesConnection {
+  """A list of `BallotResponse` objects."""
+  nodes: [BallotResponse]!
+
+  """
+  A list of edges which contains the `BallotResponse` and cursor to aid in pagination.
+  """
+  edges: [BallotResponsesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `BallotResponse` you could get from the connection."""
+  totalCount: Int!
+}
+
+type BallotResponse implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: BigInt!
+  createdAt: Datetime
+  updatedAt: Datetime
+  deletedAt: Datetime
+  name: String
+  party: String
+  contestId: BigInt
+  electionId: String
+
+  """Reads a single `Contest` that is related to this `BallotResponse`."""
+  contestByContestId: Contest
+
+  """Reads a single `Election` that is related to this `BallotResponse`."""
+  electionByElectionId: Election
+
+  """Reads and enables pagination through a set of `VoteTally`."""
+  voteTalliesByBallotResponseId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `VoteTally`."""
+    orderBy: [VoteTalliesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: VoteTallyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: VoteTallyFilter
+  ): VoteTalliesConnection!
+}
+
+"""
+A signed eight-byte integer. The upper big integer values are greater than the
+max value for a JavaScript number. Therefore all big integers will be output as
+strings and not numbers.
+"""
+scalar BigInt
+
+"""
+A point in time as described by the [ISO
+8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
+"""
+scalar Datetime
+
+type Contest implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: BigInt!
+  createdAt: Datetime
+  updatedAt: Datetime
+  deletedAt: Datetime
+  ballotTitle: String
+  district: String
+  contestKey: String
+  jurisdictions: [String]
+  electionId: String
+
+  """Reads a single `Election` that is related to this `Contest`."""
+  electionByElectionId: Election
+
+  """Reads and enables pagination through a set of `BallotResponse`."""
+  ballotResponsesByContestId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `BallotResponse`."""
+    orderBy: [BallotResponsesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: BallotResponseCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: BallotResponseFilter
+  ): BallotResponsesConnection!
+
+  """Reads and enables pagination through a set of `VoteTally`."""
+  voteTalliesByContestId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `VoteTally`."""
+    orderBy: [VoteTalliesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: VoteTallyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: VoteTallyFilter
+  ): VoteTalliesConnection!
+}
+
+type Election implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: String!
+  createdAt: Datetime
+  updatedAt: Datetime
+  deletedAt: Datetime
+  name: String
+  electionDate: Datetime
+
+  """Reads and enables pagination through a set of `Contest`."""
+  contestsByElectionId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Contest`."""
+    orderBy: [ContestsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ContestCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ContestFilter
+  ): ContestsConnection!
+
+  """Reads and enables pagination through a set of `BallotResponse`."""
+  ballotResponsesByElectionId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `BallotResponse`."""
+    orderBy: [BallotResponsesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: BallotResponseCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: BallotResponseFilter
+  ): BallotResponsesConnection!
+
+  """Reads and enables pagination through a set of `Update`."""
+  updatesByElectionId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Update`."""
+    orderBy: [UpdatesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UpdateCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: UpdateFilter
+  ): UpdatesConnection!
+}
+
+"""A connection to a list of `Contest` values."""
+type ContestsConnection {
+  """A list of `Contest` objects."""
+  nodes: [Contest]!
+
+  """
+  A list of edges which contains the `Contest` and cursor to aid in pagination.
+  """
+  edges: [ContestsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Contest` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Contest` edge in the connection."""
+type ContestsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Contest` at the end of the edge."""
+  node: Contest
+}
+
+"""A location in a connection that can be used for resuming pagination."""
+scalar Cursor
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: Cursor
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: Cursor
+}
+
+"""Methods to use when ordering `Contest`."""
+enum ContestsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  DELETED_AT_ASC
+  DELETED_AT_DESC
+  BALLOT_TITLE_ASC
+  BALLOT_TITLE_DESC
+  DISTRICT_ASC
+  DISTRICT_DESC
+  CONTEST_KEY_ASC
+  CONTEST_KEY_DESC
+  JURISDICTIONS_ASC
+  JURISDICTIONS_DESC
+  ELECTION_ID_ASC
+  ELECTION_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Contest` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input ContestCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: BigInt
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `deletedAt` field."""
+  deletedAt: Datetime
+
+  """Checks for equality with the object’s `ballotTitle` field."""
+  ballotTitle: String
+
+  """Checks for equality with the object’s `district` field."""
+  district: String
+
+  """Checks for equality with the object’s `contestKey` field."""
+  contestKey: String
+
+  """Checks for equality with the object’s `jurisdictions` field."""
+  jurisdictions: [String]
+
+  """Checks for equality with the object’s `electionId` field."""
+  electionId: String
+}
+
+"""
+A filter to be used against `Contest` object types. All fields are combined with a logical ‘and.’
+"""
+input ContestFilter {
+  """Filter by the object’s `id` field."""
+  id: BigIntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `deletedAt` field."""
+  deletedAt: DatetimeFilter
+
+  """Filter by the object’s `ballotTitle` field."""
+  ballotTitle: StringFilter
+
+  """Filter by the object’s `district` field."""
+  district: StringFilter
+
+  """Filter by the object’s `contestKey` field."""
+  contestKey: StringFilter
+
+  """Filter by the object’s `jurisdictions` field."""
+  jurisdictions: StringListFilter
+
+  """Filter by the object’s `electionId` field."""
+  electionId: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [ContestFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ContestFilter!]
+
+  """Negates the expression."""
+  not: ContestFilter
+}
+
+"""
+A filter to be used against BigInt fields. All fields are combined with a logical ‘and.’
+"""
+input BigIntFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: BigInt
+
+  """Not equal to the specified value."""
+  notEqualTo: BigInt
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: BigInt
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: BigInt
+
+  """Included in the specified list."""
+  in: [BigInt!]
+
+  """Not included in the specified list."""
+  notIn: [BigInt!]
+
+  """Less than the specified value."""
+  lessThan: BigInt
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: BigInt
+
+  """Greater than the specified value."""
+  greaterThan: BigInt
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: BigInt
+}
+
+"""
+A filter to be used against Datetime fields. All fields are combined with a logical ‘and.’
+"""
+input DatetimeFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: Datetime
+
+  """Not equal to the specified value."""
+  notEqualTo: Datetime
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: Datetime
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: Datetime
+
+  """Included in the specified list."""
+  in: [Datetime!]
+
+  """Not included in the specified list."""
+  notIn: [Datetime!]
+
+  """Less than the specified value."""
+  lessThan: Datetime
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: Datetime
+
+  """Greater than the specified value."""
+  greaterThan: Datetime
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: Datetime
+}
+
+"""
+A filter to be used against String fields. All fields are combined with a logical ‘and.’
+"""
+input StringFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: String
+
+  """Not equal to the specified value."""
+  notEqualTo: String
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: String
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: String
+
+  """Included in the specified list."""
+  in: [String!]
+
+  """Not included in the specified list."""
+  notIn: [String!]
+
+  """Less than the specified value."""
+  lessThan: String
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: String
+
+  """Greater than the specified value."""
+  greaterThan: String
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: String
+
+  """Contains the specified string (case-sensitive)."""
+  includes: String
+
+  """Does not contain the specified string (case-sensitive)."""
+  notIncludes: String
+
+  """Contains the specified string (case-insensitive)."""
+  includesInsensitive: String
+
+  """Does not contain the specified string (case-insensitive)."""
+  notIncludesInsensitive: String
+
+  """Starts with the specified string (case-sensitive)."""
+  startsWith: String
+
+  """Does not start with the specified string (case-sensitive)."""
+  notStartsWith: String
+
+  """Starts with the specified string (case-insensitive)."""
+  startsWithInsensitive: String
+
+  """Does not start with the specified string (case-insensitive)."""
+  notStartsWithInsensitive: String
+
+  """Ends with the specified string (case-sensitive)."""
+  endsWith: String
+
+  """Does not end with the specified string (case-sensitive)."""
+  notEndsWith: String
+
+  """Ends with the specified string (case-insensitive)."""
+  endsWithInsensitive: String
+
+  """Does not end with the specified string (case-insensitive)."""
+  notEndsWithInsensitive: String
+
+  """
+  Matches the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  like: String
+
+  """
+  Does not match the specified pattern (case-sensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  notLike: String
+
+  """
+  Matches the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  likeInsensitive: String
+
+  """
+  Does not match the specified pattern (case-insensitive). An underscore (_) matches any single character; a percent sign (%) matches any sequence of zero or more characters.
+  """
+  notLikeInsensitive: String
+
+  """Equal to the specified value (case-insensitive)."""
+  equalToInsensitive: String
+
+  """Not equal to the specified value (case-insensitive)."""
+  notEqualToInsensitive: String
+
+  """
+  Not equal to the specified value, treating null like an ordinary value (case-insensitive).
+  """
+  distinctFromInsensitive: String
+
+  """
+  Equal to the specified value, treating null like an ordinary value (case-insensitive).
+  """
+  notDistinctFromInsensitive: String
+
+  """Included in the specified list (case-insensitive)."""
+  inInsensitive: [String!]
+
+  """Not included in the specified list (case-insensitive)."""
+  notInInsensitive: [String!]
+
+  """Less than the specified value (case-insensitive)."""
+  lessThanInsensitive: String
+
+  """Less than or equal to the specified value (case-insensitive)."""
+  lessThanOrEqualToInsensitive: String
+
+  """Greater than the specified value (case-insensitive)."""
+  greaterThanInsensitive: String
+
+  """Greater than or equal to the specified value (case-insensitive)."""
+  greaterThanOrEqualToInsensitive: String
+}
+
+"""
+A filter to be used against String List fields. All fields are combined with a logical ‘and.’
+"""
+input StringListFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: [String]
+
+  """Not equal to the specified value."""
+  notEqualTo: [String]
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: [String]
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: [String]
+
+  """Less than the specified value."""
+  lessThan: [String]
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: [String]
+
+  """Greater than the specified value."""
+  greaterThan: [String]
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: [String]
+
+  """Contains the specified list of values."""
+  contains: [String]
+
+  """Contained by the specified list of values."""
+  containedBy: [String]
+
+  """Overlaps the specified list of values."""
+  overlaps: [String]
+
+  """Any array item is equal to the specified value."""
+  anyEqualTo: String
+
+  """Any array item is not equal to the specified value."""
+  anyNotEqualTo: String
+
+  """Any array item is less than the specified value."""
+  anyLessThan: String
+
+  """Any array item is less than or equal to the specified value."""
+  anyLessThanOrEqualTo: String
+
+  """Any array item is greater than the specified value."""
+  anyGreaterThan: String
+
+  """Any array item is greater than or equal to the specified value."""
+  anyGreaterThanOrEqualTo: String
+}
+
+"""Methods to use when ordering `BallotResponse`."""
+enum BallotResponsesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  DELETED_AT_ASC
+  DELETED_AT_DESC
+  NAME_ASC
+  NAME_DESC
+  PARTY_ASC
+  PARTY_DESC
+  CONTEST_ID_ASC
+  CONTEST_ID_DESC
+  ELECTION_ID_ASC
+  ELECTION_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `BallotResponse` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input BallotResponseCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: BigInt
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `deletedAt` field."""
+  deletedAt: Datetime
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `party` field."""
+  party: String
+
+  """Checks for equality with the object’s `contestId` field."""
+  contestId: BigInt
+
+  """Checks for equality with the object’s `electionId` field."""
+  electionId: String
+}
+
+"""
+A filter to be used against `BallotResponse` object types. All fields are combined with a logical ‘and.’
+"""
+input BallotResponseFilter {
+  """Filter by the object’s `id` field."""
+  id: BigIntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `deletedAt` field."""
+  deletedAt: DatetimeFilter
+
+  """Filter by the object’s `name` field."""
+  name: StringFilter
+
+  """Filter by the object’s `party` field."""
+  party: StringFilter
+
+  """Filter by the object’s `contestId` field."""
+  contestId: BigIntFilter
+
+  """Filter by the object’s `electionId` field."""
+  electionId: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [BallotResponseFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [BallotResponseFilter!]
+
+  """Negates the expression."""
+  not: BallotResponseFilter
+}
+
+"""A connection to a list of `Update` values."""
+type UpdatesConnection {
+  """A list of `Update` objects."""
+  nodes: [Update]!
+
+  """
+  A list of edges which contains the `Update` and cursor to aid in pagination.
+  """
+  edges: [UpdatesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Update` you could get from the connection."""
+  totalCount: Int!
+}
+
+type Update implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: BigInt!
+  createdAt: Datetime
+  updatedAt: Datetime
+  deletedAt: Datetime
+  timestamp: Datetime
+  hash: String
+  jurisdictionType: String
+  electionId: String
+
+  """Reads a single `Election` that is related to this `Update`."""
+  electionByElectionId: Election
+
+  """Reads and enables pagination through a set of `VoteTally`."""
+  voteTalliesByUpdateId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `VoteTally`."""
+    orderBy: [VoteTalliesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: VoteTallyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: VoteTallyFilter
+  ): VoteTalliesConnection!
+}
+
+"""A connection to a list of `VoteTally` values."""
+type VoteTalliesConnection {
+  """A list of `VoteTally` objects."""
+  nodes: [VoteTally]!
+
+  """
+  A list of edges which contains the `VoteTally` and cursor to aid in pagination.
+  """
+  edges: [VoteTalliesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `VoteTally` you could get from the connection."""
+  totalCount: Int!
+}
+
+type VoteTally implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: BigInt!
+  createdAt: Datetime
+  updatedAt: Datetime
+  deletedAt: Datetime
+  ballotResponseId: BigInt
+  updateId: BigInt
+  contestId: BigInt
+  votes: BigInt
+  votePercentage: BigFloat
+
+  """Reads a single `BallotResponse` that is related to this `VoteTally`."""
+  ballotResponseByBallotResponseId: BallotResponse
+
+  """Reads a single `Update` that is related to this `VoteTally`."""
+  updateByUpdateId: Update
+
+  """Reads a single `Contest` that is related to this `VoteTally`."""
+  contestByContestId: Contest
+}
+
+"""
+A floating point number that requires more precision than IEEE 754 binary 64
+"""
+scalar BigFloat
+
+"""A `VoteTally` edge in the connection."""
+type VoteTalliesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `VoteTally` at the end of the edge."""
+  node: VoteTally
+}
+
+"""Methods to use when ordering `VoteTally`."""
+enum VoteTalliesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  DELETED_AT_ASC
+  DELETED_AT_DESC
+  BALLOT_RESPONSE_ID_ASC
+  BALLOT_RESPONSE_ID_DESC
+  UPDATE_ID_ASC
+  UPDATE_ID_DESC
+  CONTEST_ID_ASC
+  CONTEST_ID_DESC
+  VOTES_ASC
+  VOTES_DESC
+  VOTE_PERCENTAGE_ASC
+  VOTE_PERCENTAGE_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `VoteTally` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input VoteTallyCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: BigInt
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `deletedAt` field."""
+  deletedAt: Datetime
+
+  """Checks for equality with the object’s `ballotResponseId` field."""
+  ballotResponseId: BigInt
+
+  """Checks for equality with the object’s `updateId` field."""
+  updateId: BigInt
+
+  """Checks for equality with the object’s `contestId` field."""
+  contestId: BigInt
+
+  """Checks for equality with the object’s `votes` field."""
+  votes: BigInt
+
+  """Checks for equality with the object’s `votePercentage` field."""
+  votePercentage: BigFloat
+}
+
+"""
+A filter to be used against `VoteTally` object types. All fields are combined with a logical ‘and.’
+"""
+input VoteTallyFilter {
+  """Filter by the object’s `id` field."""
+  id: BigIntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `deletedAt` field."""
+  deletedAt: DatetimeFilter
+
+  """Filter by the object’s `ballotResponseId` field."""
+  ballotResponseId: BigIntFilter
+
+  """Filter by the object’s `updateId` field."""
+  updateId: BigIntFilter
+
+  """Filter by the object’s `contestId` field."""
+  contestId: BigIntFilter
+
+  """Filter by the object’s `votes` field."""
+  votes: BigIntFilter
+
+  """Filter by the object’s `votePercentage` field."""
+  votePercentage: BigFloatFilter
+
+  """Checks for all expressions in this list."""
+  and: [VoteTallyFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [VoteTallyFilter!]
+
+  """Negates the expression."""
+  not: VoteTallyFilter
+}
+
+"""
+A filter to be used against BigFloat fields. All fields are combined with a logical ‘and.’
+"""
+input BigFloatFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: BigFloat
+
+  """Not equal to the specified value."""
+  notEqualTo: BigFloat
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: BigFloat
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: BigFloat
+
+  """Included in the specified list."""
+  in: [BigFloat!]
+
+  """Not included in the specified list."""
+  notIn: [BigFloat!]
+
+  """Less than the specified value."""
+  lessThan: BigFloat
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: BigFloat
+
+  """Greater than the specified value."""
+  greaterThan: BigFloat
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: BigFloat
+}
+
+"""A `Update` edge in the connection."""
+type UpdatesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Update` at the end of the edge."""
+  node: Update
+}
+
+"""Methods to use when ordering `Update`."""
+enum UpdatesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  DELETED_AT_ASC
+  DELETED_AT_DESC
+  TIMESTAMP_ASC
+  TIMESTAMP_DESC
+  HASH_ASC
+  HASH_DESC
+  JURISDICTION_TYPE_ASC
+  JURISDICTION_TYPE_DESC
+  ELECTION_ID_ASC
+  ELECTION_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Update` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input UpdateCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: BigInt
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `deletedAt` field."""
+  deletedAt: Datetime
+
+  """Checks for equality with the object’s `timestamp` field."""
+  timestamp: Datetime
+
+  """Checks for equality with the object’s `hash` field."""
+  hash: String
+
+  """Checks for equality with the object’s `jurisdictionType` field."""
+  jurisdictionType: String
+
+  """Checks for equality with the object’s `electionId` field."""
+  electionId: String
+}
+
+"""
+A filter to be used against `Update` object types. All fields are combined with a logical ‘and.’
+"""
+input UpdateFilter {
+  """Filter by the object’s `id` field."""
+  id: BigIntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `deletedAt` field."""
+  deletedAt: DatetimeFilter
+
+  """Filter by the object’s `timestamp` field."""
+  timestamp: DatetimeFilter
+
+  """Filter by the object’s `hash` field."""
+  hash: StringFilter
+
+  """Filter by the object’s `jurisdictionType` field."""
+  jurisdictionType: StringFilter
+
+  """Filter by the object’s `electionId` field."""
+  electionId: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [UpdateFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [UpdateFilter!]
+
+  """Negates the expression."""
+  not: UpdateFilter
+}
+
+"""A `BallotResponse` edge in the connection."""
+type BallotResponsesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `BallotResponse` at the end of the edge."""
+  node: BallotResponse
+}
+
+"""A connection to a list of `Election` values."""
+type ElectionsConnection {
+  """A list of `Election` objects."""
+  nodes: [Election]!
+
+  """
+  A list of edges which contains the `Election` and cursor to aid in pagination.
+  """
+  edges: [ElectionsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Election` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Election` edge in the connection."""
+type ElectionsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Election` at the end of the edge."""
+  node: Election
+}
+
+"""Methods to use when ordering `Election`."""
+enum ElectionsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  DELETED_AT_ASC
+  DELETED_AT_DESC
+  NAME_ASC
+  NAME_DESC
+  ELECTION_DATE_ASC
+  ELECTION_DATE_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Election` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input ElectionCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: String
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `deletedAt` field."""
+  deletedAt: Datetime
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `electionDate` field."""
+  electionDate: Datetime
+}
+
+"""
+A filter to be used against `Election` object types. All fields are combined with a logical ‘and.’
+"""
+input ElectionFilter {
+  """Filter by the object’s `id` field."""
+  id: StringFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `deletedAt` field."""
+  deletedAt: DatetimeFilter
+
+  """Filter by the object’s `name` field."""
+  name: StringFilter
+
+  """Filter by the object’s `electionDate` field."""
+  electionDate: DatetimeFilter
+
+  """Checks for all expressions in this list."""
+  and: [ElectionFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ElectionFilter!]
+
+  """Negates the expression."""
+  not: ElectionFilter
+}
+
+"""
+The root mutation type which contains root level fields which mutate data.
+"""
+type Mutation {
+  """Creates a single `BallotResponse`."""
+  createBallotResponse(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateBallotResponseInput!
+  ): CreateBallotResponsePayload
+
+  """Creates a single `Contest`."""
+  createContest(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateContestInput!
+  ): CreateContestPayload
+
+  """Creates a single `Election`."""
+  createElection(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateElectionInput!
+  ): CreateElectionPayload
+
+  """Creates a single `Update`."""
+  createUpdate(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateUpdateInput!
+  ): CreateUpdatePayload
+
+  """Creates a single `VoteTally`."""
+  createVoteTally(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateVoteTallyInput!
+  ): CreateVoteTallyPayload
+
+  """
+  Updates a single `BallotResponse` using its globally unique id and a patch.
+  """
+  updateBallotResponse(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateBallotResponseInput!
+  ): UpdateBallotResponsePayload
+
+  """Updates a single `BallotResponse` using a unique key and a patch."""
+  updateBallotResponseById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateBallotResponseByIdInput!
+  ): UpdateBallotResponsePayload
+
+  """Updates a single `Contest` using its globally unique id and a patch."""
+  updateContest(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateContestInput!
+  ): UpdateContestPayload
+
+  """Updates a single `Contest` using a unique key and a patch."""
+  updateContestById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateContestByIdInput!
+  ): UpdateContestPayload
+
+  """Updates a single `Election` using its globally unique id and a patch."""
+  updateElection(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateElectionInput!
+  ): UpdateElectionPayload
+
+  """Updates a single `Election` using a unique key and a patch."""
+  updateElectionById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateElectionByIdInput!
+  ): UpdateElectionPayload
+
+  """Updates a single `Update` using its globally unique id and a patch."""
+  updateUpdate(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUpdateInput!
+  ): UpdateUpdatePayload
+
+  """Updates a single `Update` using a unique key and a patch."""
+  updateUpdateById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUpdateByIdInput!
+  ): UpdateUpdatePayload
+
+  """Updates a single `VoteTally` using its globally unique id and a patch."""
+  updateVoteTally(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateVoteTallyInput!
+  ): UpdateVoteTallyPayload
+
+  """Updates a single `VoteTally` using a unique key and a patch."""
+  updateVoteTallyById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateVoteTallyByIdInput!
+  ): UpdateVoteTallyPayload
+
+  """Deletes a single `BallotResponse` using its globally unique id."""
+  deleteBallotResponse(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteBallotResponseInput!
+  ): DeleteBallotResponsePayload
+
+  """Deletes a single `BallotResponse` using a unique key."""
+  deleteBallotResponseById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteBallotResponseByIdInput!
+  ): DeleteBallotResponsePayload
+
+  """Deletes a single `Contest` using its globally unique id."""
+  deleteContest(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteContestInput!
+  ): DeleteContestPayload
+
+  """Deletes a single `Contest` using a unique key."""
+  deleteContestById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteContestByIdInput!
+  ): DeleteContestPayload
+
+  """Deletes a single `Election` using its globally unique id."""
+  deleteElection(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteElectionInput!
+  ): DeleteElectionPayload
+
+  """Deletes a single `Election` using a unique key."""
+  deleteElectionById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteElectionByIdInput!
+  ): DeleteElectionPayload
+
+  """Deletes a single `Update` using its globally unique id."""
+  deleteUpdate(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUpdateInput!
+  ): DeleteUpdatePayload
+
+  """Deletes a single `Update` using a unique key."""
+  deleteUpdateById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUpdateByIdInput!
+  ): DeleteUpdatePayload
+
+  """Deletes a single `VoteTally` using its globally unique id."""
+  deleteVoteTally(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteVoteTallyInput!
+  ): DeleteVoteTallyPayload
+
+  """Deletes a single `VoteTally` using a unique key."""
+  deleteVoteTallyById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteVoteTallyByIdInput!
+  ): DeleteVoteTallyPayload
+}
+
+"""The output of our create `BallotResponse` mutation."""
+type CreateBallotResponsePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `BallotResponse` that was created by this mutation."""
+  ballotResponse: BallotResponse
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Contest` that is related to this `BallotResponse`."""
+  contestByContestId: Contest
+
+  """Reads a single `Election` that is related to this `BallotResponse`."""
+  electionByElectionId: Election
+
+  """An edge for our `BallotResponse`. May be used by Relay 1."""
+  ballotResponseEdge(
+    """The method to use when ordering `BallotResponse`."""
+    orderBy: [BallotResponsesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): BallotResponsesEdge
+}
+
+"""All input for the create `BallotResponse` mutation."""
+input CreateBallotResponseInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `BallotResponse` to be created by this mutation."""
+  ballotResponse: BallotResponseInput!
+}
+
+"""An input for mutations affecting `BallotResponse`"""
+input BallotResponseInput {
+  id: BigInt
+  createdAt: Datetime
+  updatedAt: Datetime
+  deletedAt: Datetime
+  name: String
+  party: String
+  contestId: BigInt
+  electionId: String
+}
+
+"""The output of our create `Contest` mutation."""
+type CreateContestPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Contest` that was created by this mutation."""
+  contest: Contest
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Election` that is related to this `Contest`."""
+  electionByElectionId: Election
+
+  """An edge for our `Contest`. May be used by Relay 1."""
+  contestEdge(
+    """The method to use when ordering `Contest`."""
+    orderBy: [ContestsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ContestsEdge
+}
+
+"""All input for the create `Contest` mutation."""
+input CreateContestInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Contest` to be created by this mutation."""
+  contest: ContestInput!
+}
+
+"""An input for mutations affecting `Contest`"""
+input ContestInput {
+  id: BigInt
+  createdAt: Datetime
+  updatedAt: Datetime
+  deletedAt: Datetime
+  ballotTitle: String
+  district: String
+  contestKey: String
+  jurisdictions: [String]
+  electionId: String
+}
+
+"""The output of our create `Election` mutation."""
+type CreateElectionPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Election` that was created by this mutation."""
+  election: Election
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Election`. May be used by Relay 1."""
+  electionEdge(
+    """The method to use when ordering `Election`."""
+    orderBy: [ElectionsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ElectionsEdge
+}
+
+"""All input for the create `Election` mutation."""
+input CreateElectionInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Election` to be created by this mutation."""
+  election: ElectionInput!
+}
+
+"""An input for mutations affecting `Election`"""
+input ElectionInput {
+  id: String!
+  createdAt: Datetime
+  updatedAt: Datetime
+  deletedAt: Datetime
+  name: String
+  electionDate: Datetime
+}
+
+"""The output of our create `Update` mutation."""
+type CreateUpdatePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Update` that was created by this mutation."""
+  update: Update
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Election` that is related to this `Update`."""
+  electionByElectionId: Election
+
+  """An edge for our `Update`. May be used by Relay 1."""
+  updateEdge(
+    """The method to use when ordering `Update`."""
+    orderBy: [UpdatesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UpdatesEdge
+}
+
+"""All input for the create `Update` mutation."""
+input CreateUpdateInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Update` to be created by this mutation."""
+  update: UpdateInput!
+}
+
+"""An input for mutations affecting `Update`"""
+input UpdateInput {
+  id: BigInt
+  createdAt: Datetime
+  updatedAt: Datetime
+  deletedAt: Datetime
+  timestamp: Datetime
+  hash: String
+  jurisdictionType: String
+  electionId: String
+}
+
+"""The output of our create `VoteTally` mutation."""
+type CreateVoteTallyPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `VoteTally` that was created by this mutation."""
+  voteTally: VoteTally
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `BallotResponse` that is related to this `VoteTally`."""
+  ballotResponseByBallotResponseId: BallotResponse
+
+  """Reads a single `Update` that is related to this `VoteTally`."""
+  updateByUpdateId: Update
+
+  """Reads a single `Contest` that is related to this `VoteTally`."""
+  contestByContestId: Contest
+
+  """An edge for our `VoteTally`. May be used by Relay 1."""
+  voteTallyEdge(
+    """The method to use when ordering `VoteTally`."""
+    orderBy: [VoteTalliesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): VoteTalliesEdge
+}
+
+"""All input for the create `VoteTally` mutation."""
+input CreateVoteTallyInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `VoteTally` to be created by this mutation."""
+  voteTally: VoteTallyInput!
+}
+
+"""An input for mutations affecting `VoteTally`"""
+input VoteTallyInput {
+  id: BigInt
+  createdAt: Datetime
+  updatedAt: Datetime
+  deletedAt: Datetime
+  ballotResponseId: BigInt
+  updateId: BigInt
+  contestId: BigInt
+  votes: BigInt
+  votePercentage: BigFloat
+}
+
+"""The output of our update `BallotResponse` mutation."""
+type UpdateBallotResponsePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `BallotResponse` that was updated by this mutation."""
+  ballotResponse: BallotResponse
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Contest` that is related to this `BallotResponse`."""
+  contestByContestId: Contest
+
+  """Reads a single `Election` that is related to this `BallotResponse`."""
+  electionByElectionId: Election
+
+  """An edge for our `BallotResponse`. May be used by Relay 1."""
+  ballotResponseEdge(
+    """The method to use when ordering `BallotResponse`."""
+    orderBy: [BallotResponsesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): BallotResponsesEdge
+}
+
+"""All input for the `updateBallotResponse` mutation."""
+input UpdateBallotResponseInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `BallotResponse` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `BallotResponse` being updated.
+  """
+  ballotResponsePatch: BallotResponsePatch!
+}
+
+"""
+Represents an update to a `BallotResponse`. Fields that are set will be updated.
+"""
+input BallotResponsePatch {
+  id: BigInt
+  createdAt: Datetime
+  updatedAt: Datetime
+  deletedAt: Datetime
+  name: String
+  party: String
+  contestId: BigInt
+  electionId: String
+}
+
+"""All input for the `updateBallotResponseById` mutation."""
+input UpdateBallotResponseByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `BallotResponse` being updated.
+  """
+  ballotResponsePatch: BallotResponsePatch!
+  id: BigInt!
+}
+
+"""The output of our update `Contest` mutation."""
+type UpdateContestPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Contest` that was updated by this mutation."""
+  contest: Contest
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Election` that is related to this `Contest`."""
+  electionByElectionId: Election
+
+  """An edge for our `Contest`. May be used by Relay 1."""
+  contestEdge(
+    """The method to use when ordering `Contest`."""
+    orderBy: [ContestsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ContestsEdge
+}
+
+"""All input for the `updateContest` mutation."""
+input UpdateContestInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Contest` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Contest` being updated.
+  """
+  contestPatch: ContestPatch!
+}
+
+"""
+Represents an update to a `Contest`. Fields that are set will be updated.
+"""
+input ContestPatch {
+  id: BigInt
+  createdAt: Datetime
+  updatedAt: Datetime
+  deletedAt: Datetime
+  ballotTitle: String
+  district: String
+  contestKey: String
+  jurisdictions: [String]
+  electionId: String
+}
+
+"""All input for the `updateContestById` mutation."""
+input UpdateContestByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Contest` being updated.
+  """
+  contestPatch: ContestPatch!
+  id: BigInt!
+}
+
+"""The output of our update `Election` mutation."""
+type UpdateElectionPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Election` that was updated by this mutation."""
+  election: Election
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Election`. May be used by Relay 1."""
+  electionEdge(
+    """The method to use when ordering `Election`."""
+    orderBy: [ElectionsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ElectionsEdge
+}
+
+"""All input for the `updateElection` mutation."""
+input UpdateElectionInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Election` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Election` being updated.
+  """
+  electionPatch: ElectionPatch!
+}
+
+"""
+Represents an update to a `Election`. Fields that are set will be updated.
+"""
+input ElectionPatch {
+  id: String
+  createdAt: Datetime
+  updatedAt: Datetime
+  deletedAt: Datetime
+  name: String
+  electionDate: Datetime
+}
+
+"""All input for the `updateElectionById` mutation."""
+input UpdateElectionByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Election` being updated.
+  """
+  electionPatch: ElectionPatch!
+  id: String!
+}
+
+"""The output of our update `Update` mutation."""
+type UpdateUpdatePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Update` that was updated by this mutation."""
+  update: Update
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Election` that is related to this `Update`."""
+  electionByElectionId: Election
+
+  """An edge for our `Update`. May be used by Relay 1."""
+  updateEdge(
+    """The method to use when ordering `Update`."""
+    orderBy: [UpdatesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UpdatesEdge
+}
+
+"""All input for the `updateUpdate` mutation."""
+input UpdateUpdateInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Update` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Update` being updated.
+  """
+  updatePatch: UpdatePatch!
+}
+
+"""
+Represents an update to a `Update`. Fields that are set will be updated.
+"""
+input UpdatePatch {
+  id: BigInt
+  createdAt: Datetime
+  updatedAt: Datetime
+  deletedAt: Datetime
+  timestamp: Datetime
+  hash: String
+  jurisdictionType: String
+  electionId: String
+}
+
+"""All input for the `updateUpdateById` mutation."""
+input UpdateUpdateByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Update` being updated.
+  """
+  updatePatch: UpdatePatch!
+  id: BigInt!
+}
+
+"""The output of our update `VoteTally` mutation."""
+type UpdateVoteTallyPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `VoteTally` that was updated by this mutation."""
+  voteTally: VoteTally
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `BallotResponse` that is related to this `VoteTally`."""
+  ballotResponseByBallotResponseId: BallotResponse
+
+  """Reads a single `Update` that is related to this `VoteTally`."""
+  updateByUpdateId: Update
+
+  """Reads a single `Contest` that is related to this `VoteTally`."""
+  contestByContestId: Contest
+
+  """An edge for our `VoteTally`. May be used by Relay 1."""
+  voteTallyEdge(
+    """The method to use when ordering `VoteTally`."""
+    orderBy: [VoteTalliesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): VoteTalliesEdge
+}
+
+"""All input for the `updateVoteTally` mutation."""
+input UpdateVoteTallyInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `VoteTally` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `VoteTally` being updated.
+  """
+  voteTallyPatch: VoteTallyPatch!
+}
+
+"""
+Represents an update to a `VoteTally`. Fields that are set will be updated.
+"""
+input VoteTallyPatch {
+  id: BigInt
+  createdAt: Datetime
+  updatedAt: Datetime
+  deletedAt: Datetime
+  ballotResponseId: BigInt
+  updateId: BigInt
+  contestId: BigInt
+  votes: BigInt
+  votePercentage: BigFloat
+}
+
+"""All input for the `updateVoteTallyById` mutation."""
+input UpdateVoteTallyByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `VoteTally` being updated.
+  """
+  voteTallyPatch: VoteTallyPatch!
+  id: BigInt!
+}
+
+"""The output of our delete `BallotResponse` mutation."""
+type DeleteBallotResponsePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `BallotResponse` that was deleted by this mutation."""
+  ballotResponse: BallotResponse
+  deletedBallotResponseId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Contest` that is related to this `BallotResponse`."""
+  contestByContestId: Contest
+
+  """Reads a single `Election` that is related to this `BallotResponse`."""
+  electionByElectionId: Election
+
+  """An edge for our `BallotResponse`. May be used by Relay 1."""
+  ballotResponseEdge(
+    """The method to use when ordering `BallotResponse`."""
+    orderBy: [BallotResponsesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): BallotResponsesEdge
+}
+
+"""All input for the `deleteBallotResponse` mutation."""
+input DeleteBallotResponseInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `BallotResponse` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteBallotResponseById` mutation."""
+input DeleteBallotResponseByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: BigInt!
+}
+
+"""The output of our delete `Contest` mutation."""
+type DeleteContestPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Contest` that was deleted by this mutation."""
+  contest: Contest
+  deletedContestId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Election` that is related to this `Contest`."""
+  electionByElectionId: Election
+
+  """An edge for our `Contest`. May be used by Relay 1."""
+  contestEdge(
+    """The method to use when ordering `Contest`."""
+    orderBy: [ContestsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ContestsEdge
+}
+
+"""All input for the `deleteContest` mutation."""
+input DeleteContestInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Contest` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteContestById` mutation."""
+input DeleteContestByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: BigInt!
+}
+
+"""The output of our delete `Election` mutation."""
+type DeleteElectionPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Election` that was deleted by this mutation."""
+  election: Election
+  deletedElectionId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `Election`. May be used by Relay 1."""
+  electionEdge(
+    """The method to use when ordering `Election`."""
+    orderBy: [ElectionsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ElectionsEdge
+}
+
+"""All input for the `deleteElection` mutation."""
+input DeleteElectionInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Election` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteElectionById` mutation."""
+input DeleteElectionByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: String!
+}
+
+"""The output of our delete `Update` mutation."""
+type DeleteUpdatePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Update` that was deleted by this mutation."""
+  update: Update
+  deletedUpdateId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Election` that is related to this `Update`."""
+  electionByElectionId: Election
+
+  """An edge for our `Update`. May be used by Relay 1."""
+  updateEdge(
+    """The method to use when ordering `Update`."""
+    orderBy: [UpdatesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): UpdatesEdge
+}
+
+"""All input for the `deleteUpdate` mutation."""
+input DeleteUpdateInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Update` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteUpdateById` mutation."""
+input DeleteUpdateByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: BigInt!
+}
+
+"""The output of our delete `VoteTally` mutation."""
+type DeleteVoteTallyPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `VoteTally` that was deleted by this mutation."""
+  voteTally: VoteTally
+  deletedVoteTallyId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `BallotResponse` that is related to this `VoteTally`."""
+  ballotResponseByBallotResponseId: BallotResponse
+
+  """Reads a single `Update` that is related to this `VoteTally`."""
+  updateByUpdateId: Update
+
+  """Reads a single `Contest` that is related to this `VoteTally`."""
+  contestByContestId: Contest
+
+  """An edge for our `VoteTally`. May be used by Relay 1."""
+  voteTallyEdge(
+    """The method to use when ordering `VoteTally`."""
+    orderBy: [VoteTalliesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): VoteTalliesEdge
+}
+
+"""All input for the `deleteVoteTally` mutation."""
+input DeleteVoteTallyInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `VoteTally` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""All input for the `deleteVoteTallyById` mutation."""
+input DeleteVoteTallyByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: BigInt!
+}

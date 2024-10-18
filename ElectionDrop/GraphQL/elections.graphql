@@ -1,0 +1,9 @@
+query Elections {
+  allElections {
+    nodes {
+      name
+      electionDate
+      id
+    }
+  }
+}

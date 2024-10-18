@@ -3,58 +3,79 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E13C210D2C8402BC000C7402 /* ElectionGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13C210C2C8402BC000C7402 /* ElectionGroup.swift */; };
-		E14229CC2C701EEB00837F89 /* ElectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14229CB2C701EEB00837F89 /* ElectionListView.swift */; };
-		E14229D02C7041E900837F89 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14229CF2C7041E900837F89 /* SettingsView.swift */; };
+		8B34E7F52CB8956000D86DD4 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 8B34E7F42CB8956000D86DD4 /* Apollo */; };
+		8B34E7FA2CB8EC2100D86DD4 /* ElectionsGQL in Frameworks */ = {isa = PBXBuildFile; productRef = 8B34E7F92CB8EC2100D86DD4 /* ElectionsGQL */; };
+		8B34E7FE2CC1ED5900D86DD4 /* elections.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 8B34E7FB2CC1ED5900D86DD4 /* elections.graphql */; };
+		8B34E7FF2CC1ED5900D86DD4 /* schema.graphqls in Resources */ = {isa = PBXBuildFile; fileRef = 8B34E7FC2CC1ED5900D86DD4 /* schema.graphqls */; };
+		8BD8E56E2CC1F28D0010CB64 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD8E56D2CC1F2890010CB64 /* Network.swift */; };
+		E13C210D2C8402BC000C7402 /* ContestGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13C210C2C8402BC000C7402 /* ContestGroup.swift */; };
+		E14229CC2C701EEB00837F89 /* ContestListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14229CB2C701EEB00837F89 /* ContestListView.swift */; };
 		E16F31872C66F2A2002D24FE /* ElectionDropApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16F31862C66F2A2002D24FE /* ElectionDropApp.swift */; };
 		E16F31892C66F2A2002D24FE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16F31882C66F2A2002D24FE /* ContentView.swift */; };
 		E16F318B2C66F2A2002D24FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E16F318A2C66F2A2002D24FE /* Assets.xcassets */; };
-		E16F31B82C6726AF002D24FE /* ElectionUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16F31B72C6726AF002D24FE /* ElectionUpdateView.swift */; };
-		E16F31BA2C6740D1002D24FE /* ElectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16F31B92C6740D1002D24FE /* ElectionView.swift */; };
-		E1A754C12C6C741A00739B7F /* Election.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A754C02C6C741A00739B7F /* Election.swift */; };
-		E1A754C32C6C74B100739B7F /* ElectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A754C22C6C74B100739B7F /* ElectionViewModel.swift */; };
-		E1B2F6462C6C8366008A6923 /* ElectionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B2F6452C6C8366008A6923 /* ElectionResultView.swift */; };
+		E16F31B82C6726AF002D24FE /* ContestUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16F31B72C6726AF002D24FE /* ContestUpdateView.swift */; };
+		E16F31BA2C6740D1002D24FE /* ContestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16F31B92C6740D1002D24FE /* ContestView.swift */; };
+		E1A754C12C6C741A00739B7F /* Contest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A754C02C6C741A00739B7F /* Contest.swift */; };
+		E1A754C32C6C74B100739B7F /* ContestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A754C22C6C74B100739B7F /* ContestViewModel.swift */; };
+		E1B2F6462C6C8366008A6923 /* ContestResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B2F6452C6C8366008A6923 /* ContestResultView.swift */; };
 		E1B2F6482C6C87D0008A6923 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B2F6472C6C87D0008A6923 /* AppDelegate.swift */; };
-		E1B2F64C2C6C8967008A6923 /* ElectionServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B2F64B2C6C8967008A6923 /* ElectionServiceProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E13C210C2C8402BC000C7402 /* ElectionGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionGroup.swift; sourceTree = "<group>"; };
-		E14229CB2C701EEB00837F89 /* ElectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionListView.swift; sourceTree = "<group>"; };
-		E14229CF2C7041E900837F89 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		8B34E7F72CB8EBE600D86DD4 /* ElectionsGQL */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ElectionsGQL; sourceTree = "<group>"; };
+		8B34E7FB2CC1ED5900D86DD4 /* elections.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = elections.graphql; sourceTree = "<group>"; };
+		8B34E7FC2CC1ED5900D86DD4 /* schema.graphqls */ = {isa = PBXFileReference; lastKnownFileType = text; path = schema.graphqls; sourceTree = "<group>"; };
+		8BD8E56D2CC1F2890010CB64 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		E13C210C2C8402BC000C7402 /* ContestGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestGroup.swift; sourceTree = "<group>"; };
+		E14229CB2C701EEB00837F89 /* ContestListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestListView.swift; sourceTree = "<group>"; };
 		E16F31832C66F2A2002D24FE /* ElectionDrop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ElectionDrop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E16F31862C66F2A2002D24FE /* ElectionDropApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionDropApp.swift; sourceTree = "<group>"; };
 		E16F31882C66F2A2002D24FE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E16F318A2C66F2A2002D24FE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E16F31B02C66F2D5002D24FE /* ElectionDrop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ElectionDrop.entitlements; sourceTree = "<group>"; };
-		E16F31B72C6726AF002D24FE /* ElectionUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionUpdateView.swift; sourceTree = "<group>"; };
-		E16F31B92C6740D1002D24FE /* ElectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionView.swift; sourceTree = "<group>"; };
-		E1A754C02C6C741A00739B7F /* Election.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Election.swift; sourceTree = "<group>"; };
-		E1A754C22C6C74B100739B7F /* ElectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionViewModel.swift; sourceTree = "<group>"; };
-		E1B2F6452C6C8366008A6923 /* ElectionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionResultView.swift; sourceTree = "<group>"; };
+		E16F31B72C6726AF002D24FE /* ContestUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestUpdateView.swift; sourceTree = "<group>"; };
+		E16F31B92C6740D1002D24FE /* ContestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestView.swift; sourceTree = "<group>"; };
+		E1A754C02C6C741A00739B7F /* Contest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contest.swift; sourceTree = "<group>"; };
+		E1A754C22C6C74B100739B7F /* ContestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestViewModel.swift; sourceTree = "<group>"; };
+		E1B2F6452C6C8366008A6923 /* ContestResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestResultView.swift; sourceTree = "<group>"; };
 		E1B2F6472C6C87D0008A6923 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E1B2F64B2C6C8967008A6923 /* ElectionServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionServiceProtocol.swift; sourceTree = "<group>"; };
 		E1C017C32C84710A00DCFF9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		8BD8E56F2CC1FC760010CB64 /* Settings */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Settings; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		E16F31802C66F2A2002D24FE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B34E7F52CB8956000D86DD4 /* Apollo in Frameworks */,
+				8B34E7FA2CB8EC2100D86DD4 /* ElectionsGQL in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8B34E7FD2CC1ED5900D86DD4 /* GraphQL */ = {
+			isa = PBXGroup;
+			children = (
+				8B34E7FB2CC1ED5900D86DD4 /* elections.graphql */,
+				8B34E7FC2CC1ED5900D86DD4 /* schema.graphqls */,
+			);
+			path = GraphQL;
+			sourceTree = "<group>";
+		};
 		E16F317A2C66F2A2002D24FE = {
 			isa = PBXGroup;
 			children = (
+				8B34E7F72CB8EBE600D86DD4 /* ElectionsGQL */,
 				E16F31852C66F2A2002D24FE /* ElectionDrop */,
 				E16F31842C66F2A2002D24FE /* Products */,
 			);
@@ -71,21 +92,22 @@
 		E16F31852C66F2A2002D24FE /* ElectionDrop */ = {
 			isa = PBXGroup;
 			children = (
+				8BD8E56F2CC1FC760010CB64 /* Settings */,
+				8BD8E56D2CC1F2890010CB64 /* Network.swift */,
 				E1C017C32C84710A00DCFF9E /* Info.plist */,
 				E16F31B02C66F2D5002D24FE /* ElectionDrop.entitlements */,
 				E16F31862C66F2A2002D24FE /* ElectionDropApp.swift */,
 				E1B2F6472C6C87D0008A6923 /* AppDelegate.swift */,
-				E1A754C02C6C741A00739B7F /* Election.swift */,
-				E13C210C2C8402BC000C7402 /* ElectionGroup.swift */,
-				E1B2F64B2C6C8967008A6923 /* ElectionServiceProtocol.swift */,
-				E1A754C22C6C74B100739B7F /* ElectionViewModel.swift */,
+				E1A754C02C6C741A00739B7F /* Contest.swift */,
+				E13C210C2C8402BC000C7402 /* ContestGroup.swift */,
+				E1A754C22C6C74B100739B7F /* ContestViewModel.swift */,
 				E16F31882C66F2A2002D24FE /* ContentView.swift */,
-				E16F31B92C6740D1002D24FE /* ElectionView.swift */,
-				E14229CB2C701EEB00837F89 /* ElectionListView.swift */,
-				E16F31B72C6726AF002D24FE /* ElectionUpdateView.swift */,
-				E1B2F6452C6C8366008A6923 /* ElectionResultView.swift */,
-				E14229CF2C7041E900837F89 /* SettingsView.swift */,
+				E16F31B92C6740D1002D24FE /* ContestView.swift */,
+				E14229CB2C701EEB00837F89 /* ContestListView.swift */,
+				E16F31B72C6726AF002D24FE /* ContestUpdateView.swift */,
+				E1B2F6452C6C8366008A6923 /* ContestResultView.swift */,
 				E16F318A2C66F2A2002D24FE /* Assets.xcassets */,
+				8B34E7FD2CC1ED5900D86DD4 /* GraphQL */,
 			);
 			path = ElectionDrop;
 			sourceTree = "<group>";
@@ -104,6 +126,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				8BD8E56F2CC1FC760010CB64 /* Settings */,
 			);
 			name = ElectionDrop;
 			productName = ElectionDrop;
@@ -134,6 +159,10 @@
 				Base,
 			);
 			mainGroup = E16F317A2C66F2A2002D24FE;
+			packageReferences = (
+				8B34E7F32CB8956000D86DD4 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				8B34E7F82CB8EC2100D86DD4 /* XCLocalSwiftPackageReference "ElectionsGQL" */,
+			);
 			productRefGroup = E16F31842C66F2A2002D24FE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -148,6 +177,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B34E7FE2CC1ED5900D86DD4 /* elections.graphql in Resources */,
+				8B34E7FF2CC1ED5900D86DD4 /* schema.graphqls in Resources */,
 				E16F318B2C66F2A2002D24FE /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -160,17 +191,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1B2F6482C6C87D0008A6923 /* AppDelegate.swift in Sources */,
-				E1A754C32C6C74B100739B7F /* ElectionViewModel.swift in Sources */,
+				E1A754C32C6C74B100739B7F /* ContestViewModel.swift in Sources */,
+				8BD8E56E2CC1F28D0010CB64 /* Network.swift in Sources */,
 				E16F31892C66F2A2002D24FE /* ContentView.swift in Sources */,
-				E16F31B82C6726AF002D24FE /* ElectionUpdateView.swift in Sources */,
+				E16F31B82C6726AF002D24FE /* ContestUpdateView.swift in Sources */,
 				E16F31872C66F2A2002D24FE /* ElectionDropApp.swift in Sources */,
-				E1B2F64C2C6C8967008A6923 /* ElectionServiceProtocol.swift in Sources */,
-				E13C210D2C8402BC000C7402 /* ElectionGroup.swift in Sources */,
-				E16F31BA2C6740D1002D24FE /* ElectionView.swift in Sources */,
-				E14229CC2C701EEB00837F89 /* ElectionListView.swift in Sources */,
-				E1A754C12C6C741A00739B7F /* Election.swift in Sources */,
-				E1B2F6462C6C8366008A6923 /* ElectionResultView.swift in Sources */,
-				E14229D02C7041E900837F89 /* SettingsView.swift in Sources */,
+				E13C210D2C8402BC000C7402 /* ContestGroup.swift in Sources */,
+				E16F31BA2C6740D1002D24FE /* ContestView.swift in Sources */,
+				E14229CC2C701EEB00837F89 /* ContestListView.swift in Sources */,
+				E1A754C12C6C741A00739B7F /* Contest.swift in Sources */,
+				E1B2F6462C6C8366008A6923 /* ContestResultView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,6 +412,36 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		8B34E7F82CB8EC2100D86DD4 /* XCLocalSwiftPackageReference "ElectionsGQL" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ElectionsGQL;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8B34E7F32CB8956000D86DD4 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.15.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8B34E7F42CB8956000D86DD4 /* Apollo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8B34E7F32CB8956000D86DD4 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = Apollo;
+		};
+		8B34E7F92CB8EC2100D86DD4 /* ElectionsGQL */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ElectionsGQL;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E16F317B2C66F2A2002D24FE /* Project object */;
 }
