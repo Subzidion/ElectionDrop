@@ -4,7 +4,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var viewModel: ContestViewModel
+    @ObservedObject var viewModel: DataModel
     @State private var selectedTab = 0
 
     var body: some View {
@@ -24,13 +24,12 @@ struct ContentView: View {
             }
 
             NavigationStack {
-                SettingsView()
+                SettingsView(updateContests: viewModel.loadElectionData)
             }
             .tag(1)
             .tabItem {
                 Label("Settings", systemImage: "gear")
             }
         }
-        .environmentObject(viewModel)
     }
 }

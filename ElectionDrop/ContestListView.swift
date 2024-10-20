@@ -3,7 +3,7 @@
 import SwiftUI
 
 struct ContestListView: View {
-    let contests: Set<Contest>
+    let contests: [Contest]
     @State private var searchText = ""
     @State private var expandedSections: Set<String> = []
     @AppStorage("showPCOs") private var showPCOs = false
@@ -76,7 +76,7 @@ struct ContestListView: View {
     private var filteredContestTree: [ContestGroup: [String: [String: [Contest]]]] {
         let filteredContests = contests.filter { contest in
             let kingCountyCondition = !showKingCountyOnly || !districtsOutsideKingCounty.contains(contest.districtName)
-            let pcoCondition = showPCOs || contest.districtType != "Precinct Committee Officer"
+            let pcoCondition = showPCOs || contest.districtName.contains("Precinct Committee Officer")
             let searchCondition = searchText.isEmpty || contest.matchesSearch(searchText)
             return kingCountyCondition && pcoCondition && searchCondition
         }
@@ -170,205 +170,80 @@ struct CustomDisclosureGroup<Label: View, Content: View>: View {
 extension Contest {
     func matchesSearch(_ searchText: String) -> Bool {
         ballotTitle.localizedCaseInsensitiveContains(searchText) ||
-        districtName.localizedCaseInsensitiveContains(searchText) ||
-        updates.last?.results.contains(where: {
-            $0.ballotResponse.localizedCaseInsensitiveContains(searchText)
-        }) ?? false
+        districtName.localizedCaseInsensitiveContains(searchText)
     }
 }
 
+
 #Preview {
-    let mockContests: Set<Contest> = [
+    let mockContests: [Contest] = [
         Contest(
-            districtSortKey: 350,
             districtName: "Congressional District No. 9",
-            districtType: "Federal",
-            treeDistrictType: "Federal",
             ballotTitle: "United States Representative",
-            updates: [
-                ContestResultsUpdate(
-                    updateTime: Date(),
-                    updateCount: 10,
-                    results: [
-                        ContestResult(ballotResponse: "Joe Federale", voteCount: 37571, votePercent: 85.36),
-                        ContestResult(ballotResponse: "Jolie Feds", voteCount: 6398, votePercent: 14.54)
-                    ]
-                )
-            ]
+            jurisdictionTypes: [.county, .state],
+            id: "contest1"
         ),
         Contest(
-            districtSortKey: 60,
             districtName: "State Executive",
-            districtType: "State Executive",
-            treeDistrictType: "State",
             ballotTitle: "Governor",
-            updates: [
-                ContestResultsUpdate(
-                    updateTime: Date(),
-                    updateCount: 10,
-                    results: [
-                        ContestResult(ballotResponse: "Bob Ferguson", voteCount: 340334, votePercent: 61.30),
-                        ContestResult(ballotResponse: "Dave Reichert", voteCount: 109374, votePercent: 19.70),
-                        ContestResult(ballotResponse: "Mark Mullet", voteCount: 45323, votePercent: 8.16)
-                    ]
-                )
-            ]
+            jurisdictionTypes: [.state],
+            id: "contest2"
         ),
         Contest(
-            districtSortKey: 70,
             districtName: "State",
-            districtType: "State Supreme Court",
-            treeDistrictType: "State",
             ballotTitle: "Justice Position No. 2",
-            updates: [
-                ContestResultsUpdate(
-                    updateTime: Date(),
-                    updateCount: 10,
-                    results: [
-                        ContestResult(ballotResponse: "Sal Mungia", voteCount: 301394, votePercent: 59.37),
-                        ContestResult(ballotResponse: "Dave Larson", voteCount: 135346, votePercent: 26.66)
-                    ]
-                )
-            ]
+            jurisdictionTypes: [.state],
+            id: "contest3"
         ),
-        
         Contest(
-            districtSortKey: 350,
             districtName: "Legislative District No. 34",
-            districtType: "State Legislative",
-            treeDistrictType: "State",
             ballotTitle: "Representative Position No. 2",
-            updates: [
-                ContestResultsUpdate(
-                    updateTime: Date(),
-                    updateCount: 10,
-                    results: [
-                        ContestResult(ballotResponse: "Joe Fitzgibbon", voteCount: 37571, votePercent: 85.36),
-                        ContestResult(ballotResponse: "Jolie Lansdowne", voteCount: 6398, votePercent: 14.54)
-                    ]
-                )
-            ]
+            jurisdictionTypes: [.state],
+            id: "contest4"
         ),
         Contest(
-            districtSortKey: 340,
             districtName: "Legislative District No. 34",
-            districtType: "State Legislative",
-            treeDistrictType: "State",
             ballotTitle: "Representative Position No. 1",
-            updates: [
-                ContestResultsUpdate(
-                    updateTime: Date(),
-                    updateCount: 10,
-                    results: [
-                        ContestResult(ballotResponse: "Joey Fitzgibbony", voteCount: 37571, votePercent: 85.36),
-                        ContestResult(ballotResponse: "Jolieee Lansdowneee", voteCount: 6398, votePercent: 14.54)
-                    ]
-                )
-            ]
+            jurisdictionTypes: [.state],
+            id: "contest5"
         ),
         Contest(
-            districtSortKey: 390,
             districtName: "Legislative District No. 36",
-            districtType: "State Legislative",
-            treeDistrictType: "State",
             ballotTitle: "Representative Position No. 2",
-            updates: [
-                ContestResultsUpdate(
-                    updateTime: Date(),
-                    updateCount: 10,
-                    results: [
-                        ContestResult(ballotResponse: "Joe Fitzgibbon", voteCount: 37571, votePercent: 85.36),
-                        ContestResult(ballotResponse: "Jolie Lansdowne", voteCount: 6398, votePercent: 14.54)
-                    ]
-                )
-            ]
+            jurisdictionTypes: [.state],
+            id: "contest6"
         ),
         Contest(
-            districtSortKey: 385,
             districtName: "Legislative District No. 36",
-            districtType: "State Legislative",
-            treeDistrictType: "State",
             ballotTitle: "Representative Position No. 1",
-            updates: [
-                ContestResultsUpdate(
-                    updateTime: Date(),
-                    updateCount: 10,
-                    results: [
-                        ContestResult(ballotResponse: "Joey Fitzgibbony", voteCount: 37571, votePercent: 85.36),
-                        ContestResult(ballotResponse: "Jolieee Lansdowneee", voteCount: 6398, votePercent: 14.54)
-                    ]
-                )
-            ]
+            jurisdictionTypes: [.state],
+            id: "contest7"
         ),
         Contest(
-            districtSortKey: 570,
             districtName: "City of Seattle",
-            districtType: "City",
-            treeDistrictType: "City",
             ballotTitle: "Council Position No. 8",
-            updates: [
-                ContestResultsUpdate(
-                    updateTime: Date(),
-                    updateCount: 10,
-                    results: [
-                        ContestResult(ballotResponse: "Alexis Mercedes Rinck", voteCount: 99394, votePercent: 50.18),
-                        ContestResult(ballotResponse: "Tanya Woo", voteCount: 76008, votePercent: 38.38)
-                    ]
-                )
-            ]
+            jurisdictionTypes: [.state],
+            id: "contest8"
         ),
         Contest(
-            districtSortKey: 580,
             districtName: "City of Seattle",
-            districtType: "City",
-            treeDistrictType: "City",
             ballotTitle: "Council Position No. 9",
-            updates: [
-                ContestResultsUpdate(
-                    updateTime: Date(),
-                    updateCount: 10,
-                    results: [
-                        ContestResult(ballotResponse: "Carl Hiltbrunner", voteCount: 99394, votePercent: 50.18),
-                        ContestResult(ballotResponse: "Leonord Jerome", voteCount: 76008, votePercent: 38.38)
-                    ]
-                )
-            ]
+            jurisdictionTypes: [.state],
+            id: "contest9"
         ),
         Contest(
-            districtSortKey: 10,
             districtName: "Federal",
-            districtType: "Federal",
-            treeDistrictType: "Federal",
             ballotTitle: "United States Senator",
-            updates: [
-                ContestResultsUpdate(
-                    updateTime: Date(),
-                    updateCount: 10,
-                    results: [
-                        ContestResult(ballotResponse: "Maria Cantwell", voteCount: 409728, votePercent: 74.53),
-                        ContestResult(ballotResponse: "Dr Raul Garcia", voteCount: 72234, votePercent: 13.14)
-                    ]
-                )
-            ]
+            jurisdictionTypes: [.county],
+            id: "contest10"
         ),
         Contest(
-            districtSortKey: 600,
             districtName: "South King Fire",
-            districtType: "Special Purpose District",
-            treeDistrictType: "Special Purpose District",
             ballotTitle: "Proposition No. 1",
-            updates: [
-                ContestResultsUpdate(
-                    updateTime: Date(),
-                    updateCount: 10,
-                    results: [
-                        ContestResult(ballotResponse: "Yes", voteCount: 19094, votePercent: 65.28),
-                        ContestResult(ballotResponse: "No", voteCount: 10155, votePercent: 34.72)
-                    ]
-                )
-            ]
+            jurisdictionTypes: [.county],
+            id: "contest11"
         )
     ]
     
-    return ContestListView(contests: mockContests)
+    ContestListView(contests: mockContests)
 }

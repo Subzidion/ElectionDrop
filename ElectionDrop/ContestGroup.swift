@@ -31,9 +31,9 @@ enum ContestGroup: String, CaseIterable {
         }
         
         for contest in contests {
-            if showPCOs && contest.districtType == "Precinct Committee Officer" {
+            if showPCOs && contest.districtName.contains("Precinct Committee Officer") {
                 stateSubGroups["Precinct Committee Officer"]?[contest.ballotTitle, default: []].append(contest)
-            } else if contest.districtType == "State Supreme Court" {
+            } else if contest.districtName.contains("State Supreme Court") {
                 stateSubGroups["State Supreme Court"]?[contest.ballotTitle, default: []].append(contest)
             } else if contest.ballotTitle.contains("Representative") || contest.ballotTitle.contains("State Senator") {
                 stateSubGroups["State Legislature"]?[contest.districtName, default: []].append(contest)
@@ -88,15 +88,16 @@ enum ContestGroup: String, CaseIterable {
     }
     
     private func contestList(contests: [Contest]) -> some View {
-        ForEach(contests.sorted(by: { $0.districtSortKey < $1.districtSortKey }), id: \.id) { contest in
+        ForEach(contests, id: \.id) { contest in
             ContestRow(contest: contest)
                 .transition(.opacity.combined(with: .move(edge: .top)))
         }
     }
     
     private func sortedKeys(for subGrouping: String, in subGroupData: [String: [Contest]]) -> [String] {
-        return subGroupData.keys.sorted {
-            subGroupData[$0]?.first?.districtSortKey ?? Int.max < subGroupData[$1]?.first?.districtSortKey ?? Int.max
-        }
+        return subGroupData.keys.sorted { _,_ in true }
+//        return subGroupData.keys.sorted {
+//            subGroupData[$0]?.first?.districtSortKey ?? Int.max < subGroupData[$1]?.first?.districtSortKey ?? Int.max
+//        }
     }
 }

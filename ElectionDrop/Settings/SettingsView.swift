@@ -5,6 +5,11 @@ import SwiftUI
 import ElectionsGQL
 
 struct SettingsView: View {
+    let updateContests: () async -> Void
+    
+    @State private var loadingElections = false
+    @State private var elections: [ElectionsQuery.Data.AllElections.Node] = []
+    
     @AppStorage("showPCOs") private var showPCOs = false
     @AppStorage("showKingCountyOnly") private var showKingCountyOnly = true
     @AppStorage("contestResultDisplayFormat") private
@@ -12,15 +17,10 @@ struct SettingsView: View {
         .percentOfVote
     @AppStorage("selectedElectionId") private var selectedElectionId = ""
 
-    @State private var elections: [ElectionsQuery.Data.AllElections.Node] = []
-    @State private var isLoadingElections = false
-    
-    @EnvironmentObject private var viewModel: ContestViewModel
-
     var body: some View {
         Form {
             Section(header: Text("Election Selection")) {
-                if isLoadingElections {
+                if loadingElections {
                     ProgressView()
                 } else if elections.isEmpty {
                     Text("No elections available")
@@ -31,8 +31,9 @@ struct SettingsView: View {
                             Text(election.name!)
                         }
                     }.onChange(of: selectedElectionId) {
+                        selectedElectionId = selectedElectionId
                         Task {
-                            await viewModel.loadElectionData(for: selectedElectionId)
+                            await updateContests()
                         }
                     }
                 }
@@ -73,6 +74,19 @@ struct SettingsView: View {
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
         .task {
+            self.loadingElections = true
+            Network.shared.apollo.fetch(query: ElectionsQuery()) { result in
+                self.loadingElections = false
+                switch result {
+                case .success(let graphQLResult):
+                    if let nodes = graphQLResult.data?.allElections?.nodes {
+                        self.elections = nodes.compactMap({ $0 })
+                    }
+                case .failure(let error):
+                    // FIXME: Add error display
+                    print(error)
+                }
+            }
         }
     }
 

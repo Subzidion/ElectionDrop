@@ -1,14 +1,15 @@
+import ElectionsGQL
 import Foundation
 
 struct Contest: Identifiable, Hashable, Codable {
-    let districtSortKey: Int
     let districtName: String
-    let districtType: String
     // A value we compute from the CSV to categorize the Contest for the ContestListView
-    let treeDistrictType: String
+    var treeDistrictType: String {
+        return "State"
+    }
     let ballotTitle: String
-    var updates: [ContestResultsUpdate]
-    var id: String { districtName + " " + districtType + " " + ballotTitle }
+    let jurisdictionTypes: [JurisdictionType]?
+    var id: String
     var group: ContestGroup {
         switch treeDistrictType {
         case "State": return .state
@@ -18,54 +19,88 @@ struct Contest: Identifiable, Hashable, Codable {
         default: return .specialPurposeDistrict
         }
     }
-    
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
-    
+
     static func == (lhs: Contest, rhs: Contest) -> Bool {
         lhs.id == rhs.id
     }
+
+    static func fromGqlResponse(
+        from gqlContest: ContestsQuery.Data.AllContests.Node
+    ) -> Contest {
+        return Contest(
+            districtName: gqlContest.district!,
+            ballotTitle: gqlContest.ballotTitle!,
+            jurisdictionTypes: gqlContest.jurisdictions!.compactMap({
+                JurisdictionType(rawValue: $0!)
+            }),
+            id: gqlContest.id
+        )
+    }
 }
 
-struct ContestResultsUpdate: Identifiable, Codable, Equatable {
-    var id = UUID()
-    let updateTime: Date
-    let updateCount: Int
-    var results: [ContestResult]
-    
-    static func == (lhs: ContestResultsUpdate, rhs: ContestResultsUpdate) -> Bool {
-        lhs.id == rhs.id && lhs.updateTime == rhs.updateTime && lhs.updateCount == rhs.updateCount && lhs.results == rhs.results
+struct BallotResponse: Identifiable, Codable, Equatable {
+    let id: String
+    let response: String
+    let party: String
+
+    static func fromGqlResponse(
+        from gqlResponse: ContestsQuery.Data.AllContests.Node
+            .BallotResponsesByContestId.Node
+    ) -> BallotResponse {
+        return BallotResponse(
+            id: gqlResponse.id,
+            response: gqlResponse.name!,
+            party: gqlResponse.party!
+        )
     }
-    
+}
+
+struct ElectionResultsUpdate: Identifiable, Codable, Equatable {
+    let id: String
+    let updateTime: Date
+    let hash: String
+    let jurisdictionType: JurisdictionType
+    var results: [ContestResult]
+
+    static func == (lhs: ElectionResultsUpdate, rhs: ElectionResultsUpdate)
+        -> Bool
+    {
+        lhs.id == rhs.id && lhs.updateTime == rhs.updateTime
+    }
+
     func formattedUpdateDate() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMMM d"
-        
+
         let formattedDate = dateFormatter.string(from: updateTime)
-        
+
         let day = Calendar.current.component(.day, from: updateTime)
         let suffix = daySuffix(for: day)
-        
+
         return formattedDate + suffix
     }
-    
+
     func formattedUpdateTime() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
         dateFormatter.timeZone = TimeZone(identifier: "America/Los_Angeles")
-        
+
         let timeString = dateFormatter.string(from: updateTime)
-        
+
         let timeZone = TimeZone(identifier: "America/Los_Angeles")!
-        let dateInPST = updateTime.addingTimeInterval(TimeInterval(timeZone.secondsFromGMT(for: updateTime)))
-        
+        let dateInPST = updateTime.addingTimeInterval(
+            TimeInterval(timeZone.secondsFromGMT(for: updateTime)))
+
         let isDST = timeZone.isDaylightSavingTime(for: dateInPST)
         let zoneAbbreviation = isDST ? "PDT" : "PST"
-        
+
         return "\(timeString) \(zoneAbbreviation)"
     }
-    
+
     private func daySuffix(for day: Int) -> String {
         switch day {
         case 1, 21, 31:
@@ -78,16 +113,53 @@ struct ContestResultsUpdate: Identifiable, Codable, Equatable {
             return "th"
         }
     }
+
+    static func fromGqlResponse(
+        from gqlUpdate: ContestsQuery.Data.AllUpdates.Node
+    ) -> ElectionResultsUpdate {
+        let voteTallies = gqlUpdate.voteTalliesByUpdateId.nodes.compactMap({
+            node -> ContestResult? in
+            guard let id = node?.id,
+                let ballotResponseId = node?.ballotResponseId,
+                let votes = Int(node?.votes ?? ""),
+                let votePercentage = Float(node?.votePercentage ?? "")
+            else {
+                return nil
+            }
+            return ContestResult(
+                id: id,
+                ballotResponseId: ballotResponseId,
+                voteCount: votes,
+                votePercent: votePercentage
+            )
+        })
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+
+        return ElectionResultsUpdate(
+            id: gqlUpdate.id,
+            updateTime: dateFormatter.date(from: gqlUpdate.timestamp!)!,
+            hash: gqlUpdate.hash!,
+            jurisdictionType: JurisdictionType(
+                rawValue: gqlUpdate.jurisdictionType!)!,
+            results: voteTallies
+        )
+    }
 }
 
 struct ContestResult: Identifiable, Codable, Equatable {
-    var id = UUID()
-    let ballotResponse: String
+    let id: String
+    let ballotResponseId: String
     let voteCount: Int
-    let votePercent: Double
-    
+    let votePercent: Float
+
     static func == (lhs: ContestResult, rhs: ContestResult) -> Bool {
-        lhs.id == rhs.id && lhs.ballotResponse == rhs.ballotResponse && lhs.voteCount == rhs.voteCount && lhs.votePercent == rhs.votePercent
+        lhs.id == rhs.id && lhs.ballotResponseId == rhs.ballotResponseId
+            && lhs.voteCount == rhs.voteCount
+            && lhs.votePercent == rhs.votePercent
     }
 }
 

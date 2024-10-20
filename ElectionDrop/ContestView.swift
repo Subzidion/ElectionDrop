@@ -4,7 +4,7 @@ import SwiftUI
 
 struct ContestView: View {
     let contest: Contest
-    @State private var currentUpdateIndex: Int
+    @State private var currentUpdateIndex: Int = 0
     @State private var moveDirection: MoveDirection = .none
     
     enum MoveDirection {
@@ -13,7 +13,6 @@ struct ContestView: View {
     
     init(contest: Contest) {
         self.contest = contest
-        self._currentUpdateIndex = State(initialValue: contest.updates.count - 1)
     }
     
     var body: some View {
@@ -31,33 +30,33 @@ struct ContestView: View {
             
             Divider()
             
-            if !contest.updates.isEmpty {
-                ContestUpdateView(
-                    currentUpdate: contest.updates[currentUpdateIndex],
-                    previousUpdate: currentUpdateIndex > 0 ? contest.updates[currentUpdateIndex - 1] : nil,
-                    nextUpdate: currentUpdateIndex < contest.updates.count - 1 ? contest.updates[currentUpdateIndex + 1] : nil,
-                    onPreviousUpdate: {
-                        decrementUpdate()
-                    },
-                    onNextUpdate: {
-                        incrementUpdate()
-                    }
-                )
-            } else {
-                Text("No updates available")
-            }
+//            if !contest.updates.isEmpty {
+//                ContestUpdateView(
+//                    currentUpdate: contest.updates[currentUpdateIndex],
+//                    previousUpdate: currentUpdateIndex > 0 ? contest.updates[currentUpdateIndex - 1] : nil,
+//                    nextUpdate: currentUpdateIndex < contest.updates.count - 1 ? contest.updates[currentUpdateIndex + 1] : nil,
+//                    onPreviousUpdate: {
+//                        decrementUpdate()
+//                    },
+//                    onNextUpdate: {
+//                        incrementUpdate()
+//                    }
+//                )
+//            } else {
+//                Text("No updates available")
+//            }
         }
         .padding()
         .navigationBarTitleDisplayMode(.inline)
     }
     
     private func incrementUpdate() {
-        if currentUpdateIndex < contest.updates.count - 1 {
-            moveDirection = .forward
-            withAnimation {
-                currentUpdateIndex += 1
-            }
-        }
+//        if currentUpdateIndex < contest.updates.count - 1 {
+//            moveDirection = .forward
+//            withAnimation {
+//                currentUpdateIndex += 1
+//            }
+//        }
     }
     
     private func decrementUpdate() {
@@ -69,7 +68,6 @@ struct ContestView: View {
         }
     }
 }
-
 #Preview("Contest View Preview - Percent of Vote") {
     let dateComponents = DateComponents(
         year: 2026,
@@ -84,42 +82,46 @@ struct ContestView: View {
     let date = calendar.date(from: dateComponents)!
     
     let sampleUpdates = [
-        ContestResultsUpdate(
+        ElectionResultsUpdate(
+            id: "update1",
             updateTime: date.addingTimeInterval(-172800), // 48 hours ago
-            updateCount: 1,
+            hash: "hash1",
+            jurisdictionType: .county,
             results: [
-                ContestResult(ballotResponse: "Candidate A", voteCount: 10000, votePercent: 41.7),
-                ContestResult(ballotResponse: "Candidate B", voteCount: 9000, votePercent: 37.5),
-                ContestResult(ballotResponse: "Candidate C", voteCount: 5000, votePercent: 20.8)
+                ContestResult(id: "result1", ballotResponseId: "candidate_a", voteCount: 10000, votePercent: 41.7),
+                ContestResult(id: "result2", ballotResponseId: "candidate_b", voteCount: 9000, votePercent: 37.5),
+                ContestResult(id: "result3", ballotResponseId: "candidate_c", voteCount: 5000, votePercent: 20.8)
             ]
         ),
-        ContestResultsUpdate(
+        ElectionResultsUpdate(
+            id: "update2",
             updateTime: date.addingTimeInterval(-86400), // 24 hours ago
-            updateCount: 2,
+            hash: "hash2",
+            jurisdictionType: .county,
             results: [
-                ContestResult(ballotResponse: "Candidate A", voteCount: 14000, votePercent: 44.4),
-                ContestResult(ballotResponse: "Candidate B", voteCount: 11500, votePercent: 36.5),
-                ContestResult(ballotResponse: "Candidate C", voteCount: 6000, votePercent: 19.1)
+                ContestResult(id: "result4", ballotResponseId: "candidate_a", voteCount: 14000, votePercent: 44.4),
+                ContestResult(id: "result5", ballotResponseId: "candidate_b", voteCount: 11500, votePercent: 36.5),
+                ContestResult(id: "result6", ballotResponseId: "candidate_c", voteCount: 6000, votePercent: 19.1)
             ]
         ),
-        ContestResultsUpdate(
+        ElectionResultsUpdate(
+            id: "update3",
             updateTime: date,
-            updateCount: 3,
+            hash: "hash3",
+            jurisdictionType: .county,
             results: [
-                ContestResult(ballotResponse: "Candidate A", voteCount: 16500, votePercent: 45.8),
-                ContestResult(ballotResponse: "Candidate B", voteCount: 12500, votePercent: 34.7),
-                ContestResult(ballotResponse: "Candidate C", voteCount: 7000, votePercent: 19.5)
+                ContestResult(id: "result7", ballotResponseId: "candidate_a", voteCount: 16500, votePercent: 45.8),
+                ContestResult(id: "result8", ballotResponseId: "candidate_b", voteCount: 12500, votePercent: 34.7),
+                ContestResult(id: "result9", ballotResponseId: "candidate_c", voteCount: 7000, votePercent: 19.5)
             ]
         )
     ]
 
     let sampleContest = Contest(
-        districtSortKey: 1,
         districtName: "Sample District",
-        districtType: "City",
-        treeDistrictType: "City",
         ballotTitle: "2024 Mayoral Election",
-        updates: sampleUpdates
+        jurisdictionTypes: [.county, .state],
+        id: "contest123"
     )
 
     return ContestView(contest: sampleContest)

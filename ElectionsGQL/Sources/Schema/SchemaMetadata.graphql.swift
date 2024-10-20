@@ -27,6 +27,10 @@ public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     case "Update": return ElectionsGQL.Objects.Update
     case "VoteTally": return ElectionsGQL.Objects.VoteTally
     case "ElectionsConnection": return ElectionsGQL.Objects.ElectionsConnection
+    case "UpdatesConnection": return ElectionsGQL.Objects.UpdatesConnection
+    case "VoteTalliesConnection": return ElectionsGQL.Objects.VoteTalliesConnection
+    case "ContestsConnection": return ElectionsGQL.Objects.ContestsConnection
+    case "BallotResponsesConnection": return ElectionsGQL.Objects.BallotResponsesConnection
     default: return nil
     }
   }

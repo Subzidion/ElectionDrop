@@ -5,7 +5,7 @@ import SwiftUI
 
 @main
 struct ElectionDropApp: App {
-    @StateObject private var viewModel = ContestViewModel()
+    @StateObject private var viewModel = DataModel()
 
     var body: some Scene {
         WindowGroup {
