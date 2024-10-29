@@ -3,31 +3,22 @@ import Foundation
 
 struct Contest: Identifiable, Hashable, Codable {
     let districtName: String
-    // A value we compute from the CSV to categorize the Contest for the ContestListView
-    var treeDistrictType: String {
-        return "State"
-    }
     let ballotTitle: String
     let jurisdictionTypes: [JurisdictionType]?
     var id: String
-    var group: ContestGroup {
-        switch treeDistrictType {
-        case "State": return .state
-        case "City": return .city
-        case "Federal": return .federal
-        case "Special Purpose District": return .specialPurposeDistrict
-        default: return .specialPurposeDistrict
-        }
-    }
-
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
-
+    
+    var group: ContestGroup {
+        return .city
+    }
+    
     static func == (lhs: Contest, rhs: Contest) -> Bool {
         lhs.id == rhs.id
     }
-
+    
     static func fromGqlResponse(
         from gqlContest: ContestsQuery.Data.AllContests.Node
     ) -> Contest {
@@ -40,6 +31,11 @@ struct Contest: Identifiable, Hashable, Codable {
             id: gqlContest.id
         )
     }
+    
+    var isPCO: Bool {
+        return self.ballotTitle.contains("Precinct Committee Officer")
+    }
+    
 }
 
 struct BallotResponse: Identifiable, Codable, Equatable {

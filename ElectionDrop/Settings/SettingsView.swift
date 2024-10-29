@@ -11,7 +11,6 @@ struct SettingsView: View {
     @State private var elections: [ElectionsQuery.Data.AllElections.Node] = []
     
     @AppStorage("showPCOs") private var showPCOs = false
-    @AppStorage("showKingCountyOnly") private var showKingCountyOnly = true
     @AppStorage("contestResultDisplayFormat") private
     var contestResultDisplayFormat = ContestResultDisplayFormat
         .percentOfVote
@@ -44,20 +43,6 @@ struct SettingsView: View {
                     Text("Display Precinct Committee Officers elections.")
                         .font(.caption)
                         .foregroundColor(.secondary)
-                }
-
-                VStack(alignment: .leading) {
-                    Toggle(
-                        "Show King County Races Only", isOn: $showKingCountyOnly
-                    )
-                    Text(
-                        """
-                        This app only shows election results for King County. By default, state-wide races are hidden since they will show incomplete data.
-                        If you want to see the performance for a state-wide race in King County, toggle this off.
-                        """
-                    )
-                    .font(.caption)
-                    .foregroundColor(.secondary)
                 }
 
                 VStack(alignment: .leading) {

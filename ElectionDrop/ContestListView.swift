@@ -7,14 +7,6 @@ struct ContestListView: View {
     @State private var searchText = ""
     @State private var expandedSections: Set<String> = []
     @AppStorage("showPCOs") private var showPCOs = false
-    @AppStorage("showKingCountyOnly") private var showKingCountyOnly = true
-    
-    private let districtsOutsideKingCounty: Set<String> = [
-        "Federal", "State of Washington", "Congressional District No. 1",
-        "Congressional District No. 8", "Legislative District No. 1", "Legislative District No. 12",
-        "Legislative District No. 31", "Legislative District No. 32", "State Supreme Court",
-        "Valley Regional Fire Authority"
-    ]
     
     var body: some View {
         NavigationStack {
@@ -74,11 +66,14 @@ struct ContestListView: View {
     }
     
     private var filteredContestTree: [ContestGroup: [String: [String: [Contest]]]] {
-        let filteredContests = contests.filter { contest in
-            let kingCountyCondition = !showKingCountyOnly || !districtsOutsideKingCounty.contains(contest.districtName)
-            let pcoCondition = showPCOs || contest.districtName.contains("Precinct Committee Officer")
+        let orderedContests = self.contests.sorted {
+            return $0.ballotTitle.localizedStandardCompare($1.ballotTitle) == .orderedAscending
+        }
+
+        let filteredContests = orderedContests.filter { contest in
+            let pcoCondition = showPCOs || contest.isPCO
             let searchCondition = searchText.isEmpty || contest.matchesSearch(searchText)
-            return kingCountyCondition && pcoCondition && searchCondition
+            return pcoCondition && searchCondition
         }
         
         return Dictionary(grouping: filteredContests, by: \.group)

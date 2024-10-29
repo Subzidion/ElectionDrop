@@ -21,6 +21,7 @@ class DataModel: ObservableObject {
         if (selectedElectionId != nil) {
             let electionId = selectedElectionId!
             Network.shared.apollo.fetch(query: ContestsQuery(electionId: electionId)) { result in
+                self.isLoading = false
                 switch result {
                 case .success(let gqlData):
                     let gqlContests = gqlData.data?.allContests?.nodes.compactMap({ $0 }) ?? []
@@ -35,6 +36,7 @@ class DataModel: ObservableObject {
         } else {
             // no election ID
             Network.shared.apollo.fetch(query: FirstElectionContestsQuery()) { result in
+                self.isLoading = false
                 switch result {
                 case .success(let gqlData):
                     if let election = gqlData.data?.allElections?.nodes.first {

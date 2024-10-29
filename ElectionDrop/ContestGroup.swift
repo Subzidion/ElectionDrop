@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum ContestGroup: String, CaseIterable {
+enum ContestGroup: String, CaseIterable, Codable {
     case state = "State"
     case city = "City"
     case federal = "Federal"
@@ -95,9 +95,8 @@ enum ContestGroup: String, CaseIterable {
     }
     
     private func sortedKeys(for subGrouping: String, in subGroupData: [String: [Contest]]) -> [String] {
-        return subGroupData.keys.sorted { _,_ in true }
-//        return subGroupData.keys.sorted {
-//            subGroupData[$0]?.first?.districtSortKey ?? Int.max < subGroupData[$1]?.first?.districtSortKey ?? Int.max
-//        }
+        return subGroupData.keys.sorted {
+            $0.localizedStandardCompare($1) == .orderedDescending
+        }
     }
 }
