@@ -1,10 +1,10 @@
 // MARK: - View
 
-// ElectionView.swift
+// ElectionContestView.swift
 import SwiftUI
 
-struct ElectionView: View {
-    let election: Election
+struct ElectionContestView: View {
+    let electionContest: ElectionContest
     @State private var currentUpdateIndex: Int
     @State private var moveDirection: MoveDirection = .none
     
@@ -12,18 +12,18 @@ struct ElectionView: View {
         case forward, backward, none
     }
     
-    init(election: Election) {
-        self.election = election
-        self._currentUpdateIndex = State(initialValue: election.updates.count - 1)
+    init(electionContest: ElectionContest) {
+        self.electionContest = electionContest
+        self._currentUpdateIndex = State(initialValue: electionContest.updates.count - 1)
     }
     
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .bottom) {
                 VStack(alignment: .leading) {
-                    Text(election.ballotTitle)
+                    Text(electionContest.ballotTitle)
                         .font(.title)
-                    Text(election.districtName)
+                    Text(electionContest.districtName)
                         .font(.subheadline)
                 }
                 .lineLimit(1)
@@ -32,11 +32,11 @@ struct ElectionView: View {
             
             Divider()
             
-            if !election.updates.isEmpty {
-                ElectionUpdateView(
-                    currentUpdate: election.updates[currentUpdateIndex],
-                    previousUpdate: currentUpdateIndex > 0 ? election.updates[currentUpdateIndex - 1] : nil,
-                    nextUpdate: currentUpdateIndex < election.updates.count - 1 ? election.updates[currentUpdateIndex + 1] : nil,
+            if !electionContest.updates.isEmpty {
+                ElectionContestUpdateView(
+                    currentUpdate: electionContest.updates[currentUpdateIndex],
+                    previousUpdate: currentUpdateIndex > 0 ? electionContest.updates[currentUpdateIndex - 1] : nil,
+                    nextUpdate: currentUpdateIndex < electionContest.updates.count - 1 ? electionContest.updates[currentUpdateIndex + 1] : nil,
                     onPreviousUpdate: {
                         decrementUpdate()
                     },
@@ -53,7 +53,7 @@ struct ElectionView: View {
     }
     
     private func incrementUpdate() {
-        if currentUpdateIndex < election.updates.count - 1 {
+        if currentUpdateIndex < electionContest.updates.count - 1 {
             moveDirection = .forward
             withAnimation {
                 currentUpdateIndex += 1
@@ -71,7 +71,7 @@ struct ElectionView: View {
     }
 }
 
-#Preview("Election View Preview - Percent of Vote") {
+#Preview("Election Contest View Preview - Percent of Vote") {
     let dateComponents = DateComponents(
         year: 2026,
         month: 9,
@@ -85,36 +85,36 @@ struct ElectionView: View {
     let date = calendar.date(from: dateComponents)!
     
     let sampleUpdates = [
-        ElectionUpdate(
+        ElectionContestUpdate(
             updateTime: date.addingTimeInterval(-172800), // 48 hours ago
             updateCount: 1,
             results: [
-                ElectionResult(ballotResponse: "Candidate A", voteCount: 10000, votePercent: 41.7),
-                ElectionResult(ballotResponse: "Candidate B", voteCount: 9000, votePercent: 37.5),
-                ElectionResult(ballotResponse: "Candidate C", voteCount: 5000, votePercent: 20.8)
+                ElectionContestResult(ballotResponse: "Candidate A", voteCount: 10000, votePercent: 41.7),
+                ElectionContestResult(ballotResponse: "Candidate B", voteCount: 9000, votePercent: 37.5),
+                ElectionContestResult(ballotResponse: "Candidate C", voteCount: 5000, votePercent: 20.8)
             ]
         ),
-        ElectionUpdate(
+        ElectionContestUpdate(
             updateTime: date.addingTimeInterval(-86400), // 24 hours ago
             updateCount: 2,
             results: [
-                ElectionResult(ballotResponse: "Candidate A", voteCount: 14000, votePercent: 44.4),
-                ElectionResult(ballotResponse: "Candidate B", voteCount: 11500, votePercent: 36.5),
-                ElectionResult(ballotResponse: "Candidate C", voteCount: 6000, votePercent: 19.1)
+                ElectionContestResult(ballotResponse: "Candidate A", voteCount: 14000, votePercent: 44.4),
+                ElectionContestResult(ballotResponse: "Candidate B", voteCount: 11500, votePercent: 36.5),
+                ElectionContestResult(ballotResponse: "Candidate C", voteCount: 6000, votePercent: 19.1)
             ]
         ),
-        ElectionUpdate(
+        ElectionContestUpdate(
             updateTime: date,
             updateCount: 3,
             results: [
-                ElectionResult(ballotResponse: "Candidate A", voteCount: 16500, votePercent: 45.8),
-                ElectionResult(ballotResponse: "Candidate B", voteCount: 12500, votePercent: 34.7),
-                ElectionResult(ballotResponse: "Candidate C", voteCount: 7000, votePercent: 19.5)
+                ElectionContestResult(ballotResponse: "Candidate A", voteCount: 16500, votePercent: 45.8),
+                ElectionContestResult(ballotResponse: "Candidate B", voteCount: 12500, votePercent: 34.7),
+                ElectionContestResult(ballotResponse: "Candidate C", voteCount: 7000, votePercent: 19.5)
             ]
         )
     ]
 
-    let sampleElection = Election(
+    let sampleElectionContest = ElectionContest(
         districtSortKey: 1,
         districtName: "Sample District",
         districtType: "City",
@@ -123,5 +123,5 @@ struct ElectionView: View {
         updates: sampleUpdates
     )
 
-    return ElectionView(election: sampleElection)
+    return ElectionContestView(electionContest: sampleElectionContest)
 }

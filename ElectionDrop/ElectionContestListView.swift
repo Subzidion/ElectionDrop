@@ -1,10 +1,10 @@
 // MARK: - View
 
-// ElectionListView.swift
+// ElectionContestListView.swift
 import SwiftUI
 
-struct ElectionListView: View {
-    let elections: Set<Election>
+struct ElectionContestListView: View {
+    let electionContests: Set<ElectionContest>
     @State private var searchText = ""
     @State private var expandedSections: Set<String> = []
     @AppStorage("showPCOs") private var showPCOs = false
@@ -26,10 +26,10 @@ struct ElectionListView: View {
                 
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 0, pinnedViews: [.sectionHeaders]) {
-                        ForEach(ElectionGroup.allCases, id: \.self) { group in
-                            if let groupData = filteredElectionsTree[group], !groupData.isEmpty {
+                        ForEach(ElectionContestGroup.allCases, id: \.self) { group in
+                            if let groupData = filteredElectionContestsTree[group], !groupData.isEmpty {
                                 Section {
-                                    electionsGroup(group: group, groupData: groupData)
+                                    electionContestsGroup(group: group, groupData: groupData)
                                 } header: {
                                     Text(group.rawValue)
                                         .font(.system(size: 13, weight: .regular))
@@ -47,13 +47,13 @@ struct ElectionListView: View {
                 }
             }
             .navigationTitle("August 2024 Primary")
-            .navigationDestination(for: Election.self) { election in
-                ElectionView(election: election)
+            .navigationDestination(for: ElectionContest.self) { electionContest in
+                ElectionContestView(electionContest: electionContest)
             }
         }
     }
     
-    private func electionsGroup(group: ElectionGroup, groupData: [String: [String: [Election]]]) -> some View {
+    private func electionContestsGroup(group: ElectionContestGroup, groupData: [String: [String: [ElectionContest]]]) -> some View {
         ForEach(groupData.keys.sorted(), id: \.self) { subGrouping in
             if let subGroupData = groupData[subGrouping], !subGroupData.isEmpty {
                 group.view(for: subGrouping, subGroupData: subGroupData, expandedBinding: self.expandedBinding, isSearching: !searchText.isEmpty)
@@ -74,29 +74,29 @@ struct ElectionListView: View {
         )
     }
     
-    private var filteredElectionsTree: [ElectionGroup: [String: [String: [Election]]]] {
-        let filteredElections = elections.filter { election in
-            let kingCountyCondition = !showKingCountyOnly || !districtsOutsideKingCounty.contains(election.districtName)
-            let pcoCondition = showPCOs || election.districtType != "Precinct Committee Officer"
-            let searchCondition = searchText.isEmpty || election.matchesSearch(searchText)
+    private var filteredElectionContestsTree: [ElectionContestGroup: [String: [String: [ElectionContest]]]] {
+        let filteredElectionContests = electionContests.filter { electionContest in
+            let kingCountyCondition = !showKingCountyOnly || !districtsOutsideKingCounty.contains(electionContest.districtName)
+            let pcoCondition = showPCOs || electionContest.districtType != "Precinct Committee Officer"
+            let searchCondition = searchText.isEmpty || electionContest.matchesSearch(searchText)
             return kingCountyCondition && pcoCondition && searchCondition
         }
         
-        return Dictionary(grouping: filteredElections, by: \.group)
-            .mapValues { ElectionGroup.groupElections($0, showPCOs: showPCOs) }
+        return Dictionary(grouping: filteredElectionContests, by: \.group)
+            .mapValues { ElectionContestGroup.groupElectionContests($0, showPCOs: showPCOs) }
     }
 }
 
-struct ElectionRow: View {
-    let election: Election
+struct ElectionContestRow: View {
+    let electionContest: ElectionContest
     
     var body: some View {
-        NavigationLink(value: election) {
+        NavigationLink(value: electionContest) {
             VStack(alignment: .leading, spacing: 4) {
-                if election.ballotTitle == "United States Representative" || election.ballotTitle.starts(with: "Precinct Committee Officer") {
-                    Text(election.districtName)
+                if electionContest.ballotTitle == "United States Representative" || electionContest.ballotTitle.starts(with: "Precinct Committee Officer") {
+                    Text(electionContest.districtName)
                 } else {
-                    Text(election.ballotTitle)
+                    Text(electionContest.ballotTitle)
                 }
             }
             .font(.headline)
@@ -115,7 +115,7 @@ struct SearchBar: View {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(.gray)
             
-            TextField("Search elections", text: $text)
+            TextField("Search election contests", text: $text)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
             if !text.isEmpty {
@@ -168,7 +168,7 @@ struct CustomDisclosureGroup<Label: View, Content: View>: View {
     }
 }
 
-extension Election {
+extension ElectionContest {
     func matchesSearch(_ searchText: String) -> Bool {
         ballotTitle.localizedCaseInsensitiveContains(searchText) ||
         districtName.localizedCaseInsensitiveContains(searchText) ||
@@ -179,197 +179,197 @@ extension Election {
 }
 
 #Preview {
-    let mockElections: Set<Election> = [
-        Election(
+    let mockElectionContests: Set<ElectionContest> = [
+        ElectionContest(
             districtSortKey: 350,
             districtName: "Congressional District No. 9",
             districtType: "Federal",
             treeDistrictType: "Federal",
             ballotTitle: "United States Representative",
             updates: [
-                ElectionUpdate(
+                ElectionContestUpdate(
                     updateTime: Date(),
                     updateCount: 10,
                     results: [
-                        ElectionResult(ballotResponse: "Joe Federale", voteCount: 37571, votePercent: 85.36),
-                        ElectionResult(ballotResponse: "Jolie Feds", voteCount: 6398, votePercent: 14.54)
+                        ElectionContestResult(ballotResponse: "Joe Federale", voteCount: 37571, votePercent: 85.36),
+                        ElectionContestResult(ballotResponse: "Jolie Feds", voteCount: 6398, votePercent: 14.54)
                     ]
                 )
             ]
         ),
-        Election(
+        ElectionContest(
             districtSortKey: 60,
             districtName: "State Executive",
             districtType: "State Executive",
             treeDistrictType: "State",
             ballotTitle: "Governor",
             updates: [
-                ElectionUpdate(
+                ElectionContestUpdate(
                     updateTime: Date(),
                     updateCount: 10,
                     results: [
-                        ElectionResult(ballotResponse: "Bob Ferguson", voteCount: 340334, votePercent: 61.30),
-                        ElectionResult(ballotResponse: "Dave Reichert", voteCount: 109374, votePercent: 19.70),
-                        ElectionResult(ballotResponse: "Mark Mullet", voteCount: 45323, votePercent: 8.16)
+                        ElectionContestResult(ballotResponse: "Bob Ferguson", voteCount: 340334, votePercent: 61.30),
+                        ElectionContestResult(ballotResponse: "Dave Reichert", voteCount: 109374, votePercent: 19.70),
+                        ElectionContestResult(ballotResponse: "Mark Mullet", voteCount: 45323, votePercent: 8.16)
                     ]
                 )
             ]
         ),
-        Election(
+        ElectionContest(
             districtSortKey: 70,
             districtName: "State",
             districtType: "State Supreme Court",
             treeDistrictType: "State",
             ballotTitle: "Justice Position No. 2",
             updates: [
-                ElectionUpdate(
+                ElectionContestUpdate(
                     updateTime: Date(),
                     updateCount: 10,
                     results: [
-                        ElectionResult(ballotResponse: "Sal Mungia", voteCount: 301394, votePercent: 59.37),
-                        ElectionResult(ballotResponse: "Dave Larson", voteCount: 135346, votePercent: 26.66)
+                        ElectionContestResult(ballotResponse: "Sal Mungia", voteCount: 301394, votePercent: 59.37),
+                        ElectionContestResult(ballotResponse: "Dave Larson", voteCount: 135346, votePercent: 26.66)
                     ]
                 )
             ]
         ),
         
-        Election(
+        ElectionContest(
             districtSortKey: 350,
             districtName: "Legislative District No. 34",
             districtType: "State Legislative",
             treeDistrictType: "State",
             ballotTitle: "Representative Position No. 2",
             updates: [
-                ElectionUpdate(
+                ElectionContestUpdate(
                     updateTime: Date(),
                     updateCount: 10,
                     results: [
-                        ElectionResult(ballotResponse: "Joe Fitzgibbon", voteCount: 37571, votePercent: 85.36),
-                        ElectionResult(ballotResponse: "Jolie Lansdowne", voteCount: 6398, votePercent: 14.54)
+                        ElectionContestResult(ballotResponse: "Joe Fitzgibbon", voteCount: 37571, votePercent: 85.36),
+                        ElectionContestResult(ballotResponse: "Jolie Lansdowne", voteCount: 6398, votePercent: 14.54)
                     ]
                 )
             ]
         ),
-        Election(
+        ElectionContest(
             districtSortKey: 340,
             districtName: "Legislative District No. 34",
             districtType: "State Legislative",
             treeDistrictType: "State",
             ballotTitle: "Representative Position No. 1",
             updates: [
-                ElectionUpdate(
+                ElectionContestUpdate(
                     updateTime: Date(),
                     updateCount: 10,
                     results: [
-                        ElectionResult(ballotResponse: "Joey Fitzgibbony", voteCount: 37571, votePercent: 85.36),
-                        ElectionResult(ballotResponse: "Jolieee Lansdowneee", voteCount: 6398, votePercent: 14.54)
+                        ElectionContestResult(ballotResponse: "Joey Fitzgibbony", voteCount: 37571, votePercent: 85.36),
+                        ElectionContestResult(ballotResponse: "Jolieee Lansdowneee", voteCount: 6398, votePercent: 14.54)
                     ]
                 )
             ]
         ),
-        Election(
+        ElectionContest(
             districtSortKey: 390,
             districtName: "Legislative District No. 36",
             districtType: "State Legislative",
             treeDistrictType: "State",
             ballotTitle: "Representative Position No. 2",
             updates: [
-                ElectionUpdate(
+                ElectionContestUpdate(
                     updateTime: Date(),
                     updateCount: 10,
                     results: [
-                        ElectionResult(ballotResponse: "Joe Fitzgibbon", voteCount: 37571, votePercent: 85.36),
-                        ElectionResult(ballotResponse: "Jolie Lansdowne", voteCount: 6398, votePercent: 14.54)
+                        ElectionContestResult(ballotResponse: "Joe Fitzgibbon", voteCount: 37571, votePercent: 85.36),
+                        ElectionContestResult(ballotResponse: "Jolie Lansdowne", voteCount: 6398, votePercent: 14.54)
                     ]
                 )
             ]
         ),
-        Election(
+        ElectionContest(
             districtSortKey: 385,
             districtName: "Legislative District No. 36",
             districtType: "State Legislative",
             treeDistrictType: "State",
             ballotTitle: "Representative Position No. 1",
             updates: [
-                ElectionUpdate(
+                ElectionContestUpdate(
                     updateTime: Date(),
                     updateCount: 10,
                     results: [
-                        ElectionResult(ballotResponse: "Joey Fitzgibbony", voteCount: 37571, votePercent: 85.36),
-                        ElectionResult(ballotResponse: "Jolieee Lansdowneee", voteCount: 6398, votePercent: 14.54)
+                        ElectionContestResult(ballotResponse: "Joey Fitzgibbony", voteCount: 37571, votePercent: 85.36),
+                        ElectionContestResult(ballotResponse: "Jolieee Lansdowneee", voteCount: 6398, votePercent: 14.54)
                     ]
                 )
             ]
         ),
-        Election(
+        ElectionContest(
             districtSortKey: 570,
             districtName: "City of Seattle",
             districtType: "City",
             treeDistrictType: "City",
             ballotTitle: "Council Position No. 8",
             updates: [
-                ElectionUpdate(
+                ElectionContestUpdate(
                     updateTime: Date(),
                     updateCount: 10,
                     results: [
-                        ElectionResult(ballotResponse: "Alexis Mercedes Rinck", voteCount: 99394, votePercent: 50.18),
-                        ElectionResult(ballotResponse: "Tanya Woo", voteCount: 76008, votePercent: 38.38)
+                        ElectionContestResult(ballotResponse: "Alexis Mercedes Rinck", voteCount: 99394, votePercent: 50.18),
+                        ElectionContestResult(ballotResponse: "Tanya Woo", voteCount: 76008, votePercent: 38.38)
                     ]
                 )
             ]
         ),
-        Election(
+        ElectionContest(
             districtSortKey: 580,
             districtName: "City of Seattle",
             districtType: "City",
             treeDistrictType: "City",
             ballotTitle: "Council Position No. 9",
             updates: [
-                ElectionUpdate(
+                ElectionContestUpdate(
                     updateTime: Date(),
                     updateCount: 10,
                     results: [
-                        ElectionResult(ballotResponse: "Carl Hiltbrunner", voteCount: 99394, votePercent: 50.18),
-                        ElectionResult(ballotResponse: "Leonord Jerome", voteCount: 76008, votePercent: 38.38)
+                        ElectionContestResult(ballotResponse: "Carl Hiltbrunner", voteCount: 99394, votePercent: 50.18),
+                        ElectionContestResult(ballotResponse: "Leonord Jerome", voteCount: 76008, votePercent: 38.38)
                     ]
                 )
             ]
         ),
-        Election(
+        ElectionContest(
             districtSortKey: 10,
             districtName: "Federal",
             districtType: "Federal",
             treeDistrictType: "Federal",
             ballotTitle: "United States Senator",
             updates: [
-                ElectionUpdate(
+                ElectionContestUpdate(
                     updateTime: Date(),
                     updateCount: 10,
                     results: [
-                        ElectionResult(ballotResponse: "Maria Cantwell", voteCount: 409728, votePercent: 74.53),
-                        ElectionResult(ballotResponse: "Dr Raul Garcia", voteCount: 72234, votePercent: 13.14)
+                        ElectionContestResult(ballotResponse: "Maria Cantwell", voteCount: 409728, votePercent: 74.53),
+                        ElectionContestResult(ballotResponse: "Dr Raul Garcia", voteCount: 72234, votePercent: 13.14)
                     ]
                 )
             ]
         ),
-        Election(
+        ElectionContest(
             districtSortKey: 600,
             districtName: "South King Fire",
             districtType: "Special Purpose District",
             treeDistrictType: "Special Purpose District",
             ballotTitle: "Proposition No. 1",
             updates: [
-                ElectionUpdate(
+                ElectionContestUpdate(
                     updateTime: Date(),
                     updateCount: 10,
                     results: [
-                        ElectionResult(ballotResponse: "Yes", voteCount: 19094, votePercent: 65.28),
-                        ElectionResult(ballotResponse: "No", voteCount: 10155, votePercent: 34.72)
+                        ElectionContestResult(ballotResponse: "Yes", voteCount: 19094, votePercent: 65.28),
+                        ElectionContestResult(ballotResponse: "No", voteCount: 10155, votePercent: 34.72)
                     ]
                 )
             ]
         )
     ]
     
-    return ElectionListView(elections: mockElections)
+    return ElectionContestListView(electionContests: mockElectionContests)
 }

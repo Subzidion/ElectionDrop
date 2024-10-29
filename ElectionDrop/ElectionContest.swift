@@ -1,18 +1,18 @@
 // MARK: - Model
 
-// Election.swift
+// ElectionContest.swift
 import Foundation
 
-struct Election: Identifiable, Hashable, Codable {
+struct ElectionContest: Identifiable, Hashable, Codable {
     let districtSortKey: Int
     let districtName: String
     let districtType: String
-    // A value we compute from the CSV to categorize the Election for the ElectionListView
+    // A value we compute from the CSV to categorize the Election Contest for the ElectionContestListView
     let treeDistrictType: String
     let ballotTitle: String
-    var updates: [ElectionUpdate]
+    var updates: [ElectionContestUpdate]
     var id: String { districtName + " " + districtType + " " + ballotTitle }
-    var group: ElectionGroup {
+    var group: ElectionContestGroup {
         switch treeDistrictType {
         case "State": return .state
         case "City": return .city
@@ -26,18 +26,18 @@ struct Election: Identifiable, Hashable, Codable {
         hasher.combine(id)
     }
     
-    static func == (lhs: Election, rhs: Election) -> Bool {
+    static func == (lhs: ElectionContest, rhs: ElectionContest) -> Bool {
         lhs.id == rhs.id
     }
 }
 
-struct ElectionUpdate: Identifiable, Codable, Equatable {
+struct ElectionContestUpdate: Identifiable, Codable, Equatable {
     var id = UUID()
     let updateTime: Date
     let updateCount: Int
-    var results: [ElectionResult]
+    var results: [ElectionContestResult]
     
-    static func == (lhs: ElectionUpdate, rhs: ElectionUpdate) -> Bool {
+    static func == (lhs: ElectionContestUpdate, rhs: ElectionContestUpdate) -> Bool {
         lhs.id == rhs.id && lhs.updateTime == rhs.updateTime && lhs.updateCount == rhs.updateCount && lhs.results == rhs.results
     }
     
@@ -83,18 +83,18 @@ struct ElectionUpdate: Identifiable, Codable, Equatable {
     }
 }
 
-struct ElectionResult: Identifiable, Codable, Equatable {
+struct ElectionContestResult: Identifiable, Codable, Equatable {
     var id = UUID()
     let ballotResponse: String
     let voteCount: Int
     let votePercent: Double
     
-    static func == (lhs: ElectionResult, rhs: ElectionResult) -> Bool {
+    static func == (lhs: ElectionContestResult, rhs: ElectionContestResult) -> Bool {
         lhs.id == rhs.id && lhs.ballotResponse == rhs.ballotResponse && lhs.voteCount == rhs.voteCount && lhs.votePercent == rhs.votePercent
     }
 }
 
-enum ElectionResultDisplayFormat: String, CaseIterable {
+enum ElectionContestResultDisplayFormat: String, CaseIterable {
     case percentOfVote = "Percent of Vote"
     case totalVotes = "Total Votes"
 }
