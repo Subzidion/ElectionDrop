@@ -3,18 +3,27 @@
 import SwiftUI
 
 struct ContestView: View {
-    let contest: Contest
-    let updates: [ElectionResultsUpdate]
-    @State private var currentUpdateIndex: Int = 0
-    @State private var moveDirection: MoveDirection = .none
-    
     enum MoveDirection {
         case forward, backward, none
     }
     
-    init(contest: Contest, updates: [ElectionResultsUpdate]) {
-        self.contest = contest
-        self.updates = updates
+    let contest: Contest
+    let updates: [ElectionResultsUpdate]
+    @State private var currentUpdateIndex: Int = 0
+    @State private var moveDirection: MoveDirection = .none
+    @State private var selectedJurisdiction: JurisdictionType = .county
+    
+    private var filteredUpdates: [ElectionResultsUpdate] {
+        updates.filter { $0.jurisdictionType == selectedJurisdiction }
+    }
+    
+    private var hasMultipleJurisdictions: Bool {
+        guard let types = contest.jurisdictionTypes else { return false }
+        return types.count > 1
+    }
+    
+    private var safeCurrentIndex: Int {
+        min(currentUpdateIndex, max(filteredUpdates.count - 1, 0))
     }
     
     var body: some View {
@@ -30,14 +39,23 @@ struct ContestView: View {
                 .minimumScaleFactor(0.75)
             }
             
+            if hasMultipleJurisdictions {
+                Picker("Jurisdiction", selection: $selectedJurisdiction) {
+                    Text("County").tag(JurisdictionType.county)
+                    Text("State").tag(JurisdictionType.state)
+                }
+                .pickerStyle(.segmented)
+                .padding(.vertical)
+            }
+            
             Divider()
             
-            if !updates.isEmpty {
+            if !filteredUpdates.isEmpty {
                 ContestUpdateView(
                     contest: contest,
-                    currentUpdate: updates[currentUpdateIndex],
-                    previousUpdate: currentUpdateIndex > 0 ? updates[currentUpdateIndex - 1] : nil,
-                    nextUpdate: currentUpdateIndex < updates.count - 1 ? updates[currentUpdateIndex + 1] : nil,
+                    currentUpdate: filteredUpdates[safeCurrentIndex],
+                    previousUpdate: safeCurrentIndex > 0 ? filteredUpdates[safeCurrentIndex - 1] : nil,
+                    nextUpdate: currentUpdateIndex < filteredUpdates.count - 1 ? filteredUpdates[safeCurrentIndex + 1] : nil,
                     onPreviousUpdate: {
                         decrementUpdate()
                     },
@@ -46,15 +64,20 @@ struct ContestView: View {
                     }
                 )
             } else {
-                Text("No updates available")
+                Text("No updates available for \(selectedJurisdiction.rawValue.lowercased()) jurisdiction")
+                    .padding()
             }
         }
         .padding()
         .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: selectedJurisdiction) {
+            // Reset the current update index when switching jurisdictions
+            currentUpdateIndex = 0
+        }
     }
     
     private func incrementUpdate() {
-        if currentUpdateIndex < updates.count - 1 {
+        if safeCurrentIndex < filteredUpdates.count - 1 {
             moveDirection = .forward
             withAnimation {
                 currentUpdateIndex += 1
@@ -63,7 +86,7 @@ struct ContestView: View {
     }
     
     private func decrementUpdate() {
-        if currentUpdateIndex > 0 {
+        if safeCurrentIndex > 0 {
             moveDirection = .backward
             withAnimation {
                 currentUpdateIndex -= 1
