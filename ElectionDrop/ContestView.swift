@@ -3,23 +3,27 @@
 import SwiftUI
 
 struct ContestView: View {
-    enum MoveDirection {
-        case forward, backward, none
-    }
-    
     let contest: Contest
     let updates: [ElectionResultsUpdate]
     @State private var currentUpdateIndex: Int = 0
     @State private var moveDirection: MoveDirection = .none
-    @State private var selectedJurisdiction: JurisdictionType = .county
+    @State private var selectedJurisdiction: JurisdictionType
+    
+    enum MoveDirection {
+        case forward, backward, none
+    }
+    
+    init(contest: Contest, updates: [ElectionResultsUpdate]) {
+        self.contest = contest
+        self.updates = updates
+        let oneJurisdiction = contest.jurisdictionTypes?.count == 1
+        // Set initial jurisdiction to the only available one, or county by default
+        let initialJurisdiction = oneJurisdiction ? contest.jurisdictionTypes!.first! : .county
+        _selectedJurisdiction = State(initialValue: initialJurisdiction)
+    }
     
     private var filteredUpdates: [ElectionResultsUpdate] {
         updates.filter { $0.jurisdictionType == selectedJurisdiction }
-    }
-    
-    private var hasMultipleJurisdictions: Bool {
-        guard let types = contest.jurisdictionTypes else { return false }
-        return types.count > 1
     }
     
     private var safeCurrentIndex: Int {
@@ -39,14 +43,17 @@ struct ContestView: View {
                 .minimumScaleFactor(0.75)
             }
             
-            if hasMultipleJurisdictions {
-                Picker("Jurisdiction", selection: $selectedJurisdiction) {
-                    Text("County").tag(JurisdictionType.county)
-                    Text("State").tag(JurisdictionType.state)
-                }
-                .pickerStyle(.segmented)
-                .padding(.vertical)
+            Picker("Jurisdiction", selection: $selectedJurisdiction) {
+                Text("County")
+                    .tag(JurisdictionType.county)
+                    .disabled(!(contest.jurisdictionTypes?.contains(.county) ?? true))
+                Text("State")
+                    .tag(JurisdictionType.state)
+                    .disabled(!(contest.jurisdictionTypes?.contains(.state) ?? true))
             }
+            .disabled(contest.jurisdictionTypes?.count == 1)
+            .pickerStyle(.segmented)
+            .padding(.vertical)
             
             Divider()
             
@@ -55,7 +62,7 @@ struct ContestView: View {
                     contest: contest,
                     currentUpdate: filteredUpdates[safeCurrentIndex],
                     previousUpdate: safeCurrentIndex > 0 ? filteredUpdates[safeCurrentIndex - 1] : nil,
-                    nextUpdate: currentUpdateIndex < filteredUpdates.count - 1 ? filteredUpdates[safeCurrentIndex + 1] : nil,
+                    nextUpdate: safeCurrentIndex < filteredUpdates.count - 1 ? filteredUpdates[safeCurrentIndex + 1] : nil,
                     onPreviousUpdate: {
                         decrementUpdate()
                     },
@@ -71,7 +78,6 @@ struct ContestView: View {
         .padding()
         .navigationBarTitleDisplayMode(.inline)
         .onChange(of: selectedJurisdiction) {
-            // Reset the current update index when switching jurisdictions
             currentUpdateIndex = 0
         }
     }
