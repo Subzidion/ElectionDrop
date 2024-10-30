@@ -20,6 +20,7 @@
 		E1B2F6462C6C8366008A6923 /* ElectionContestResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B2F6452C6C8366008A6923 /* ElectionContestResultView.swift */; };
 		E1B2F6482C6C87D0008A6923 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B2F6472C6C87D0008A6923 /* AppDelegate.swift */; };
 		E1B2F64C2C6C8967008A6923 /* ElectionServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B2F64B2C6C8967008A6923 /* ElectionServiceProtocol.swift */; };
+		E1C382462CD098AD00D0DD04 /* ElectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C382452CD098AB00D0DD04 /* ElectionListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		E1B2F6472C6C87D0008A6923 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E1B2F64B2C6C8967008A6923 /* ElectionServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionServiceProtocol.swift; sourceTree = "<group>"; };
 		E1C017C32C84710A00DCFF9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E1C382452CD098AB00D0DD04 /* ElectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElectionListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 				E16F31862C66F2A2002D24FE /* ElectionDropApp.swift */,
 				E1B2F6472C6C87D0008A6923 /* AppDelegate.swift */,
 				E1A754C02C6C741A00739B7F /* ElectionContest.swift */,
+				E1C382452CD098AB00D0DD04 /* ElectionListView.swift */,
 				E13C210C2C8402BC000C7402 /* ElectionContestGroup.swift */,
 				E1B2F64B2C6C8967008A6923 /* ElectionServiceProtocol.swift */,
 				E1A754C22C6C74B100739B7F /* ElectionViewModel.swift */,
@@ -163,6 +166,7 @@
 				E1A754C32C6C74B100739B7F /* ElectionViewModel.swift in Sources */,
 				E16F31892C66F2A2002D24FE /* ContentView.swift in Sources */,
 				E16F31B82C6726AF002D24FE /* ElectionContestUpdateView.swift in Sources */,
+				E1C382462CD098AD00D0DD04 /* ElectionListView.swift in Sources */,
 				E16F31872C66F2A2002D24FE /* ElectionDropApp.swift in Sources */,
 				E1B2F64C2C6C8967008A6923 /* ElectionServiceProtocol.swift in Sources */,
 				E13C210D2C8402BC000C7402 /* ElectionContestGroup.swift in Sources */,

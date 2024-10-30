@@ -5,6 +5,7 @@ import SwiftUI
 
 struct ElectionContestListView: View {
     let electionContests: Set<ElectionContest>
+    let title: String
     @State private var searchText = ""
     @State private var expandedSections: Set<String> = []
     @AppStorage("showPCOs") private var showPCOs = false
@@ -18,38 +19,36 @@ struct ElectionContestListView: View {
     ]
     
     var body: some View {
-        NavigationStack {
-            VStack(spacing: 0) {
-                SearchBar(text: $searchText)
-                    .padding(.horizontal)
-                    .padding(.vertical, 8)
-                
-                ScrollView {
-                    LazyVStack(alignment: .leading, spacing: 0, pinnedViews: [.sectionHeaders]) {
-                        ForEach(ElectionContestGroup.allCases, id: \.self) { group in
-                            if let groupData = filteredElectionContestsTree[group], !groupData.isEmpty {
-                                Section {
-                                    electionContestsGroup(group: group, groupData: groupData)
-                                } header: {
-                                    Text(group.rawValue)
-                                        .font(.system(size: 13, weight: .regular))
-                                        .foregroundColor(.secondary)
-                                        .textCase(.uppercase)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 8)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .background(Color(UIColor.systemBackground))
-                                }
+        VStack(spacing: 0) {
+            SearchBar(text: $searchText)
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+            
+            ScrollView {
+                LazyVStack(alignment: .leading, spacing: 0, pinnedViews: [.sectionHeaders]) {
+                    ForEach(ElectionContestGroup.allCases, id: \.self) { group in
+                        if let groupData = filteredElectionContestsTree[group], !groupData.isEmpty {
+                            Section {
+                                electionContestsGroup(group: group, groupData: groupData)
+                            } header: {
+                                Text(group.rawValue)
+                                    .font(.system(size: 13, weight: .regular))
+                                    .foregroundColor(.secondary)
+                                    .textCase(.uppercase)
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 8)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .background(Color(UIColor.systemBackground))
                             }
                         }
                     }
-                    .animation(.easeInOut, value: expandedSections)
                 }
+                .animation(.easeInOut, value: expandedSections)
             }
-            .navigationTitle("August 2024 Primary")
-            .navigationDestination(for: ElectionContest.self) { electionContest in
-                ElectionContestView(electionContest: electionContest)
-            }
+        }
+        .navigationTitle(title)
+        .navigationDestination(for: ElectionContest.self) { electionContest in
+            ElectionContestView(electionContest: electionContest)
         }
     }
     
@@ -371,5 +370,5 @@ extension ElectionContest {
         )
     ]
     
-    return ElectionContestListView(electionContests: mockElectionContests)
+    return ElectionContestListView(electionContests: mockElectionContests, title: "August 2024 Primary")
 }

@@ -12,10 +12,13 @@ struct ContentView: View {
             NavigationStack {
                 VStack {
                     if viewModel.isLoading {
-                        ProgressView("Loading 2024 August Primary Election...")
+                        ProgressView("Loading Election Results...")
                     } else {
-                        ElectionContestListView(electionContests: viewModel.electionContests)
+                        ElectionListView(elections: viewModel.elections)
                     }
+                }
+                .navigationDestination(for: Election.self) { election in
+                    ElectionContestListView(electionContests: election.contests, title: election.title)
                 }
             }
             .tag(0)

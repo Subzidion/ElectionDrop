@@ -3,6 +3,14 @@
 // ElectionContest.swift
 import Foundation
 
+struct Election: Identifiable, Hashable, Codable {
+    var id = UUID()
+    var title: String
+    var URL: String
+    var currentUpdateCount: String?
+    var contests: Set<ElectionContest>
+}
+
 struct ElectionContest: Identifiable, Hashable, Codable {
     let districtSortKey: Int
     let districtName: String
