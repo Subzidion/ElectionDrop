@@ -3,18 +3,25 @@
 import SwiftUI
 
 struct ContestResultView: View {
-    var result: ContestResult
+    var ballotResponse: BallotResponse
+    var result: ContestResult?
     var previousResult: ContestResult?
     var displayFormat: ContestResultDisplayFormat
 
     var body: some View {
         HStack {
-            Text(result.ballotResponseId)
+            Text(ballotResponse.response)
                 .frame(width: 120, alignment: .leading)
                 .lineLimit(2)
                 .minimumScaleFactor(0.75)
             Spacer()
-            ContestResultRowView(result: result, displayFormat: displayFormat)
+            if let result = result {
+                ContestResultRowView(
+                    result: result, displayFormat: displayFormat)
+            } else {
+                Text("-")
+                    .foregroundColor(.secondary)
+            }
             Spacer()
             updateDelta
                 .frame(width: 80, alignment: .trailing)
@@ -24,7 +31,7 @@ struct ContestResultView: View {
 
     private var updateDelta: some View {
         Group {
-            if let previousResult = previousResult {
+            if let previousResult = previousResult, let result = result {
                 let delta = calculateDelta(
                     current: result, previous: previousResult)
                 Text(delta.formattedValue)
@@ -84,14 +91,18 @@ struct ContestResultRowView: View {
 
 #Preview("Percent of Vote") {
     let sampleCurrentResult = ContestResult(
-        id: "abc", ballotResponseId: "Candidate A", voteCount: 14500,
+        id: "abc", ballotResponseId: "testId", voteCount: 14500,
         votePercent: 44.4)
 
     let samplePreviousResult = ContestResult(
-        id: "abd", ballotResponseId: "Candidate A", voteCount: 15000,
+        id: "abd", ballotResponseId: "testId", voteCount: 15000,
         votePercent: 45.5)
 
+    let ballotResponse = BallotResponse(
+        id: "testId", response: "Bob Johnson", party: "PastaParty")
+
     ContestResultView(
+        ballotResponse: ballotResponse,
         result: sampleCurrentResult,
         previousResult: samplePreviousResult,
         displayFormat: .percentOfVote

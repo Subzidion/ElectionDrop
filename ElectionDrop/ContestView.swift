@@ -4,6 +4,7 @@ import SwiftUI
 
 struct ContestView: View {
     let contest: Contest
+    let updates: [ElectionResultsUpdate]
     @State private var currentUpdateIndex: Int = 0
     @State private var moveDirection: MoveDirection = .none
     
@@ -11,8 +12,9 @@ struct ContestView: View {
         case forward, backward, none
     }
     
-    init(contest: Contest) {
+    init(contest: Contest, updates: [ElectionResultsUpdate]) {
         self.contest = contest
+        self.updates = updates
     }
     
     var body: some View {
@@ -30,33 +32,34 @@ struct ContestView: View {
             
             Divider()
             
-//            if !contest.updates.isEmpty {
-//                ContestUpdateView(
-//                    currentUpdate: contest.updates[currentUpdateIndex],
-//                    previousUpdate: currentUpdateIndex > 0 ? contest.updates[currentUpdateIndex - 1] : nil,
-//                    nextUpdate: currentUpdateIndex < contest.updates.count - 1 ? contest.updates[currentUpdateIndex + 1] : nil,
-//                    onPreviousUpdate: {
-//                        decrementUpdate()
-//                    },
-//                    onNextUpdate: {
-//                        incrementUpdate()
-//                    }
-//                )
-//            } else {
-//                Text("No updates available")
-//            }
+            if !updates.isEmpty {
+                ContestUpdateView(
+                    contest: contest,
+                    currentUpdate: updates[currentUpdateIndex],
+                    previousUpdate: currentUpdateIndex > 0 ? updates[currentUpdateIndex - 1] : nil,
+                    nextUpdate: currentUpdateIndex < updates.count - 1 ? updates[currentUpdateIndex + 1] : nil,
+                    onPreviousUpdate: {
+                        decrementUpdate()
+                    },
+                    onNextUpdate: {
+                        incrementUpdate()
+                    }
+                )
+            } else {
+                Text("No updates available")
+            }
         }
         .padding()
         .navigationBarTitleDisplayMode(.inline)
     }
     
     private func incrementUpdate() {
-//        if currentUpdateIndex < contest.updates.count - 1 {
-//            moveDirection = .forward
-//            withAnimation {
-//                currentUpdateIndex += 1
-//            }
-//        }
+        if currentUpdateIndex < updates.count - 1 {
+            moveDirection = .forward
+            withAnimation {
+                currentUpdateIndex += 1
+            }
+        }
     }
     
     private func decrementUpdate() {
@@ -121,8 +124,9 @@ struct ContestView: View {
         districtName: "Sample District",
         ballotTitle: "2024 Mayoral Election",
         jurisdictionTypes: [.county, .state],
+        ballotResponses: [],
         id: "contest123"
     )
 
-    return ContestView(contest: sampleContest)
+    ContestView(contest: sampleContest, updates: sampleUpdates)
 }

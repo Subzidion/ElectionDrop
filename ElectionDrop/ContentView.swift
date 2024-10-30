@@ -14,7 +14,7 @@ struct ContentView: View {
                     if viewModel.isLoading {
                         ProgressView("Loading Contests...")
                     } else {
-                        ContestListView(contests: viewModel.contests)
+                        ContestListView(contests: viewModel.contests, updates: viewModel.updates)
                     }
                 }
             }

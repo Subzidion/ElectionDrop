@@ -4,6 +4,7 @@ import SwiftUI
 
 struct ContestListView: View {
     let contests: [Contest]
+    let updates: [ElectionResultsUpdate]
     @State private var searchText = ""
     @State private var expandedSections: Set<String> = []
     @AppStorage("showPCOs") private var showPCOs = false
@@ -39,7 +40,7 @@ struct ContestListView: View {
             }
             .navigationTitle("August 2024 Primary")
             .navigationDestination(for: Contest.self) { contest in
-                ContestView(contest: contest)
+                ContestView(contest: contest, updates: updates)
             }
         }
     }
@@ -169,76 +170,76 @@ extension Contest {
     }
 }
 
-
-#Preview {
-    let mockContests: [Contest] = [
-        Contest(
-            districtName: "Congressional District No. 9",
-            ballotTitle: "United States Representative",
-            jurisdictionTypes: [.county, .state],
-            id: "contest1"
-        ),
-        Contest(
-            districtName: "State Executive",
-            ballotTitle: "Governor",
-            jurisdictionTypes: [.state],
-            id: "contest2"
-        ),
-        Contest(
-            districtName: "State",
-            ballotTitle: "Justice Position No. 2",
-            jurisdictionTypes: [.state],
-            id: "contest3"
-        ),
-        Contest(
-            districtName: "Legislative District No. 34",
-            ballotTitle: "Representative Position No. 2",
-            jurisdictionTypes: [.state],
-            id: "contest4"
-        ),
-        Contest(
-            districtName: "Legislative District No. 34",
-            ballotTitle: "Representative Position No. 1",
-            jurisdictionTypes: [.state],
-            id: "contest5"
-        ),
-        Contest(
-            districtName: "Legislative District No. 36",
-            ballotTitle: "Representative Position No. 2",
-            jurisdictionTypes: [.state],
-            id: "contest6"
-        ),
-        Contest(
-            districtName: "Legislative District No. 36",
-            ballotTitle: "Representative Position No. 1",
-            jurisdictionTypes: [.state],
-            id: "contest7"
-        ),
-        Contest(
-            districtName: "City of Seattle",
-            ballotTitle: "Council Position No. 8",
-            jurisdictionTypes: [.state],
-            id: "contest8"
-        ),
-        Contest(
-            districtName: "City of Seattle",
-            ballotTitle: "Council Position No. 9",
-            jurisdictionTypes: [.state],
-            id: "contest9"
-        ),
-        Contest(
-            districtName: "Federal",
-            ballotTitle: "United States Senator",
-            jurisdictionTypes: [.county],
-            id: "contest10"
-        ),
-        Contest(
-            districtName: "South King Fire",
-            ballotTitle: "Proposition No. 1",
-            jurisdictionTypes: [.county],
-            id: "contest11"
-        )
-    ]
-    
-    ContestListView(contests: mockContests)
-}
+//
+//#Preview {
+//    let mockContests: [Contest] = [
+//        Contest(
+//            districtName: "Congressional District No. 9",
+//            ballotTitle: "United States Representative",
+//            jurisdictionTypes: [.county, .state],
+//            id: "contest1"
+//        ),
+//        Contest(
+//            districtName: "State Executive",
+//            ballotTitle: "Governor",
+//            jurisdictionTypes: [.state],
+//            id: "contest2"
+//        ),
+//        Contest(
+//            districtName: "State",
+//            ballotTitle: "Justice Position No. 2",
+//            jurisdictionTypes: [.state],
+//            id: "contest3"
+//        ),
+//        Contest(
+//            districtName: "Legislative District No. 34",
+//            ballotTitle: "Representative Position No. 2",
+//            jurisdictionTypes: [.state],
+//            id: "contest4"
+//        ),
+//        Contest(
+//            districtName: "Legislative District No. 34",
+//            ballotTitle: "Representative Position No. 1",
+//            jurisdictionTypes: [.state],
+//            id: "contest5"
+//        ),
+//        Contest(
+//            districtName: "Legislative District No. 36",
+//            ballotTitle: "Representative Position No. 2",
+//            jurisdictionTypes: [.state],
+//            id: "contest6"
+//        ),
+//        Contest(
+//            districtName: "Legislative District No. 36",
+//            ballotTitle: "Representative Position No. 1",
+//            jurisdictionTypes: [.state],
+//            id: "contest7"
+//        ),
+//        Contest(
+//            districtName: "City of Seattle",
+//            ballotTitle: "Council Position No. 8",
+//            jurisdictionTypes: [.state],
+//            id: "contest8"
+//        ),
+//        Contest(
+//            districtName: "City of Seattle",
+//            ballotTitle: "Council Position No. 9",
+//            jurisdictionTypes: [.state],
+//            id: "contest9"
+//        ),
+//        Contest(
+//            districtName: "Federal",
+//            ballotTitle: "United States Senator",
+//            jurisdictionTypes: [.county],
+//            id: "contest10"
+//        ),
+//        Contest(
+//            districtName: "South King Fire",
+//            ballotTitle: "Proposition No. 1",
+//            jurisdictionTypes: [.county],
+//            id: "contest11"
+//        )
+//    ]
+//    
+//    ContestListView(contests: mockContests, updates: [])
+//}

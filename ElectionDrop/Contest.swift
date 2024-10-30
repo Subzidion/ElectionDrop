@@ -5,6 +5,7 @@ struct Contest: Identifiable, Hashable, Codable {
     let districtName: String
     let ballotTitle: String
     let jurisdictionTypes: [JurisdictionType]?
+    let ballotResponses: [BallotResponse]
     var id: String
     
     func hash(into hasher: inout Hasher) {
@@ -27,6 +28,9 @@ struct Contest: Identifiable, Hashable, Codable {
             ballotTitle: gqlContest.ballotTitle!,
             jurisdictionTypes: gqlContest.jurisdictions!.compactMap({
                 JurisdictionType(rawValue: $0!)
+            }),
+            ballotResponses: gqlContest.ballotResponsesByContestId.nodes.compactMap({
+                BallotResponse.fromGqlResponse(from: $0!)
             }),
             id: gqlContest.id
         )
@@ -68,6 +72,12 @@ struct ElectionResultsUpdate: Identifiable, Codable, Equatable {
         lhs.id == rhs.id && lhs.updateTime == rhs.updateTime
     }
 
+    func getResults(for ballotResponseId: String) -> [ContestResult] {
+        return results.filter {
+            $0.ballotResponseId == ballotResponseId
+        }
+    }
+    
     func formattedUpdateDate() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMMM d"
