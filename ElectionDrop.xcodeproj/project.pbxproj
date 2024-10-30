@@ -11,6 +11,7 @@
 		8B34E7FA2CB8EC2100D86DD4 /* ElectionsGQL in Frameworks */ = {isa = PBXBuildFile; productRef = 8B34E7F92CB8EC2100D86DD4 /* ElectionsGQL */; };
 		8B34E7FE2CC1ED5900D86DD4 /* elections.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 8B34E7FB2CC1ED5900D86DD4 /* elections.graphql */; };
 		8B34E7FF2CC1ED5900D86DD4 /* schema.graphqls in Resources */ = {isa = PBXBuildFile; fileRef = 8B34E7FC2CC1ED5900D86DD4 /* schema.graphqls */; };
+		8BD368172CD1EBC10058052B /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD368162CD1EBC10058052B /* MockData.swift */; };
 		8BD8E56E2CC1F28D0010CB64 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD8E56D2CC1F2890010CB64 /* Network.swift */; };
 		8BD8E5762CC21F490010CB64 /* contests.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 8BD8E5752CC21F490010CB64 /* contests.graphql */; };
 		E13C210D2C8402BC000C7402 /* ContestGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13C210C2C8402BC000C7402 /* ContestGroup.swift */; };
@@ -30,6 +31,7 @@
 		8B34E7F72CB8EBE600D86DD4 /* ElectionsGQL */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ElectionsGQL; sourceTree = "<group>"; };
 		8B34E7FB2CC1ED5900D86DD4 /* elections.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = elections.graphql; sourceTree = "<group>"; };
 		8B34E7FC2CC1ED5900D86DD4 /* schema.graphqls */ = {isa = PBXFileReference; lastKnownFileType = text; path = schema.graphqls; sourceTree = "<group>"; };
+		8BD368162CD1EBC10058052B /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		8BD8E56D2CC1F2890010CB64 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		8BD8E5732CC217830010CB64 /* firstElectionContests.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = firstElectionContests.graphql; sourceTree = "<group>"; };
 		8BD8E5752CC21F490010CB64 /* contests.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = contests.graphql; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 		E16F31852C66F2A2002D24FE /* ElectionDrop */ = {
 			isa = PBXGroup;
 			children = (
+				8BD368162CD1EBC10058052B /* MockData.swift */,
 				8BD8E56F2CC1FC760010CB64 /* Settings */,
 				8BD8E56D2CC1F2890010CB64 /* Network.swift */,
 				E1C017C32C84710A00DCFF9E /* Info.plist */,
@@ -199,6 +202,7 @@
 				E1B2F6482C6C87D0008A6923 /* AppDelegate.swift in Sources */,
 				E1A754C32C6C74B100739B7F /* DataModel.swift in Sources */,
 				8BD8E56E2CC1F28D0010CB64 /* Network.swift in Sources */,
+				8BD368172CD1EBC10058052B /* MockData.swift in Sources */,
 				E16F31892C66F2A2002D24FE /* ContentView.swift in Sources */,
 				E16F31B82C6726AF002D24FE /* ContestUpdateView.swift in Sources */,
 				E16F31872C66F2A2002D24FE /* ElectionDropApp.swift in Sources */,

@@ -89,22 +89,11 @@ struct ContestResultRowView: View {
     }
 }
 
-#Preview("Percent of Vote") {
-    let sampleCurrentResult = ContestResult(
-        id: "abc", ballotResponseId: "testId", voteCount: 14500,
-        votePercent: 44.4)
-
-    let samplePreviousResult = ContestResult(
-        id: "abd", ballotResponseId: "testId", voteCount: 15000,
-        votePercent: 45.5)
-
-    let ballotResponse = BallotResponse(
-        id: "testId", response: "Bob Johnson", party: "PastaParty")
-
+#Preview("Contest Result View") {
     ContestResultView(
-        ballotResponse: ballotResponse,
-        result: sampleCurrentResult,
-        previousResult: samplePreviousResult,
+        ballotResponse: MockData.ballotResponses[0],
+        result: MockData.updates[1].results[0],
+        previousResult: MockData.updates[0].results[0],
         displayFormat: .percentOfVote
     )
 }
