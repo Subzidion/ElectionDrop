@@ -9,9 +9,19 @@ struct ContestListView: View {
     @State private var expandedSections: Set<String> = []
     @AppStorage("showPCOs") private var showPCOs = true
     
+    private var updateCounts: (state: Int, county: Int) {
+        let grouped = Dictionary(grouping: updates, by: \.jurisdictionType)
+        return (
+            state: grouped[.state]?.count ?? 0,
+            county: grouped[.county]?.count ?? 0
+        )
+    }
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
+                updateCountHeader
+                
                 SearchBar(text: $searchText)
                     .padding(.horizontal)
                     .padding(.vertical, 8)
@@ -43,6 +53,27 @@ struct ContestListView: View {
                 ContestView(contest: contest, updates: updates)
             }
         }
+    }
+    
+    private var updateCountHeader: some View {
+        VStack(spacing: 4) {
+            HStack(spacing: 16) {
+                UpdateCountPill(
+                    count: updateCounts.state,
+                    label: "State Updates",
+                    color: .blue
+                )
+                UpdateCountPill(
+                    count: updateCounts.county,
+                    label: "County Updates",
+                    color: .green
+                )
+            }
+            .padding(.vertical, 8)
+            
+            Divider()
+        }
+        .background(Color(UIColor.systemBackground))
     }
     
     private func contestsGroup(group: ContestGroup, groupData: [String: [String: [Contest]]]) -> some View {
@@ -79,6 +110,28 @@ struct ContestListView: View {
         
         return Dictionary(grouping: filteredContests, by: \.group)
             .mapValues { ContestGroup.groupContests($0, showPCOs: showPCOs) }
+    }
+}
+
+struct UpdateCountPill: View {
+    let count: Int
+    let label: String
+    let color: Color
+    
+    var body: some View {
+        HStack(spacing: 6) {
+            Text("\(count)")
+                .font(.system(.headline, design: .rounded))
+                .foregroundColor(color)
+            
+            Text(label)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 6)
+        .background(color.opacity(0.1))
+        .clipShape(Capsule())
     }
 }
 
