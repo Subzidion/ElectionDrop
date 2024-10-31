@@ -82,20 +82,47 @@ struct ContestListView: View {
     }
 }
 
+struct JurisdictionTag: View {
+    let type: JurisdictionType
+    
+    var body: some View {
+        Text(type == .state ? "WA" : "KC")
+            .font(.caption2.bold())
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(type == .state ? Color.blue.opacity(0.2) : Color.green.opacity(0.2))
+            .foregroundColor(type == .state ? .blue : .green)
+            .clipShape(RoundedRectangle(cornerRadius: 4))
+    }
+}
+
 struct ContestRow: View {
     let contest: Contest
     
     var body: some View {
         NavigationLink(value: contest) {
-            VStack(alignment: .leading, spacing: 4) {
-                if contest.ballotTitle == "United States Representative" || contest.ballotTitle.starts(with: "Precinct Committee Officer") {
-                    Text(contest.districtName)
-                } else {
-                    Text(contest.ballotTitle)
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    if contest.ballotTitle == "United States Representative" || contest.ballotTitle.starts(with: "Precinct Committee Officer") {
+                        Text(contest.districtName)
+                    } else {
+                        Text(contest.ballotTitle)
+                    }
+                }
+                .font(.headline)
+                .foregroundColor(.primary)
+                
+                Spacer()
+                
+                // Add jurisdiction tags
+                HStack(spacing: 4) {
+                    if let types = contest.jurisdictionTypes {
+                        ForEach(types.sorted { $0.rawValue < $1.rawValue }, id: \.self) { type in
+                            JurisdictionTag(type: type)
+                        }
+                    }
                 }
             }
-            .font(.headline)
-            .foregroundColor(.primary)
             .padding(.vertical, 8)
             .padding(.horizontal, 16)
         }
