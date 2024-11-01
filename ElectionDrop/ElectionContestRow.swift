@@ -4,16 +4,19 @@
 import SwiftUI
 
 enum ElectionContestGroup: String, CaseIterable {
-    case state = "State"
-    case city = "City"
     case federal = "Federal"
+    case state = "State"
+    case judicial = "Judicial"
+    case county = "County"
+    case city = "City"
+    case school = "School"
     case specialPurposeDistrict = "Special Purpose District"
     
     static func groupElectionContests(_ electionContests: [ElectionContest], showPCOs: Bool) -> [String: [String: [ElectionContest]]] {
         switch electionContests.first?.group {
         case .state:
             return groupStateElectionContests(electionContests, showPCOs: showPCOs)
-        case .city, .specialPurposeDistrict:
+        case .judicial, .county, .city, .school, .specialPurposeDistrict:
             return ["": Dictionary(grouping: electionContests) { $0.districtName }]
         case .federal:
             return ["": Dictionary(grouping: electionContests) { $0.ballotTitle }]

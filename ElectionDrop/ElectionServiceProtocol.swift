@@ -91,9 +91,16 @@ actor ElectionService: ElectionServiceProtocol {
             
             let districtSortKey = Int(columns[1].unquoteCSV())!
             let districtType = columns[2].unquoteCSV()
-            let treeDistrictType = (districtType == "Precinct Committee Officer" || districtType == "State Supreme Court") ? "State" : districtType
-            let districtName = columns[4].unquoteCSV()
-            let ballotTitle = columns[5].unquoteCSV()
+            var treeDistrictType: String
+            if districtType == "Precinct Committee Officer" || districtType == "State Supreme Court" {
+                treeDistrictType = "State"
+            } else if districtType == "Court of Appeals" || districtType == "Superior Court" || districtType == "District Court" {
+                treeDistrictType = "Judicial"
+            } else {
+                treeDistrictType = districtType
+            }
+            let districtName = columns[4].unquoteCSV().replacingSuffix(" of the United States", with: "")
+            let ballotTitle = columns[5].unquoteCSV().replacingSuffix(" of the United States", with: "")
             let ballotResponse = columns[10].unquoteCSV()
             let voteCount = Int(columns[12].unquoteCSV())!
             let votePercent = Double(columns[13].unquoteCSV())!
@@ -169,5 +176,10 @@ extension String {
         columns.append(currentColumn.unquoteCSV())
         
         return columns
+    }
+    
+    func replacingSuffix(_ suffix: String, with replacement: String) -> String {
+        guard self.hasSuffix(suffix) else { return self }
+        return String(self.dropLast(suffix.count)) + replacement
     }
 }

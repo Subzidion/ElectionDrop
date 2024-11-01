@@ -22,9 +22,12 @@ struct ElectionContest: Identifiable, Hashable, Codable {
     var id: String { districtName + " " + districtType + " " + ballotTitle }
     var group: ElectionContestGroup {
         switch treeDistrictType {
-        case "State": return .state
-        case "City": return .city
         case "Federal": return .federal
+        case "State": return .state
+        case "Judicial": return .judicial
+        case "County": return .county
+        case "City": return .city
+        case "School": return .school
         case "Special Purpose District": return .specialPurposeDistrict
         default: return .specialPurposeDistrict
         }

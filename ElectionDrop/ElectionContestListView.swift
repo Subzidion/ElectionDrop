@@ -150,6 +150,8 @@ struct CustomDisclosureGroup<Label: View, Content: View>: View {
                 HStack {
                     label
                         .foregroundColor(.primary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
                     Spacer()
                     Image(systemName: isExpanded ? "chevron.right.circle.fill": "chevron.right.circle")
                         .foregroundColor(.accentColor)
@@ -185,6 +187,23 @@ extension ElectionContest {
             districtType: "Federal",
             treeDistrictType: "Federal",
             ballotTitle: "United States Representative",
+            updates: [
+                ElectionContestUpdate(
+                    updateTime: Date(),
+                    updateCount: 10,
+                    results: [
+                        ElectionContestResult(ballotResponse: "Joe Federale", voteCount: 37571, votePercent: 85.36),
+                        ElectionContestResult(ballotResponse: "Jolie Feds", voteCount: 6398, votePercent: 14.54)
+                    ]
+                )
+            ]
+        ),
+        ElectionContest(
+            districtSortKey: 350,
+            districtName: "President and Vice President of the United States",
+            districtType: "Federal",
+            treeDistrictType: "Federal",
+            ballotTitle: "President and Vice President of the United States",
             updates: [
                 ElectionContestUpdate(
                     updateTime: Date(),

@@ -13,7 +13,10 @@ struct ElectionListView: View {
                     NavigationLink(value: election) {
                         HStack {
                             Text(election.title)
-                                .padding()
+                                .font(.headline)
+                                .foregroundColor(.primary)
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 16)
                             Spacer()
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.gray)
@@ -27,3 +30,14 @@ struct ElectionListView: View {
         .navigationTitle("Elections")
     }
 }
+
+
+#Preview {
+    let mockElections: [Election] = [
+        Election(title: "2024 August Primary", URL: "https://api.electiondrop.app/prod/v1/wa/king-county/election/2024/aug-primary", contests: []),
+        Election(title: "2024 November General", URL: "https://api.electiondrop.app/prod/v1/wa/king-county/election/2024/nov-general", contests: [])
+    ]
+    
+    return ElectionListView(elections: mockElections)
+}
+
