@@ -5,6 +5,9 @@ import SwiftUI
 struct ContestListView: View {
     let contests: [Contest]
     let updates: [ElectionResultsUpdate]
+    let isRefreshing: Bool
+    let onRefresh: (() async -> Void)?
+    
     @State private var searchText = ""
     @State private var expandedSections: Set<String> = []
     @AppStorage("showPCOs") private var showPCOs = true
@@ -18,39 +21,50 @@ struct ContestListView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            VStack(spacing: 0) {
-                updateCountHeader
-                
-                SearchBar(text: $searchText)
-                    .padding(.horizontal)
-                    .padding(.vertical, 8)
-                
-                ScrollView {
-                    LazyVStack(alignment: .leading, spacing: 0, pinnedViews: [.sectionHeaders]) {
-                        ForEach(ContestGroup.allCases, id: \.self) { group in
-                            if let groupData = filteredContestTree[group], !groupData.isEmpty {
-                                Section {
-                                    contestsGroup(group: group, groupData: groupData)
-                                } header: {
-                                    Text(group.rawValue)
-                                        .font(.system(size: 13, weight: .regular))
-                                        .foregroundColor(.secondary)
-                                        .textCase(.uppercase)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 8)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .background(Color(UIColor.systemBackground))
-                                }
+        VStack(spacing: 0) {
+            updateCountHeader
+            
+            SearchBar(text: $searchText)
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+            
+            ScrollView {
+                LazyVStack(alignment: .leading, spacing: 0, pinnedViews: [.sectionHeaders]) {
+                    ForEach(ContestGroup.allCases, id: \.self) { group in
+                        if let groupData = filteredContestTree[group], !groupData.isEmpty {
+                            Section {
+                                contestsGroup(group: group, groupData: groupData)
+                            } header: {
+                                Text(group.rawValue)
+                                    .font(.system(size: 13, weight: .regular))
+                                    .foregroundColor(.secondary)
+                                    .textCase(.uppercase)
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 8)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .background(Color(UIColor.systemBackground))
                             }
                         }
                     }
-                    .animation(.easeInOut, value: expandedSections)
                 }
+                .animation(.easeInOut, value: expandedSections)
             }
-            .navigationTitle("August 2024 Primary")
-            .navigationDestination(for: Contest.self) { contest in
-                ContestView(contest: contest, updates: updates)
+            .refreshable {
+                await onRefresh?()
+            }
+        }
+        .navigationTitle("August 2024 Primary")
+        .navigationDestination(for: Contest.self) { contest in
+            ContestView(
+                contest: contest,
+                updates: updates,
+                onRefresh: onRefresh
+            )
+        }
+        .overlay {
+            if isRefreshing {
+                ProgressView()
+                    .tint(.secondary)
             }
         }
     }
@@ -251,5 +265,5 @@ extension Contest {
 }
 
 #Preview {
-    ContestListView(contests: MockData.contests, updates: MockData.updates)
+    ContestListView(contests: MockData.contests, updates: MockData.updates, isRefreshing: false, onRefresh: {print("test")})
 }

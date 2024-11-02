@@ -12,16 +12,25 @@ enum JurisdictionType: String, Codable {
 class DataModel: ObservableObject {
     @Published private(set) var contests: [Contest] = []
     @Published private(set) var updates: [ElectionResultsUpdate] = []
-    @Published private(set) var isLoading = true
+    @Published private(set) var isInitialLoading = true // New state for initial load
+    @Published private(set) var isRefreshing = false // New state for refresh operations
     
     @AppStorage("selectedElectionId") private var selectedElectionId: String?
 
     func loadElectionData() async {
-        isLoading = true
+        // If we have no data, show full screen loading
+        if contests.isEmpty {
+            isInitialLoading = true
+        } else {
+            // Otherwise, just show refresh indicator
+            isRefreshing = true
+        }
+        
         if (selectedElectionId != nil) {
             let electionId = selectedElectionId!
             Network.shared.apollo.fetch(query: ContestsQuery(electionId: electionId)) { result in
-                self.isLoading = false
+                self.isInitialLoading = false
+                self.isRefreshing = false
                 switch result {
                 case .success(let gqlData):
                     let gqlContests = gqlData.data?.allContests?.nodes.compactMap({ $0 }) ?? []
@@ -36,7 +45,8 @@ class DataModel: ObservableObject {
         } else {
             // no election ID
             Network.shared.apollo.fetch(query: FirstElectionContestsQuery()) { result in
-                self.isLoading = false
+                self.isInitialLoading = false
+                self.isRefreshing = false
                 switch result {
                 case .success(let gqlData):
                     if let election = gqlData.data?.allElections?.nodes.first {
