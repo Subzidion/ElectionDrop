@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,7 @@
 		8BD368172CD1EBC10058052B /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD368162CD1EBC10058052B /* MockData.swift */; };
 		8BD8E56E2CC1F28D0010CB64 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD8E56D2CC1F2890010CB64 /* Network.swift */; };
 		8BD8E5762CC21F490010CB64 /* contests.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 8BD8E5752CC21F490010CB64 /* contests.graphql */; };
+		8BF5F1CC2CD6CC7F00E0D7D9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF5F1CB2CD6CC7F00E0D7D9 /* SettingsView.swift */; };
 		E13C210D2C8402BC000C7402 /* ContestGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13C210C2C8402BC000C7402 /* ContestGroup.swift */; };
 		E14229CC2C701EEB00837F89 /* ContestListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14229CB2C701EEB00837F89 /* ContestListView.swift */; };
 		E16F31872C66F2A2002D24FE /* ElectionDropApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16F31862C66F2A2002D24FE /* ElectionDropApp.swift */; };
@@ -35,6 +36,7 @@
 		8BD8E56D2CC1F2890010CB64 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		8BD8E5732CC217830010CB64 /* firstElectionContests.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = firstElectionContests.graphql; sourceTree = "<group>"; };
 		8BD8E5752CC21F490010CB64 /* contests.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = contests.graphql; sourceTree = "<group>"; };
+		8BF5F1CB2CD6CC7F00E0D7D9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		E13C210C2C8402BC000C7402 /* ContestGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestGroup.swift; sourceTree = "<group>"; };
 		E14229CB2C701EEB00837F89 /* ContestListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContestListView.swift; sourceTree = "<group>"; };
 		E16F31832C66F2A2002D24FE /* ElectionDrop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ElectionDrop.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,10 +52,6 @@
 		E1B2F6472C6C87D0008A6923 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E1C017C32C84710A00DCFF9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		8BD8E56F2CC1FC760010CB64 /* Settings */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Settings; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		E16F31802C66F2A2002D24FE /* Frameworks */ = {
@@ -100,7 +98,6 @@
 			isa = PBXGroup;
 			children = (
 				8BD368162CD1EBC10058052B /* MockData.swift */,
-				8BD8E56F2CC1FC760010CB64 /* Settings */,
 				8BD8E56D2CC1F2890010CB64 /* Network.swift */,
 				E1C017C32C84710A00DCFF9E /* Info.plist */,
 				E16F31B02C66F2D5002D24FE /* ElectionDrop.entitlements */,
@@ -109,6 +106,7 @@
 				E1A754C02C6C741A00739B7F /* Contest.swift */,
 				E13C210C2C8402BC000C7402 /* ContestGroup.swift */,
 				E1A754C22C6C74B100739B7F /* DataModel.swift */,
+				8BF5F1CB2CD6CC7F00E0D7D9 /* SettingsView.swift */,
 				E16F31882C66F2A2002D24FE /* ContentView.swift */,
 				E16F31B92C6740D1002D24FE /* ContestView.swift */,
 				E14229CB2C701EEB00837F89 /* ContestListView.swift */,
@@ -134,9 +132,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				8BD8E56F2CC1FC760010CB64 /* Settings */,
 			);
 			name = ElectionDrop;
 			productName = ElectionDrop;
@@ -211,6 +206,7 @@
 				E14229CC2C701EEB00837F89 /* ContestListView.swift in Sources */,
 				E1A754C12C6C741A00739B7F /* Contest.swift in Sources */,
 				E1B2F6462C6C8366008A6923 /* ContestResultView.swift in Sources */,
+				8BF5F1CC2CD6CC7F00E0D7D9 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
