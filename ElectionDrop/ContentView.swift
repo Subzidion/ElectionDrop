@@ -16,6 +16,7 @@ struct ContentView: View {
                     ContestListView(
                         contests: viewModel.contests,
                         updates: viewModel.updates,
+                        electionName: viewModel.currentElectionName,
                         isRefreshing: viewModel.isRefreshing,
                         onRefresh: {
                             await viewModel.loadElectionData()

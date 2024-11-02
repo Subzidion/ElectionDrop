@@ -5,13 +5,14 @@ import SwiftUI
 struct ContestListView: View {
     let contests: [Contest]
     let updates: [ElectionResultsUpdate]
+    let electionName: String
     let isRefreshing: Bool
     let onRefresh: (() async -> Void)?
-    
+
     @State private var searchText = ""
     @State private var expandedSections: Set<String> = []
     @AppStorage("showPCOs") private var showPCOs = true
-    
+
     private var updateCounts: (state: Int, county: Int) {
         let grouped = Dictionary(grouping: updates, by: \.jurisdictionType)
         return (
@@ -19,21 +20,27 @@ struct ContestListView: View {
             county: grouped[.county]?.count ?? 0
         )
     }
-    
+
     var body: some View {
         VStack(spacing: 0) {
             updateCountHeader
-            
+
             SearchBar(text: $searchText)
                 .padding(.horizontal)
                 .padding(.vertical, 8)
-            
+
             ScrollView {
-                LazyVStack(alignment: .leading, spacing: 0, pinnedViews: [.sectionHeaders]) {
+                LazyVStack(
+                    alignment: .leading, spacing: 0,
+                    pinnedViews: [.sectionHeaders]
+                ) {
                     ForEach(ContestGroup.allCases, id: \.self) { group in
-                        if let groupData = filteredContestTree[group], !groupData.isEmpty {
+                        if let groupData = filteredContestTree[group],
+                            !groupData.isEmpty
+                        {
                             Section {
-                                contestsGroup(group: group, groupData: groupData)
+                                contestsGroup(
+                                    group: group, groupData: groupData)
                             } header: {
                                 Text(group.rawValue)
                                     .font(.system(size: 13, weight: .regular))
@@ -41,7 +48,9 @@ struct ContestListView: View {
                                     .textCase(.uppercase)
                                     .padding(.horizontal, 16)
                                     .padding(.vertical, 8)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(
+                                        maxWidth: .infinity, alignment: .leading
+                                    )
                                     .background(Color(UIColor.systemBackground))
                             }
                         }
@@ -53,7 +62,7 @@ struct ContestListView: View {
                 await onRefresh?()
             }
         }
-        .navigationTitle("August 2024 Primary")
+        .navigationTitle(electionName)
         .navigationDestination(for: Contest.self) { contest in
             ContestView(
                 contest: contest,
@@ -68,7 +77,7 @@ struct ContestListView: View {
             }
         }
     }
-    
+
     private var updateCountHeader: some View {
         VStack(spacing: 4) {
             HStack(spacing: 16) {
@@ -84,23 +93,32 @@ struct ContestListView: View {
                 )
             }
             .padding(.vertical, 8)
-            
+
             Divider()
         }
         .background(Color(UIColor.systemBackground))
     }
-    
-    private func contestsGroup(group: ContestGroup, groupData: [String: [String: [Contest]]]) -> some View {
+
+    private func contestsGroup(
+        group: ContestGroup, groupData: [String: [String: [Contest]]]
+    ) -> some View {
         ForEach(groupData.keys.sorted(), id: \.self) { subGrouping in
-            if let subGroupData = groupData[subGrouping], !subGroupData.isEmpty {
-                group.view(for: subGrouping, subGroupData: subGroupData, expandedBinding: self.expandedBinding, isSearching: !searchText.isEmpty)
+            if let subGroupData = groupData[subGrouping], !subGroupData.isEmpty
+            {
+                group.view(
+                    for: subGrouping, subGroupData: subGroupData,
+                    expandedBinding: self.expandedBinding,
+                    isSearching: !searchText.isEmpty)
             }
         }
     }
-    
+
     private func expandedBinding(for key: String) -> Binding<Bool> {
         Binding(
-            get: { self.searchText.isEmpty ? self.expandedSections.contains(key) : true },
+            get: {
+                self.searchText.isEmpty
+                    ? self.expandedSections.contains(key) : true
+            },
             set: { newValue in
                 if newValue {
                     self.expandedSections.insert(key)
@@ -110,18 +128,22 @@ struct ContestListView: View {
             }
         )
     }
-    
-    private var filteredContestTree: [ContestGroup: [String: [String: [Contest]]]] {
+
+    private var filteredContestTree:
+        [ContestGroup: [String: [String: [Contest]]]]
+    {
         let orderedContests = self.contests.sorted {
-            return $0.ballotTitle.localizedStandardCompare($1.ballotTitle) == .orderedAscending
+            return $0.ballotTitle.localizedStandardCompare($1.ballotTitle)
+                == .orderedAscending
         }
 
         let filteredContests = orderedContests.filter { contest in
             let pcoCondition = showPCOs || contest.isPCO
-            let searchCondition = searchText.isEmpty || contest.matchesSearch(searchText)
+            let searchCondition =
+                searchText.isEmpty || contest.matchesSearch(searchText)
             return pcoCondition && searchCondition
         }
-        
+
         return Dictionary(grouping: filteredContests, by: \.group)
             .mapValues { ContestGroup.groupContests($0, showPCOs: showPCOs) }
     }
@@ -131,13 +153,13 @@ struct UpdateCountPill: View {
     let count: Int
     let label: String
     let color: Color
-    
+
     var body: some View {
         HStack(spacing: 6) {
             Text("\(count)")
                 .font(.system(.headline, design: .rounded))
                 .foregroundColor(color)
-            
+
             Text(label)
                 .font(.subheadline)
                 .foregroundColor(.secondary)
@@ -151,13 +173,16 @@ struct UpdateCountPill: View {
 
 struct JurisdictionTag: View {
     let type: JurisdictionType
-    
+
     var body: some View {
         Text(type == .state ? "WA" : "KC")
             .font(.caption2.bold())
             .padding(.horizontal, 6)
             .padding(.vertical, 2)
-            .background(type == .state ? Color.blue.opacity(0.2) : Color.green.opacity(0.2))
+            .background(
+                type == .state
+                    ? Color.blue.opacity(0.2) : Color.green.opacity(0.2)
+            )
             .foregroundColor(type == .state ? .blue : .green)
             .clipShape(RoundedRectangle(cornerRadius: 4))
     }
@@ -165,12 +190,15 @@ struct JurisdictionTag: View {
 
 struct ContestRow: View {
     let contest: Contest
-    
+
     var body: some View {
         NavigationLink(value: contest) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    if contest.ballotTitle == "United States Representative" || contest.ballotTitle.starts(with: "Precinct Committee Officer") {
+                    if contest.ballotTitle == "United States Representative"
+                        || contest.ballotTitle.starts(
+                            with: "Precinct Committee Officer")
+                    {
                         Text(contest.districtName)
                     } else {
                         Text(contest.ballotTitle)
@@ -178,13 +206,16 @@ struct ContestRow: View {
                 }
                 .font(.headline)
                 .foregroundColor(.primary)
-                
+
                 Spacer()
-                
+
                 // Add jurisdiction tags
                 HStack(spacing: 4) {
                     if let types = contest.jurisdictionTypes {
-                        ForEach(types.sorted { $0.rawValue < $1.rawValue }, id: \.self) { type in
+                        ForEach(
+                            types.sorted { $0.rawValue < $1.rawValue },
+                            id: \.self
+                        ) { type in
                             JurisdictionTag(type: type)
                         }
                     }
@@ -198,15 +229,15 @@ struct ContestRow: View {
 
 struct SearchBar: View {
     @Binding var text: String
-    
+
     var body: some View {
         HStack {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(.gray)
-            
+
             TextField("Search contests", text: $text)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-            
+
             if !text.isEmpty {
                 Button(action: {
                     text = ""
@@ -223,13 +254,17 @@ struct CustomDisclosureGroup<Label: View, Content: View>: View {
     @Binding var isExpanded: Bool
     let content: Content
     let label: Label
-    
-    init(isExpanded: Binding<Bool>, @ViewBuilder content: @escaping () -> Content, @ViewBuilder label: @escaping () -> Label) {
+
+    init(
+        isExpanded: Binding<Bool>,
+        @ViewBuilder content: @escaping () -> Content,
+        @ViewBuilder label: @escaping () -> Label
+    ) {
         self._isExpanded = isExpanded
         self.content = content()
         self.label = label()
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Button(action: {
@@ -241,14 +276,18 @@ struct CustomDisclosureGroup<Label: View, Content: View>: View {
                     label
                         .foregroundColor(.primary)
                     Spacer()
-                    Image(systemName: isExpanded ? "chevron.right.circle.fill": "chevron.right.circle")
-                        .foregroundColor(.accentColor)
-                        .rotationEffect(.degrees(isExpanded ? 90 : 0))
+                    Image(
+                        systemName: isExpanded
+                            ? "chevron.right.circle.fill"
+                            : "chevron.right.circle"
+                    )
+                    .foregroundColor(.accentColor)
+                    .rotationEffect(.degrees(isExpanded ? 90 : 0))
                 }
             }
             .padding(.vertical, 8)
             .padding(.horizontal, 16)
-            
+
             if isExpanded {
                 content
                     .padding(.leading, 16)
@@ -259,11 +298,14 @@ struct CustomDisclosureGroup<Label: View, Content: View>: View {
 
 extension Contest {
     func matchesSearch(_ searchText: String) -> Bool {
-        ballotTitle.localizedCaseInsensitiveContains(searchText) ||
-        districtName.localizedCaseInsensitiveContains(searchText)
+        ballotTitle.localizedCaseInsensitiveContains(searchText)
+            || districtName.localizedCaseInsensitiveContains(searchText)
     }
 }
 
 #Preview {
-    ContestListView(contests: MockData.contests, updates: MockData.updates, isRefreshing: false, onRefresh: {print("test")})
+    ContestListView(
+        contests: MockData.contests, updates: MockData.updates,
+        electionName: "Test Election", isRefreshing: false,
+        onRefresh: { print("test") })
 }

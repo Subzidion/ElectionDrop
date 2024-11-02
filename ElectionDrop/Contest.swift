@@ -21,7 +21,7 @@ struct Contest: Identifiable, Hashable, Codable {
     }
     
     static func fromGqlResponse(
-        from gqlContest: ContestsQuery.Data.AllContests.Node
+        from gqlContest: ContestData
     ) -> Contest {
         return Contest(
             districtName: gqlContest.district!,
@@ -48,8 +48,7 @@ struct BallotResponse: Identifiable, Codable, Equatable {
     let party: String
 
     static func fromGqlResponse(
-        from gqlResponse: ContestsQuery.Data.AllContests.Node
-            .BallotResponsesByContestId.Node
+        from gqlResponse: ContestData.BallotResponsesByContestId.Node
     ) -> BallotResponse {
         return BallotResponse(
             id: gqlResponse.id,
@@ -121,7 +120,7 @@ struct ElectionResultsUpdate: Identifiable, Codable, Equatable {
     }
 
     static func fromGqlResponse(
-        from gqlUpdate: ContestsQuery.Data.AllUpdates.Node
+        from gqlUpdate: UpdateData
     ) -> ElectionResultsUpdate {
         let voteTallies = gqlUpdate.voteTalliesByUpdateId.nodes.compactMap({
             node -> ContestResult? in
