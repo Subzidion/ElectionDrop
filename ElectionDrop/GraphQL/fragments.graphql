@@ -1,0 +1,29 @@
+fragment contestData on Contest {
+  ballotTitle
+  contestKey
+  district
+  jurisdictions
+  id
+  ballotResponsesByContestId {
+    nodes {
+      name
+      party
+      id
+    }
+  }
+}
+
+fragment updateData on Update {
+  id
+  jurisdictionType
+  hash
+  timestamp
+  voteTalliesByUpdateId {
+    nodes {
+      id
+      votes
+      ballotResponseId
+      votePercentage
+    }
+  }
+}

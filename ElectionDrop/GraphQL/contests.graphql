@@ -1,34 +1,12 @@
 query Contests($electionId: String!) {
   allUpdates(condition: {electionId: $electionId}) {
     nodes {
-      id
-      jurisdictionType
-      hash
-      timestamp
-      voteTalliesByUpdateId {
-        nodes {
-          id
-          votes
-          ballotResponseId
-          votePercentage
-        }
-      }
+      ...updateData
     }
   }
   allContests(condition: {electionId: $electionId}) {
     nodes {
-      ballotTitle
-      contestKey
-      district
-      jurisdictions
-      id
-      ballotResponsesByContestId {
-        nodes {
-          name
-          party
-          id
-        }
-      }
+      ...contestData
     }
   }
 }

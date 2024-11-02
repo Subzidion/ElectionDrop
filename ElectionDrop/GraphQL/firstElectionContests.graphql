@@ -6,34 +6,12 @@ query FirstElectionContests {
       id
       updatesByElectionId {
         nodes {
-          id
-          jurisdictionType
-          hash
-          timestamp
-          voteTalliesByUpdateId {
-            nodes {
-              id
-              votes
-              ballotResponseId
-              votePercentage
-            }
-          }
+          ...updateData
         }
       }
       contestsByElectionId {
         nodes {
-          ballotTitle
-          contestKey
-          district
-          jurisdictions
-          id
-          ballotResponsesByContestId {
-            nodes {
-              name
-              party
-              id
-            }
-          }
+          ...contestData
         }
       }
     }
